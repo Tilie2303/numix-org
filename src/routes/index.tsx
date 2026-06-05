@@ -27,14 +27,14 @@ function Landing() {
       <SiteHeader />
 
       {/* ───────── HERO ───────── */}
-      <section className="relative z-10 flex flex-col items-center px-6 pt-20 pb-20 md:pt-28 md:pb-28">
-        <h1 className="animate-rise max-w-3xl text-center font-serif text-5xl leading-[1.05] tracking-tight text-foreground md:text-7xl lg:text-8xl">
+      <section className="relative z-10 flex flex-col items-center px-6 pt-16 pb-16 md:pt-20 md:pb-20">
+        <h1 className="animate-rise max-w-2xl text-center font-serif text-[2.4rem] leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-[3.6rem]">
           What is rare,
           <br />
           <span className="italic text-ice text-aura">is known.</span>
         </h1>
 
-        <div className="mt-14 w-full animate-rise delay-2 flex justify-center">
+        <div className="mt-12 w-full animate-rise delay-2 flex justify-center">
           <AuraField />
         </div>
       </section>
@@ -68,8 +68,8 @@ function Landing() {
       />
 
       {/* ───────── UNDERSTANDING ───────── */}
-      <section className="relative z-10 mx-auto max-w-5xl px-6 py-36 text-center">
-        <h2 className="font-serif text-5xl leading-[1.05] tracking-tight md:text-7xl">
+      <section className="relative z-10 mx-auto max-w-4xl px-6 py-28 text-center">
+        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
           Understanding,
           <br />
           <span className="italic text-ice text-aura">before data.</span>
@@ -84,8 +84,8 @@ function Landing() {
       />
 
       {/* ───────── EVIDENCE ───────── */}
-      <section className="relative z-10 mx-auto max-w-5xl px-6 py-36 text-center">
-        <h2 className="font-serif text-5xl leading-[1.05] tracking-tight md:text-7xl">
+      <section className="relative z-10 mx-auto max-w-4xl px-6 py-28 text-center">
+        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
           Evidence,
           <br />
           <span className="italic text-ice text-aura">when you ask.</span>
@@ -100,12 +100,12 @@ function Landing() {
       />
 
       {/* ───────── CLOSING SEARCH ───────── */}
-      <section className="relative z-10 mx-auto max-w-5xl px-6 pt-36 pb-48 text-center">
-        <h2 className="font-serif text-5xl leading-[1.05] tracking-tight md:text-7xl">
+      <section className="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-36 text-center">
+        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
           <span className="italic text-ice text-aura">Begin.</span>
         </h2>
 
-        <div className="mt-16 flex justify-center">
+        <div className="mt-12 flex justify-center">
           <AuraField />
         </div>
       </section>
@@ -150,7 +150,7 @@ function EditorialChapter({
           }`}
         >
           <div className="max-w-xl">
-            <h3 className="font-serif text-4xl leading-[1.05] tracking-tight text-foreground md:text-5xl">
+            <h3 className="font-serif text-[1.75rem] leading-[1.05] tracking-tight text-foreground md:text-[2.4rem]">
               {statement}
             </h3>
           </div>

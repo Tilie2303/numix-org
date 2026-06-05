@@ -13,8 +13,8 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
   };
 
   return (
-    <div className="relative w-full max-w-2xl">
-      <div className="absolute inset-0 -m-24 aura-field animate-aura pointer-events-none" />
+    <div className="relative w-full max-w-3xl">
+      <div className="absolute inset-0 -m-28 aura-field animate-aura pointer-events-none" />
 
       <form
         onSubmit={(e) => {
@@ -23,17 +23,17 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
         }}
         className="relative"
       >
-        <div className="relative flex items-center gap-3 rounded-full border-aura bg-card/40 backdrop-blur-xl pl-6 pr-2 py-2">
-          <Search className="size-4 text-muted-foreground shrink-0" strokeWidth={1.5} />
+        <div className="relative flex items-center gap-3 rounded-full border-aura bg-card/50 backdrop-blur-xl pl-7 pr-2.5 py-2.5 shadow-[0_30px_80px_-30px_oklch(0.72_0.12_240/0.35)]">
+          <Search className="size-5 text-muted-foreground shrink-0" strokeWidth={1.5} />
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="Tetradrachm of Athens, 5th century BC…"
-            className="flex-1 bg-transparent py-3 text-base font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
+            className="flex-1 bg-transparent py-4 text-lg font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
           <button
             type="submit"
-            className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+            className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
           >
             Search
           </button>
