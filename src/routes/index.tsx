@@ -99,7 +99,7 @@ function EditorialChapter({
 }) {
   return (
     <section className="relative z-10 w-full">
-      <div className="relative h-[88vh] min-h-[600px] w-full overflow-hidden md:h-[92vh]">
+      <div className="relative h-[60vh] min-h-[420px] w-full overflow-hidden md:h-[70vh]">
         <img
           src={image}
           alt=""
