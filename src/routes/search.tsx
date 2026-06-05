@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Search, SlidersHorizontal, Camera } from "lucide-react";
 import { useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { RefineSheet } from "@/components/RefineSheet";
 
 type SearchParams = { q?: string };
 
