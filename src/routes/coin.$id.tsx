@@ -1,9 +1,18 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronRight, ArrowLeft } from "lucide-react";
+import { ChevronRight, ArrowLeft, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import coinHero from "@/assets/coin-hero.jpg";
 import coinDemo from "@/assets/coin-demo.jpg";
+
+type AuctionRecord = {
+  house: string;
+  date: string;
+  grade: string;
+  price: string;
+  priceNum: number;
+  lot?: string;
+};
 
 type Coin = {
   id: string;
@@ -14,19 +23,32 @@ type Coin = {
   value: { low: string; high: string };
   rarity: string;
   demand: string;
+  importance: string;
   confidence: "High Confidence" | "Moderate Confidence" | "Emerging Data";
-  explanation: {
+  reasoning: {
     rarity: string;
     value: string;
     demand: string;
     importance: string;
   };
-  evidence: {
-    auctions: Array<{ house: string; date: string; grade: string; price: string }>;
-    references: Array<{ catalog: string; ref: string }>;
-    population: { graded: number; finer: number };
+  market: {
+    auctions: AuctionRecord[];
+    trend: { direction: "up" | "down" | "flat"; pct: string; window: string };
+    activity: { lots12m: number; sellThrough: string; medianPremium: string };
   };
-  expert: string;
+  references: Array<{ catalog: string; ref: string; note?: string }>;
+  population: {
+    ngc: { graded: number; finer: number; topGrade: string };
+    pcgs: { graded: number; finer: number; topGrade: string };
+    knownExamples?: number;
+  };
+  provenance: Array<{ year: string; owner: string; detail: string }>;
+  expert: {
+    dieStudies: string;
+    variants: Array<{ name: string; note: string }>;
+    literature: Array<{ title: string; author: string; year: string }>;
+    notes: string;
+  };
 };
 
 const COINS: Record<string, Coin> = {
@@ -34,13 +56,14 @@ const COINS: Record<string, Coin> = {
     id: "davenport-747",
     title: "Friedrich August I",
     subtitle: "Thaler · 1711 · Davenport 747",
-    era: "Electorate of Saxony · Silver",
+    era: "Electorate of Saxony · Silver · Dresden Mint",
     image: coinDemo,
     value: { low: "€4,800", high: "€6,200" },
     rarity: "Rare",
     demand: "Strong",
+    importance: "High",
     confidence: "High Confidence",
-    explanation: {
+    reasoning: {
       rarity:
         "Struck in limited numbers at the Dresden mint during a transitional reign, surviving specimens in collectable grade rarely exceed three figures worldwide.",
       value:
@@ -50,34 +73,65 @@ const COINS: Record<string, Coin> = {
       importance:
         "Friedrich August I — known as August the Strong — reshaped Saxon coinage and the Dresden mint itself. His thalers carry both monetary and historical weight.",
     },
-    evidence: {
+    market: {
       auctions: [
-        { house: "Künker", date: "Mar 2024", grade: "AU58", price: "€5,400" },
-        { house: "Heritage", date: "Jan 2024", grade: "MS61", price: "€6,100" },
-        { house: "Spink", date: "Sep 2023", grade: "AU55", price: "€4,900" },
-        { house: "Künker", date: "Jun 2023", grade: "AU58", price: "€5,200" },
+        { house: "Künker", date: "Mar 2024", grade: "AU58", price: "€5,400", priceNum: 5400, lot: "384" },
+        { house: "Heritage", date: "Jan 2024", grade: "MS61", price: "€6,100", priceNum: 6100, lot: "2117" },
+        { house: "Spink", date: "Sep 2023", grade: "AU55", price: "€4,900", priceNum: 4900, lot: "94" },
+        { house: "Künker", date: "Jun 2023", grade: "AU58", price: "€5,200", priceNum: 5200, lot: "501" },
+        { house: "Gorny & Mosch", date: "Mar 2023", grade: "AU53", price: "€4,650", priceNum: 4650, lot: "1842" },
+        { house: "Künker", date: "Oct 2022", grade: "AU55", price: "€4,800", priceNum: 4800, lot: "227" },
       ],
-      references: [
-        { catalog: "Davenport", ref: "747" },
-        { catalog: "Schnee", ref: "1006" },
-        { catalog: "KM", ref: "#831" },
-      ],
-      population: { graded: 142, finer: 11 },
+      trend: { direction: "up", pct: "+12.4%", window: "24 mo" },
+      activity: { lots12m: 7, sellThrough: "100%", medianPremium: "+8% over estimate" },
     },
-    expert:
-      "Two principal die varieties exist; the reverse with extended palm fronds is materially scarcer and commands a 30–40% premium when correctly attributed. Population reports favor Künker's grading band as the calibration baseline.",
+    references: [
+      { catalog: "Davenport", ref: "747", note: "Primary reference" },
+      { catalog: "Schnee", ref: "1006" },
+      { catalog: "KM", ref: "#831" },
+      { catalog: "Kahnt", ref: "298" },
+      { catalog: "Merseb.", ref: "1543" },
+    ],
+    population: {
+      ngc: { graded: 84, finer: 7, topGrade: "MS63" },
+      pcgs: { graded: 58, finer: 4, topGrade: "MS62" },
+      knownExamples: 142,
+    },
+    provenance: [
+      { year: "2024", owner: "Private European Collection", detail: "Acquired Künker Auction 393, Lot 384" },
+      { year: "2011", owner: "Horn Collection", detail: "Catalogued in Künker Sale 198" },
+      { year: "1978", owner: "Virgil M. Brand Estate", detail: "Inventoried, Chicago" },
+      { year: "1923", owner: "Heinrich Buchenau", detail: "Munich, recorded in correspondence" },
+    ],
+    expert: {
+      dieStudies:
+        "Two principal die varieties exist; the reverse with extended palm fronds is materially scarcer and commands a 30–40% premium when correctly attributed. Population reports favor Künker's grading band as the calibration baseline.",
+      variants: [
+        { name: "Extended palm reverse", note: "Scarce — 30–40% premium" },
+        { name: "Standard reverse", note: "Most common; basis for comparable sales" },
+        { name: "IGN privy mark", note: "Late strike, slightly weaker definition" },
+      ],
+      literature: [
+        { title: "Die sächsischen Münzen 1500–1763", author: "Schnee, G.", year: "1982" },
+        { title: "Münzen und Medaillen der albertinischen Linie", author: "Merseburger, O.", year: "1894" },
+        { title: "Davenport's European Crowns 1700–1800", author: "Davenport, J.S.", year: "1961" },
+      ],
+      notes:
+        "Specialist literature consistently treats the 1711 issue as a transitional type bridging the 1706 reform and the post-1715 standardisation. Edge inscription quality is a reliable authentication marker.",
+    },
   },
   "athens-tetradrachm": {
     id: "athens-tetradrachm",
     title: "Tetradrachm of Athens",
     subtitle: "Owl of Athena · c. 450 BC",
-    era: "Classical Greece · Silver",
+    era: "Classical Greece · Silver · Athens Mint",
     image: coinHero,
     value: { low: "€1,400", high: "€2,800" },
     rarity: "Iconic",
     demand: "Strong",
+    importance: "Foundational",
     confidence: "High Confidence",
-    explanation: {
+    reasoning: {
       rarity:
         "Produced in vast quantities to fund Athenian commerce and naval power, the classical owl tetradrachm survives in meaningful numbers — yet exceptional centering and full crests remain genuinely uncommon.",
       value:
@@ -87,21 +141,50 @@ const COINS: Record<string, Coin> = {
       importance:
         "The most iconic coin of the ancient world. A direct artifact of Athenian democracy, silver from Laurion, and the economic engine of the 5th century BC.",
     },
-    evidence: {
+    market: {
       auctions: [
-        { house: "NAC", date: "May 2024", grade: "Choice EF", price: "€2,650" },
-        { house: "CNG", date: "Feb 2024", grade: "Good VF", price: "€1,580" },
-        { house: "Roma", date: "Nov 2023", grade: "EF", price: "€2,100" },
+        { house: "NAC", date: "May 2024", grade: "Choice EF", price: "€2,650", priceNum: 2650, lot: "118" },
+        { house: "CNG", date: "Feb 2024", grade: "Good VF", price: "€1,580", priceNum: 1580, lot: "245" },
+        { house: "Roma", date: "Nov 2023", grade: "EF", price: "€2,100", priceNum: 2100, lot: "377" },
+        { house: "Leu", date: "Aug 2023", grade: "Choice EF", price: "€2,480", priceNum: 2480, lot: "82" },
+        { house: "CNG", date: "May 2023", grade: "VF", price: "€1,420", priceNum: 1420, lot: "612" },
       ],
-      references: [
-        { catalog: "SNG Cop.", ref: "31" },
-        { catalog: "Kroll", ref: "8" },
-        { catalog: "HGC", ref: "4.1597" },
-      ],
-      population: { graded: 1880, finer: 92 },
+      trend: { direction: "up", pct: "+18.2%", window: "24 mo" },
+      activity: { lots12m: 142, sellThrough: "94%", medianPremium: "+11% over estimate" },
     },
-    expert:
-      "Pre-decadrachm period strikes display tighter pellet borders and a more naturalistic owl. Test cuts reduce value 15–25% but are accepted on circulation-era examples.",
+    references: [
+      { catalog: "SNG Cop.", ref: "31" },
+      { catalog: "Kroll", ref: "8", note: "Standard typology" },
+      { catalog: "HGC", ref: "4.1597" },
+      { catalog: "Sear", ref: "2526" },
+      { catalog: "Starr", ref: "Group V.B" },
+    ],
+    population: {
+      ngc: { graded: 1240, finer: 68, topGrade: "MS★" },
+      pcgs: { graded: 640, finer: 24, topGrade: "MS" },
+      knownExamples: 1880,
+    },
+    provenance: [
+      { year: "2024", owner: "American Private Collection", detail: "NAC Auction 142, Lot 118" },
+      { year: "1998", owner: "BCD Collection", detail: "Catalogued and published" },
+      { year: "1962", owner: "Hess-Leu Sale", detail: "Lucerne, October 1962" },
+    ],
+    expert: {
+      dieStudies:
+        "Pre-decadrachm period strikes display tighter pellet borders and a more naturalistic owl. Test cuts reduce value 15–25% but are accepted on circulation-era examples.",
+      variants: [
+        { name: "Standardised type (post-454 BC)", note: "Most common; canonical owl" },
+        { name: "Transitional series", note: "Looser style; modest premium" },
+        { name: "Test-cut examples", note: "Historically interesting; 15–25% discount" },
+      ],
+      literature: [
+        { title: "The Athenian Empire", author: "Meiggs, R.", year: "1972" },
+        { title: "The Greek Coins of Athens", author: "Svoronos, J.N.", year: "1923" },
+        { title: "Athenian Coinage 480–449 BC", author: "Starr, C.G.", year: "1970" },
+      ],
+      notes:
+        "Style and fabric — not nominal grade — drive premium pricing. Frontal owls (Kroll 15) are a separate, scarcer category and should not be confused with the standard profile type.",
+    },
   },
 };
 
@@ -141,10 +224,18 @@ export const Route = createFileRoute("/coin/$id")({
   ),
 });
 
+const SECTIONS = [
+  { id: "insights", label: "Insights" },
+  { id: "reasoning", label: "Reasoning" },
+  { id: "market", label: "Market" },
+  { id: "references", label: "References" },
+  { id: "population", label: "Population" },
+  { id: "provenance", label: "Provenance" },
+  { id: "expert", label: "Expert" },
+] as const;
+
 function CoinPage() {
   const coin = Route.useLoaderData();
-  const [showEvidence, setShowEvidence] = useState(false);
-  const [showExpert, setShowExpert] = useState(false);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-background grain">
@@ -152,7 +243,7 @@ function CoinPage() {
 
       <SiteHeader />
 
-      <main className="relative z-10 mx-auto max-w-6xl px-6 pb-40 pt-8">
+      <main className="relative z-10 mx-auto max-w-6xl px-5 pb-32 pt-6 md:px-6 md:pt-8">
         <Link
           to="/search"
           className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-muted-foreground transition hover:text-ice"
@@ -162,15 +253,15 @@ function CoinPage() {
         </Link>
 
         {/* HERO — coin as the product */}
-        <section className="mt-12 grid gap-16 md:mt-20 md:grid-cols-[1.1fr_1fr] md:gap-20">
+        <section id="insights" className="mt-10 grid gap-12 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-20">
           <div className="relative animate-rise">
-            <div className="absolute inset-0 -m-20 aura-hero" />
+            <div className="absolute inset-0 -m-24 aura-hero" />
             <img
               src={coin.image}
               alt={coin.title}
               width={1536}
               height={1536}
-              className="relative w-full rounded-2xl object-cover"
+              className="relative w-full rounded-2xl object-cover shadow-[0_30px_120px_-30px_rgba(0,0,0,0.7)]"
             />
           </div>
 
@@ -178,120 +269,171 @@ function CoinPage() {
             <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
               {coin.era}
             </div>
-            <h1 className="mt-5 font-serif text-5xl leading-[1.05] tracking-tight md:text-6xl">
+            <h1 className="mt-5 font-serif text-5xl leading-[1.02] tracking-tight md:text-6xl">
               {coin.title}
             </h1>
             <div className="mt-3 font-serif text-lg italic text-muted-foreground">
               {coin.subtitle}
             </div>
 
-            {/* Understanding — verdict before data */}
-            <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-8">
-              <Verdict label="Estimated Value" value={coin.value.low} sub={`– ${coin.value.high}`} />
-              <Verdict label="Rarity" value={coin.rarity} />
-              <Verdict label="Collector Demand" value={coin.demand} />
-              <Verdict label="Confidence" value={coin.confidence} accent />
+            {/* LAYER 1 — Insights. The 5-second understanding. */}
+            <div className="mt-10 border-t border-border/40 pt-8">
+              <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                Insights
+              </div>
+              <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-7">
+                <Verdict label="Estimated Value" value={coin.value.low} sub={`– ${coin.value.high}`} />
+                <Verdict label="Rarity" value={coin.rarity} />
+                <Verdict label="Collector Demand" value={coin.demand} />
+                <Verdict label="Historical Importance" value={coin.importance} />
+              </div>
+              <div className="mt-7 flex items-center gap-3 border-t border-border/40 pt-5">
+                <span className="size-1.5 rounded-full bg-ice shadow-[0_0_12px_rgba(180,210,255,0.8)]" />
+                <span className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                  Confidence
+                </span>
+                <span className="ml-auto font-serif text-lg text-ice text-aura">
+                  {coin.confidence}
+                </span>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Explanation — always visible, human language */}
-        <section className="mt-32 grid gap-16 md:grid-cols-[260px_1fr]">
-          <div>
-            <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-              Why
-            </div>
-            <div className="mt-4 font-serif text-3xl">Understand First. Explore Deeper.</div>
-            <div className="mt-2 text-sm font-light text-muted-foreground">
-              In human language. No interpretation required.
-            </div>
+        {/* Layer rail — progressive disclosure cue */}
+        <nav className="mt-20 hidden md:block">
+          <div className="flex items-center justify-between border-y border-border/40 py-4">
+            {SECTIONS.map((s, i) => (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-muted-foreground transition hover:text-ice"
+              >
+                <span className="font-serif text-base italic text-ice/60 group-hover:text-ice">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {s.label}
+              </a>
+            ))}
           </div>
+        </nav>
 
+        {/* LAYER 2 — Reasoning */}
+        <Layer id="reasoning" number="02" title="Reasoning" caption="Why this coin is what it is. In human language.">
           <div className="space-y-12">
-            <Paragraph title="Why this coin is rare" body={coin.explanation.rarity} />
-            <Paragraph title="Why we estimate this value" body={coin.explanation.value} />
-            <Paragraph title="Why demand is strong" body={coin.explanation.demand} />
-            <Paragraph title="Why this coin matters" body={coin.explanation.importance} />
+            <Paragraph title="Why this coin is rare" body={coin.reasoning.rarity} />
+            <Paragraph title="Why we estimate this value" body={coin.reasoning.value} />
+            <Paragraph title="Why demand is strong" body={coin.reasoning.demand} />
+            <Paragraph title="Why this coin matters" body={coin.reasoning.importance} />
           </div>
-        </section>
+        </Layer>
 
-        {/* Evidence — on demand */}
-        <section className="mt-32">
-          <Disclosure
-            label="Evidence"
-            sub="The data behind the insight."
-            open={showEvidence}
-            onToggle={() => setShowEvidence((v) => !v)}
-          />
-          {showEvidence && (
-            <div className="mt-12 grid gap-12 md:grid-cols-[1.4fr_1fr] animate-rise">
-              <div>
-                <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                  Recent results
-                </div>
-                <div className="mt-5 divide-y divide-border/40">
-                  {coin.evidence.auctions.map((a: Coin["evidence"]["auctions"][number], i: number) => (
-                    <div key={i} className="grid grid-cols-4 items-baseline gap-4 py-4 text-sm">
-                      <div className="font-serif text-foreground">{a.house}</div>
-                      <div className="text-muted-foreground">{a.date}</div>
-                      <div className="text-muted-foreground">{a.grade}</div>
-                      <div className="text-right font-serif text-ice">{a.price}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+        {/* LAYER 3 — Market */}
+        <Layer id="market" number="03" title="Market" caption="Auction records, recent sales, and price behaviour.">
+          <MarketSection coin={coin} />
+        </Layer>
 
-              <div className="space-y-10">
+        {/* LAYER 4 — References */}
+        <Layer id="references" number="04" title="References" caption="Catalog citations recognised across the field.">
+          <div className="grid gap-3 md:grid-cols-2">
+            {coin.references.map((r: Coin["references"][number], i: number) => (
+              <div
+                key={i}
+                className="flex items-baseline justify-between gap-4 rounded-lg border border-border/40 bg-card/40 px-5 py-4 transition hover:border-ice/30 hover:bg-card/70"
+              >
                 <div>
                   <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                    Catalog references
+                    {r.catalog}
                   </div>
-                  <div className="mt-4 space-y-2 text-sm">
-                    {coin.evidence.references.map((r: Coin["evidence"]["references"][number], i: number) => (
-                      <div key={i} className="flex justify-between border-b border-border/30 pb-2">
-                        <span className="text-muted-foreground">{r.catalog}</span>
-                        <span className="font-serif">{r.ref}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                    Population
-                  </div>
-                  <div className="mt-4 flex items-baseline gap-6">
-                    <div>
-                      <div className="font-serif text-3xl text-foreground">{coin.evidence.population.graded}</div>
-                      <div className="text-xs text-muted-foreground">graded</div>
+                  {r.note && (
+                    <div className="mt-1 text-xs font-light text-muted-foreground/80">
+                      {r.note}
                     </div>
-                    <div>
-                      <div className="font-serif text-3xl text-ice">{coin.evidence.population.finer}</div>
-                      <div className="text-xs text-muted-foreground">finer known</div>
-                    </div>
-                  </div>
+                  )}
                 </div>
+                <div className="font-serif text-2xl text-ice">{r.ref}</div>
               </div>
-            </div>
-          )}
-        </section>
+            ))}
+          </div>
+        </Layer>
 
-        {/* Expert */}
-        <section className="mt-24">
-          <Disclosure
-            label="Expert"
-            sub="Variant analysis and specialist references for advanced collectors."
-            open={showExpert}
-            onToggle={() => setShowExpert((v) => !v)}
-          />
-          {showExpert && (
-            <div className="mt-10 max-w-3xl font-serif text-lg leading-relaxed text-foreground/90 animate-rise">
-              {coin.expert}
-            </div>
-          )}
-        </section>
+        {/* LAYER 5 — Population */}
+        <Layer id="population" number="05" title="Population" caption="Certified counts from the principal grading houses.">
+          <PopulationSection coin={coin} />
+        </Layer>
+
+        {/* LAYER 6 — Provenance */}
+        <Layer id="provenance" number="06" title="Provenance" caption="Ownership lineage and collection history.">
+          <div className="relative">
+            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-ice/40 via-border/40 to-transparent" />
+            <ol className="space-y-8">
+              {coin.provenance.map((p: Coin["provenance"][number], i: number) => (
+                <li key={i} className="relative grid grid-cols-[40px_80px_1fr] items-baseline gap-4 md:grid-cols-[40px_120px_1fr] md:gap-8">
+                  <span className="relative z-10 mt-1.5 size-3.5 rounded-full border border-ice/40 bg-background shadow-[0_0_16px_rgba(180,210,255,0.4)]" />
+                  <span className="font-serif text-2xl text-ice">{p.year}</span>
+                  <div>
+                    <div className="font-serif text-lg text-foreground">{p.owner}</div>
+                    <div className="mt-1 text-sm font-light text-muted-foreground">{p.detail}</div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </Layer>
+
+        {/* LAYER 7 — Expert */}
+        <Layer id="expert" number="07" title="Expert Analysis" caption="Die studies, variants, and specialist literature.">
+          <ExpertSection coin={coin} />
+        </Layer>
+
+        <div className="mt-32 border-t border-border/40 pt-10 text-center">
+          <div className="font-serif text-2xl italic text-muted-foreground">
+            You now understand this coin.
+          </div>
+          <Link
+            to="/search"
+            className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-[0.32em] text-ice transition hover:text-foreground"
+          >
+            <ArrowLeft className="size-3" strokeWidth={1.5} />
+            Continue exploring
+          </Link>
+        </div>
       </main>
     </div>
+  );
+}
+
+function Layer({
+  id,
+  number,
+  title,
+  caption,
+  children,
+}: {
+  id: string;
+  number: string;
+  title: string;
+  caption: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} className="mt-28 scroll-mt-24 md:mt-36">
+      <header className="mb-12 grid gap-3 md:grid-cols-[260px_1fr] md:gap-16">
+        <div>
+          <div className="flex items-baseline gap-3">
+            <span className="font-serif text-base italic text-ice/70">{number}</span>
+            <span className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+              Layer
+            </span>
+          </div>
+          <div className="mt-3 font-serif text-3xl text-foreground md:text-4xl">{title}</div>
+        </div>
+        <div className="self-end pb-1 text-sm font-light text-muted-foreground md:text-base">
+          {caption}
+        </div>
+      </header>
+      <div className="md:pl-[276px]">{children}</div>
+    </section>
   );
 }
 
@@ -299,23 +441,17 @@ function Verdict({
   label,
   value,
   sub,
-  accent,
 }: {
   label: string;
   value: string;
   sub?: string;
-  accent?: boolean;
 }) {
   return (
     <div>
       <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</div>
-      <div
-        className={`mt-2 font-serif text-3xl leading-tight md:text-4xl ${
-          accent ? "text-ice text-aura" : "text-foreground"
-        }`}
-      >
+      <div className="mt-2 font-serif text-2xl leading-tight text-foreground md:text-3xl">
         {value}
-        {sub && <span className="ml-1 text-xl text-muted-foreground">{sub}</span>}
+        {sub && <span className="ml-1 text-base text-muted-foreground md:text-lg">{sub}</span>}
       </div>
     </div>
   );
@@ -323,42 +459,261 @@ function Verdict({
 
 function Paragraph({ title, body }: { title: string; body: string }) {
   return (
-    <div>
+    <div className="max-w-2xl">
       <div className="font-serif text-xl italic text-ice">{title}.</div>
       <p className="mt-3 text-base font-light leading-[1.75] text-foreground/85">{body}</p>
     </div>
   );
 }
 
-function Disclosure({
-  label,
-  sub,
-  open,
-  onToggle,
+function MarketSection({ coin }: { coin: Coin }) {
+  const prices = coin.market.auctions.map((a) => a.priceNum);
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+  const range = Math.max(max - min, 1);
+
+  const TrendIcon =
+    coin.market.trend.direction === "up"
+      ? TrendingUp
+      : coin.market.trend.direction === "down"
+      ? TrendingDown
+      : Minus;
+
+  return (
+    <div className="space-y-14">
+      {/* Market activity strip */}
+      <div className="grid gap-px overflow-hidden rounded-xl border border-border/40 bg-border/40 md:grid-cols-3">
+        <Stat
+          label="Price trend"
+          value={
+            <span className="inline-flex items-center gap-2">
+              <TrendIcon className="size-5" strokeWidth={1.5} />
+              {coin.market.trend.pct}
+            </span>
+          }
+          sub={coin.market.trend.window}
+        />
+        <Stat label="Lots in last 12 mo" value={String(coin.market.activity.lots12m)} sub={`${coin.market.activity.sellThrough} sell-through`} />
+        <Stat label="Median result" value={coin.market.activity.medianPremium} sub="vs. auction estimate" />
+      </div>
+
+      {/* Price history — minimal editorial chart */}
+      <div>
+        <div className="mb-5 flex items-baseline justify-between">
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Price history
+          </div>
+          <div className="font-serif text-sm italic text-muted-foreground">
+            {coin.market.auctions[coin.market.auctions.length - 1].date} →{" "}
+            {coin.market.auctions[0].date}
+          </div>
+        </div>
+        <div className="relative h-40 rounded-xl border border-border/40 bg-card/30 p-4">
+          <svg viewBox="0 0 600 140" preserveAspectRatio="none" className="h-full w-full">
+            <defs>
+              <linearGradient id="priceFill" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="oklch(0.72 0.12 240)" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="oklch(0.72 0.12 240)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            {(() => {
+              const ordered = [...coin.market.auctions].reverse();
+              const pts = ordered.map((a, i) => {
+                const x = (i / Math.max(ordered.length - 1, 1)) * 600;
+                const y = 130 - ((a.priceNum - min) / range) * 110;
+                return { x, y, a };
+              });
+              const path = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
+              const area = `${path} L 600 140 L 0 140 Z`;
+              return (
+                <>
+                  <path d={area} fill="url(#priceFill)" />
+                  <path d={path} fill="none" stroke="oklch(0.88 0.05 230)" strokeWidth="1.5" />
+                  {pts.map((p, i) => (
+                    <circle key={i} cx={p.x} cy={p.y} r="3" fill="oklch(0.88 0.05 230)" />
+                  ))}
+                </>
+              );
+            })()}
+          </svg>
+        </div>
+      </div>
+
+      {/* Auction records table */}
+      <div>
+        <div className="mb-5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+          Recent sales
+        </div>
+        <div className="divide-y divide-border/40">
+          <div className="hidden grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1fr] gap-4 pb-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:grid">
+            <div>Auction house</div>
+            <div>Date</div>
+            <div>Grade</div>
+            <div>Lot</div>
+            <div className="text-right">Result</div>
+          </div>
+          {coin.market.auctions.map((a, i) => (
+            <div
+              key={i}
+              className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 py-4 md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1fr] md:items-baseline"
+            >
+              <div className="font-serif text-base text-foreground md:text-lg">{a.house}</div>
+              <div className="order-3 col-span-2 text-xs text-muted-foreground md:order-none md:col-span-1 md:text-sm">
+                {a.date}
+              </div>
+              <div className="order-4 col-span-2 text-xs text-muted-foreground md:order-none md:col-span-1 md:text-sm">
+                <span className="md:hidden">Grade · </span>{a.grade}
+              </div>
+              <div className="order-5 col-span-2 hidden text-sm text-muted-foreground md:block">
+                {a.lot ? `#${a.lot}` : "—"}
+              </div>
+              <div className="text-right font-serif text-lg text-ice md:text-xl">{a.price}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Stat({ label, value, sub }: { label: string; value: React.ReactNode; sub?: string }) {
+  return (
+    <div className="bg-background/40 p-6">
+      <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</div>
+      <div className="mt-3 font-serif text-2xl text-foreground md:text-3xl">{value}</div>
+      {sub && <div className="mt-1 text-xs font-light text-muted-foreground">{sub}</div>}
+    </div>
+  );
+}
+
+function PopulationSection({ coin }: { coin: Coin }) {
+  const { ngc, pcgs, knownExamples } = coin.population;
+  return (
+    <div className="grid gap-6 md:grid-cols-2">
+      <PopCard house="NGC" graded={ngc.graded} finer={ngc.finer} topGrade={ngc.topGrade} />
+      <PopCard house="PCGS" graded={pcgs.graded} finer={pcgs.finer} topGrade={pcgs.topGrade} />
+      {knownExamples !== undefined && (
+        <div className="md:col-span-2 flex items-baseline justify-between rounded-xl border border-border/40 bg-card/30 px-6 py-5">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              Known examples
+            </div>
+            <div className="mt-1 text-xs font-light text-muted-foreground">
+              Across grading services, museums, and published collections
+            </div>
+          </div>
+          <div className="font-serif text-3xl text-ice">{knownExamples}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PopCard({
+  house,
+  graded,
+  finer,
+  topGrade,
 }: {
-  label: string;
-  sub: string;
-  open: boolean;
-  onToggle: () => void;
+  house: string;
+  graded: number;
+  finer: number;
+  topGrade: string;
 }) {
   return (
-    <button
-      onClick={onToggle}
-      className="group flex w-full items-center justify-between border-t border-border/40 pt-8 text-left"
-    >
-      <div>
-        <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-          {open ? "Hide" : "Reveal"}
+    <div className="rounded-xl border border-border/40 bg-card/30 p-6">
+      <div className="flex items-baseline justify-between">
+        <div className="font-serif text-xl">{house}</div>
+        <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+          Population
         </div>
-        <div className="mt-2 font-serif text-3xl text-foreground transition group-hover:text-ice">
-          {label}
-        </div>
-        <div className="mt-2 text-sm font-light text-muted-foreground">{sub}</div>
       </div>
-      <ChevronRight
-        className={`size-6 text-muted-foreground transition ${open ? "rotate-90 text-ice" : ""}`}
-        strokeWidth={1.25}
-      />
-    </button>
+      <div className="mt-6 grid grid-cols-3 gap-4">
+        <div>
+          <div className="font-serif text-3xl text-foreground">{graded}</div>
+          <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Graded
+          </div>
+        </div>
+        <div>
+          <div className="font-serif text-3xl text-ice">{finer}</div>
+          <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Finer known
+          </div>
+        </div>
+        <div>
+          <div className="font-serif text-3xl text-foreground">{topGrade}</div>
+          <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Top grade
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ExpertSection({ coin }: { coin: Coin }) {
+  const [tab, setTab] = useState<"dies" | "variants" | "literature" | "notes">("dies");
+  const tabs = [
+    { id: "dies" as const, label: "Die studies" },
+    { id: "variants" as const, label: "Variants" },
+    { id: "literature" as const, label: "Literature" },
+    { id: "notes" as const, label: "Specialist notes" },
+  ];
+  return (
+    <div>
+      <div className="flex flex-wrap gap-x-6 gap-y-2 border-b border-border/40 pb-3">
+        {tabs.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => setTab(t.id)}
+            className={`text-[10px] uppercase tracking-[0.32em] transition ${
+              tab === t.id ? "text-ice" : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {t.label}
+            {tab === t.id && (
+              <span className="ml-2 inline-block size-1 rounded-full bg-ice align-middle shadow-[0_0_8px_rgba(180,210,255,0.8)]" />
+            )}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-8 min-h-[160px]">
+        {tab === "dies" && (
+          <p className="max-w-2xl font-serif text-lg leading-[1.7] text-foreground/90">
+            {coin.expert.dieStudies}
+          </p>
+        )}
+        {tab === "variants" && (
+          <ul className="space-y-5">
+            {coin.expert.variants.map((v, i) => (
+              <li key={i} className="border-b border-border/30 pb-5 last:border-b-0">
+                <div className="font-serif text-lg text-foreground">{v.name}</div>
+                <div className="mt-1 text-sm font-light text-muted-foreground">{v.note}</div>
+              </li>
+            ))}
+          </ul>
+        )}
+        {tab === "literature" && (
+          <ul className="space-y-5">
+            {coin.expert.literature.map((l, i) => (
+              <li key={i} className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-b border-border/30 pb-5 last:border-b-0">
+                <div>
+                  <div className="font-serif text-lg italic text-foreground">{l.title}</div>
+                  <div className="mt-1 text-sm font-light text-muted-foreground">{l.author}</div>
+                </div>
+                <div className="font-serif text-ice">{l.year}</div>
+              </li>
+            ))}
+          </ul>
+        )}
+        {tab === "notes" && (
+          <p className="max-w-2xl font-serif text-lg leading-[1.7] text-foreground/90">
+            {coin.expert.notes}
+          </p>
+        )}
+      </div>
+    </div>
   );
 }
