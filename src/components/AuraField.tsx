@@ -46,8 +46,6 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
             <Camera className="size-3.5" strokeWidth={1.5} />
             By photo
           </button>
-          <span className="opacity-30">·</span>
-          <RefineSheet />
         </div>
       )}
     </div>
