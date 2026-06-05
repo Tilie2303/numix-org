@@ -48,6 +48,17 @@ function SearchPage() {
   const [refineOpen, setRefineOpen] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const checkHash = () => {
+      if (typeof window !== "undefined" && window.location.hash === "#advanced") {
+        setRefineOpen(true);
+      }
+    };
+    checkHash();
+    window.addEventListener("hashchange", checkHash);
+    return () => window.removeEventListener("hashchange", checkHash);
+  }, []);
+
   const activeTags = useMemo(
     () =>
       Object.entries(filters).map(([key, val]) => ({
