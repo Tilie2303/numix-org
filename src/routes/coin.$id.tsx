@@ -443,28 +443,51 @@ function DeepSheet({
 
               {tab === "market" && <MarketSection coin={coin} />}
 
-              {tab === "references" && (
-                <div className="grid gap-3 md:grid-cols-2">
-                  {coin.references.map((r: Coin["references"][number], i: number) => (
-                    <div
-                      key={i}
-                      className="flex items-baseline justify-between gap-4 rounded-lg border border-border/40 bg-card/40 px-5 py-4 transition hover:border-ice/30 hover:bg-card/70"
-                    >
-                      <div>
-                        <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                          {r.catalog}
-                        </div>
-                        {r.note && (
-                          <div className="mt-1 text-xs font-light text-muted-foreground/80">
-                            {r.note}
-                          </div>
-                        )}
+              {tab === "references" && (() => {
+                const primary = coin.references.find((r) => r.note) ?? coin.references[0];
+                const supporting = coin.references.filter((r) => r !== primary);
+                return (
+                  <div className="space-y-10">
+                    <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-8 md:px-10 md:py-10">
+                      <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                        Primary reference
                       </div>
-                      <div className="font-serif text-2xl text-ice">{r.ref}</div>
+                      <div className="mt-4 flex items-baseline gap-5">
+                        <div className="font-serif text-3xl text-foreground md:text-4xl">
+                          {primary.catalog}
+                        </div>
+                        <div className="font-serif text-5xl text-ice text-aura md:text-6xl">
+                          {primary.ref}
+                        </div>
+                      </div>
+                      {primary.note && (
+                        <p className="mt-4 max-w-xl font-serif text-base italic leading-[1.55] text-muted-foreground md:text-lg">
+                          {primary.note}.
+                        </p>
+                      )}
                     </div>
-                  ))}
-                </div>
-              )}
+
+                    <div>
+                      <div className="mb-4 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                        Supporting citations
+                      </div>
+                      <ul className="divide-y divide-border/40 border-y border-border/40">
+                        {supporting.map((r, i) => (
+                          <li
+                            key={i}
+                            className="flex items-baseline justify-between gap-6 py-4"
+                          >
+                            <span className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
+                              {r.catalog}
+                            </span>
+                            <span className="font-serif text-2xl text-foreground">{r.ref}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                );
+              })()}
 
               {tab === "population" && <PopulationSection coin={coin} />}
 
