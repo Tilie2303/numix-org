@@ -530,11 +530,56 @@ function Paragraph({ title, body }: { title: string; body: string }) {
   );
 }
 
+type GradeTier = "top" | "mid" | "base";
+
+function gradeTier(grade: string): GradeTier {
+  const g = grade.toLowerCase();
+  if (g.includes("ms") || g.includes("choice") || g.includes("mint")) return "top";
+  if (g.includes("au") || g.includes("ef") || g.includes("xf")) return "mid";
+  return "base";
+}
+
+const TIER_META: Record<GradeTier, { color: string; label: string; r: number }> = {
+  top: { color: "oklch(0.92 0.06 230)", label: "Mint / Choice", r: 6 },
+  mid: { color: "oklch(0.78 0.09 235)", label: "AU / EF", r: 5 },
+  base: { color: "oklch(0.62 0.04 235)", label: "VF and below", r: 4 },
+};
+
 function MarketSection({ coin }: { coin: Coin }) {
+  const [selected, setSelected] = useState<number | null>(null);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  // Chronological order (oldest → newest) for the chart
+  const chrono = [...coin.market.auctions]
+    .map((a, originalIndex) => ({ a, originalIndex }))
+    .reverse();
+
   const prices = coin.market.auctions.map((a) => a.priceNum);
   const min = Math.min(...prices);
   const max = Math.max(...prices);
   const range = Math.max(max - min, 1);
+
+  const W = 600;
+  const H = 180;
+  const padL = 36;
+  const padR = 16;
+  const padT = 18;
+  const padB = 28;
+
+  const pts = chrono.map((c, i) => {
+    const x = padL + (i / Math.max(chrono.length - 1, 1)) * (W - padL - padR);
+    const y = padT + (1 - (c.a.priceNum - min) / range) * (H - padT - padB);
+    return { x, y, ...c };
+  });
+
+  const linePath = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
+  const areaPath = `${linePath} L ${pts[pts.length - 1].x} ${H - padB} L ${pts[0].x} ${H - padB} Z`;
+
+  const activePointIndex =
+    hovered !== null ? hovered : selected !== null ? selected : null;
+  const activeAuctionIndex =
+    activePointIndex !== null ? pts[activePointIndex].originalIndex : null;
 
   const TrendIcon =
     coin.market.trend.direction === "up"
@@ -543,70 +588,238 @@ function MarketSection({ coin }: { coin: Coin }) {
       ? TrendingDown
       : Minus;
 
+  const onPointActivate = (i: number) => {
+    setSelected(i);
+    // On mobile open the bottom sheet
+    if (typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches) {
+      setSheetOpen(true);
+    }
+  };
+
+  const formatPrice = (n: number) =>
+    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
+
+  const estimateFor = (priceNum: number) =>
+    Math.round(priceNum / 1.08 / 50) * 50;
+
+  // y-axis ticks
+  const ticks = [min, min + range / 2, max];
+
   return (
     <div className="space-y-14">
-      {/* Market activity strip */}
+      {/* MARKET INTELLIGENCE — interpretation first */}
+      <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-7 md:px-8 md:py-8">
+        <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+          Market Intelligence
+        </div>
+        <p className="mt-4 font-serif text-lg italic leading-[1.55] text-foreground/90 md:text-2xl">
+          {coin.market.trend.direction === "up"
+            ? `Prices have risen ${coin.market.trend.pct} over the last ${coin.market.trend.window}.`
+            : coin.market.trend.direction === "down"
+            ? `Prices have softened ${coin.market.trend.pct} over the last ${coin.market.trend.window}.`
+            : `Prices have held steady across the last ${coin.market.trend.window}.`}
+        </p>
+        <ul className="mt-4 space-y-2 text-[13px] font-light leading-[1.7] text-muted-foreground md:text-sm">
+          <li>· Higher-grade examples consistently achieve significant premiums.</li>
+          <li>
+            · Recent auction activity remains healthy with a {coin.market.activity.sellThrough}{" "}
+            sell-through rate.
+          </li>
+          <li>
+            · Results land {coin.market.activity.medianPremium.toLowerCase()}, indicating a
+            confident, well-attended market.
+          </li>
+        </ul>
+      </div>
+
+      {/* INDICATORS */}
       <div className="grid gap-px overflow-hidden rounded-xl border border-border/40 bg-border/40 md:grid-cols-3">
         <Stat
-          label="Price trend"
+          label="Market Momentum"
           value={
             <span className="inline-flex items-center gap-2">
               <TrendIcon className="size-5" strokeWidth={1.5} />
               {coin.market.trend.pct}
             </span>
           }
-          sub={coin.market.trend.window}
+          sub={`Trend over ${coin.market.trend.window}`}
         />
-        <Stat label="Lots in last 12 mo" value={String(coin.market.activity.lots12m)} sub={`${coin.market.activity.sellThrough} sell-through`} />
-        <Stat label="Median result" value={coin.market.activity.medianPremium} sub="vs. auction estimate" />
+        <Stat
+          label="Market Activity"
+          value={String(coin.market.activity.lots12m)}
+          sub={`Auction appearances in last 12 mo · ${coin.market.activity.sellThrough} sold`}
+        />
+        <Stat
+          label="Auction Performance"
+          value={coin.market.activity.medianPremium}
+          sub="Median result vs. auction estimate"
+        />
       </div>
 
-      {/* Price history — minimal editorial chart */}
+      {/* PRICE HISTORY — numismatic auction chart */}
       <div>
-        <div className="mb-5 flex items-baseline justify-between">
-          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Price history
+        <div className="mb-2 flex items-baseline justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              Auction Record
+            </div>
+            <div className="mt-1 font-serif text-sm italic text-muted-foreground">
+              Each point is a real sale. Color reflects grade.
+            </div>
           </div>
-          <div className="font-serif text-sm italic text-muted-foreground">
-            {coin.market.auctions[coin.market.auctions.length - 1].date} →{" "}
-            {coin.market.auctions[0].date}
+          <div className="hidden font-serif text-sm italic text-muted-foreground md:block">
+            {chrono[0].a.date} → {chrono[chrono.length - 1].a.date}
           </div>
         </div>
-        <div className="relative h-40 rounded-xl border border-border/40 bg-card/30 p-4">
-          <svg viewBox="0 0 600 140" preserveAspectRatio="none" className="h-full w-full">
+
+        <div className="relative rounded-xl border border-border/40 bg-card/30 p-4">
+          <svg
+            viewBox={`0 0 ${W} ${H}`}
+            preserveAspectRatio="none"
+            className="h-56 w-full md:h-64"
+            onMouseLeave={() => setHovered(null)}
+          >
             <defs>
               <linearGradient id="priceFill" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="oklch(0.72 0.12 240)" stopOpacity="0.35" />
+                <stop offset="0%" stopColor="oklch(0.72 0.12 240)" stopOpacity="0.22" />
                 <stop offset="100%" stopColor="oklch(0.72 0.12 240)" stopOpacity="0" />
               </linearGradient>
             </defs>
-            {(() => {
-              const ordered = [...coin.market.auctions].reverse();
-              const pts = ordered.map((a, i) => {
-                const x = (i / Math.max(ordered.length - 1, 1)) * 600;
-                const y = 130 - ((a.priceNum - min) / range) * 110;
-                return { x, y, a };
-              });
-              const path = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
-              const area = `${path} L 600 140 L 0 140 Z`;
+
+            {/* y grid + labels */}
+            {ticks.map((t, i) => {
+              const y = padT + (1 - (t - min) / range) * (H - padT - padB);
               return (
-                <>
-                  <path d={area} fill="url(#priceFill)" />
-                  <path d={path} fill="none" stroke="oklch(0.88 0.05 230)" strokeWidth="1.5" />
-                  {pts.map((p, i) => (
-                    <circle key={i} cx={p.x} cy={p.y} r="3" fill="oklch(0.88 0.05 230)" />
-                  ))}
-                </>
+                <g key={i}>
+                  <line
+                    x1={padL}
+                    x2={W - padR}
+                    y1={y}
+                    y2={y}
+                    stroke="oklch(0.3 0.01 250)"
+                    strokeOpacity="0.35"
+                    strokeDasharray="2 4"
+                  />
+                  <text
+                    x={padL - 6}
+                    y={y + 3}
+                    textAnchor="end"
+                    fontSize="9"
+                    fill="oklch(0.62 0.01 250)"
+                    fontFamily="Inter, sans-serif"
+                  >
+                    €{formatPrice(t)}
+                  </text>
+                </g>
               );
-            })()}
+            })}
+
+            {/* area + line */}
+            <path d={areaPath} fill="url(#priceFill)" />
+            <path
+              d={linePath}
+              fill="none"
+              stroke="oklch(0.78 0.04 230)"
+              strokeOpacity="0.65"
+              strokeWidth="1.25"
+            />
+
+            {/* x labels (first/middle/last) */}
+            {[0, Math.floor(pts.length / 2), pts.length - 1].map((i) => (
+              <text
+                key={`xl-${i}`}
+                x={pts[i].x}
+                y={H - 8}
+                textAnchor="middle"
+                fontSize="9"
+                fill="oklch(0.62 0.01 250)"
+                fontFamily="Inter, sans-serif"
+              >
+                {pts[i].a.date}
+              </text>
+            ))}
+
+            {/* points */}
+            {pts.map((p, i) => {
+              const tier = gradeTier(p.a.grade);
+              const meta = TIER_META[tier];
+              const isActive = activePointIndex === i;
+              return (
+                <g key={i}>
+                  {isActive && (
+                    <circle
+                      cx={p.x}
+                      cy={p.y}
+                      r={meta.r + 6}
+                      fill={meta.color}
+                      fillOpacity="0.18"
+                    />
+                  )}
+                  <circle
+                    cx={p.x}
+                    cy={p.y}
+                    r={meta.r}
+                    fill={meta.color}
+                    stroke="oklch(0.12 0.005 250)"
+                    strokeWidth="1.5"
+                  />
+                  {/* invisible hit target */}
+                  <circle
+                    cx={p.x}
+                    cy={p.y}
+                    r={16}
+                    fill="transparent"
+                    style={{ cursor: "pointer" }}
+                    onMouseEnter={() => setHovered(i)}
+                    onClick={() => onPointActivate(i)}
+                  />
+                </g>
+              );
+            })}
           </svg>
+
+          {/* Desktop floating card */}
+          {activePointIndex !== null && (
+            <FloatingAuctionCard
+              point={pts[activePointIndex]}
+              boxW={W}
+              boxH={H}
+              estimate={estimateFor(pts[activePointIndex].a.priceNum)}
+            />
+          )}
+        </div>
+
+        {/* Legend */}
+        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+          {(Object.keys(TIER_META) as GradeTier[]).map((t) => (
+            <span key={t} className="inline-flex items-center gap-2">
+              <span
+                className="inline-block size-2.5 rounded-full"
+                style={{ background: TIER_META[t].color }}
+              />
+              {TIER_META[t].label}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Auction records table */}
+      {/* RECENT SALES — connected to chart */}
       <div>
-        <div className="mb-5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          Recent sales
+        <div className="mb-5 flex items-baseline justify-between">
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Recent sales
+          </div>
+          {activeAuctionIndex !== null && (
+            <button
+              onClick={() => {
+                setSelected(null);
+                setHovered(null);
+              }}
+              className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition hover:text-ice"
+            >
+              Clear selection
+            </button>
+          )}
         </div>
         <div className="divide-y divide-border/40">
           <div className="hidden grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1fr] gap-4 pb-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:grid">
@@ -616,26 +829,151 @@ function MarketSection({ coin }: { coin: Coin }) {
             <div>Lot</div>
             <div className="text-right">Result</div>
           </div>
-          {coin.market.auctions.map((a, i) => (
-            <div
-              key={i}
-              className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 py-4 md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1fr] md:items-baseline"
-            >
-              <div className="font-serif text-base text-foreground md:text-lg">{a.house}</div>
-              <div className="order-3 col-span-2 text-xs text-muted-foreground md:order-none md:col-span-1 md:text-sm">
-                {a.date}
-              </div>
-              <div className="order-4 col-span-2 text-xs text-muted-foreground md:order-none md:col-span-1 md:text-sm">
-                <span className="md:hidden">Grade · </span>{a.grade}
-              </div>
-              <div className="order-5 col-span-2 hidden text-sm text-muted-foreground md:block">
-                {a.lot ? `#${a.lot}` : "—"}
-              </div>
-              <div className="text-right font-serif text-lg text-ice md:text-xl">{a.price}</div>
-            </div>
-          ))}
+          {coin.market.auctions.map((a, i) => {
+            const tier = gradeTier(a.grade);
+            const isActive = activeAuctionIndex === i;
+            // Map original index back to chart point index
+            const chartIndex = pts.findIndex((p) => p.originalIndex === i);
+            return (
+              <button
+                key={i}
+                onClick={() => setSelected(chartIndex)}
+                onMouseEnter={() => setHovered(chartIndex)}
+                onMouseLeave={() => setHovered(null)}
+                className={`grid w-full grid-cols-[1fr_auto] gap-x-4 gap-y-1 py-4 text-left transition md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1fr] md:items-baseline ${
+                  isActive
+                    ? "bg-ice/[0.04] px-3 -mx-3 rounded-md"
+                    : "hover:bg-card/40 px-3 -mx-3 rounded-md"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span
+                    className="inline-block size-2 shrink-0 rounded-full"
+                    style={{ background: TIER_META[tier].color }}
+                  />
+                  <span className="font-serif text-base text-foreground md:text-lg">
+                    {a.house}
+                  </span>
+                </div>
+                <div className="order-3 col-span-2 text-xs text-muted-foreground md:order-none md:col-span-1 md:text-sm">
+                  {a.date}
+                </div>
+                <div className="order-4 col-span-2 text-xs text-muted-foreground md:order-none md:col-span-1 md:text-sm">
+                  <span className="md:hidden">Grade · </span>
+                  {a.grade}
+                </div>
+                <div className="order-5 col-span-2 hidden text-sm text-muted-foreground md:block">
+                  {a.lot ? `#${a.lot}` : "—"}
+                </div>
+                <div
+                  className={`text-right font-serif text-lg md:text-xl ${
+                    isActive ? "text-ice text-aura" : "text-ice"
+                  }`}
+                >
+                  {a.price}
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
+
+      {/* Mobile bottom sheet for point detail */}
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+        <SheetContent
+          side="bottom"
+          className="rounded-t-2xl border-border/60 bg-background p-0 md:hidden"
+        >
+          {activePointIndex !== null && (
+            <AuctionDetail
+              record={pts[activePointIndex].a}
+              estimate={estimateFor(pts[activePointIndex].a.priceNum)}
+            />
+          )}
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+}
+
+function FloatingAuctionCard({
+  point,
+  boxW,
+  boxH,
+  estimate,
+}: {
+  point: { x: number; y: number; a: AuctionRecord };
+  boxW: number;
+  boxH: number;
+  estimate: number;
+}) {
+  const leftPct = (point.x / boxW) * 100;
+  const topPct = (point.y / boxH) * 100;
+  // Flip card to other side near edges
+  const flipX = leftPct > 65;
+  const flipY = topPct < 35;
+  return (
+    <div
+      className="pointer-events-none absolute z-10 hidden md:block"
+      style={{
+        left: `${leftPct}%`,
+        top: `${topPct}%`,
+        transform: `translate(${flipX ? "calc(-100% - 14px)" : "14px"}, ${
+          flipY ? "10px" : "calc(-100% - 10px)"
+        })`,
+      }}
+    >
+      <div className="w-64 rounded-xl border border-ice/30 bg-background/95 p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.8)] backdrop-blur">
+        <div className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground">
+          {point.a.house}
+        </div>
+        <div className="mt-1 font-serif text-2xl text-ice">{point.a.price}</div>
+        <div className="mt-1 text-xs font-light text-muted-foreground">
+          Estimate €{new Intl.NumberFormat("en-US").format(estimate)}
+        </div>
+        <div className="mt-3 grid grid-cols-2 gap-3 border-t border-border/40 pt-3">
+          <Detail label="Sale date" value={point.a.date} />
+          <Detail label="Grade" value={point.a.grade} />
+          {point.a.lot && <Detail label="Lot" value={`#${point.a.lot}`} />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AuctionDetail({ record, estimate }: { record: AuctionRecord; estimate: number }) {
+  return (
+    <div className="px-5 pb-8 pt-6">
+      <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border/80" />
+      <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+        {record.house}
+      </div>
+      <div className="mt-2 font-serif text-4xl text-ice">{record.price}</div>
+      <div className="mt-1 text-sm font-light text-muted-foreground">
+        Estimate €{new Intl.NumberFormat("en-US").format(estimate)}
+      </div>
+      <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border/40 pt-5">
+        <Detail label="Sale date" value={record.date} />
+        <Detail label="Grade" value={record.grade} />
+        {record.lot && <Detail label="Lot" value={`#${record.lot}`} />}
+      </div>
+      <div className="mt-6 flex gap-3">
+        <button className="flex-1 rounded-md border border-ice/40 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-ice transition hover:bg-ice/10">
+          View Lot
+        </button>
+        <button className="flex-1 rounded-md border border-border/60 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-ice/40 hover:text-ice">
+          View Images
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function Detail({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <div className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground">{label}</div>
+      <div className="mt-1 font-serif text-base text-foreground">{value}</div>
     </div>
   );
 }
