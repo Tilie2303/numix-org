@@ -171,11 +171,6 @@ function SearchPage() {
 
         {/* ─── LEVEL 3 · EXPERT MODE ─── */}
         <div className="mt-20 flex justify-center">
-          <button
-            onClick={() => setRefineOpen(true)}
-            className="hidden"
-            aria-hidden
-          />
           <a
             href="#advanced"
             onClick={(e) => {
