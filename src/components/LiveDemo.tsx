@@ -33,15 +33,15 @@ export function LiveDemo() {
 
           {/* The focal point */}
           <div className="relative mt-4">
-            <div className="font-serif text-7xl leading-none tracking-tight text-ice text-aura md:text-[10rem]">
+            <div className="font-serif text-6xl leading-none tracking-tight text-ice text-aura md:text-8xl">
               €4,800
             </div>
-            <div className="mt-3 font-serif text-xl text-muted-foreground md:text-2xl">
+            <div className="mt-2 font-serif text-lg text-muted-foreground md:text-xl">
               <span className="italic">to</span> €6,200
             </div>
           </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-x-10 gap-y-4 md:justify-start">
+          <div className="mt-10 flex flex-wrap justify-center gap-x-10 gap-y-4 md:justify-start">
             <Mark label="Rarity" value="Rare" />
             <Mark label="Demand" value="Strong" />
             <Mark label="Confidence" value="High" accent />
