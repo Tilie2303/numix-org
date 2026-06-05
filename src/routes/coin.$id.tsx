@@ -219,7 +219,7 @@ function CoinPage() {
         <section className="mt-32">
           <Disclosure
             label="Evidence"
-            sub="Auction records, references and population data — only when you ask."
+            sub="The data behind the insight."
             open={showEvidence}
             onToggle={() => setShowEvidence((v) => !v)}
           />
