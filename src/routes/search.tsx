@@ -84,18 +84,18 @@ function SearchPage() {
           className="relative animate-rise"
         >
           <div className="absolute inset-0 -m-16 aura-field pointer-events-none" />
-          <div className="relative flex items-center gap-2 rounded-full border-aura bg-card/40 backdrop-blur-xl pl-5 pr-1.5 py-1.5 md:pl-6 md:pr-2 md:py-2">
+          <div className="relative flex items-center gap-2 rounded-full border-aura bg-card/40 backdrop-blur-xl pl-4 pr-1.5 py-1.5 md:pl-6 md:pr-2 md:py-2">
             <Search className="size-4 text-muted-foreground shrink-0" strokeWidth={1.5} />
             <input
               autoFocus
               value={value}
               onChange={(e) => setValue(e.target.value)}
               placeholder="Friedrich August I · 1711 · Davenport 747"
-              className="flex-1 min-w-0 bg-transparent py-3 text-base font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
+              className="flex-1 min-w-0 bg-transparent py-2 md:py-3 text-sm md:text-base font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
             />
             <button
               type="submit"
-              className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+              className="rounded-full bg-primary px-4 md:px-5 py-2 md:py-2.5 text-xs md:text-sm font-medium text-primary-foreground transition hover:opacity-90 shrink-0"
             >
               Search
             </button>
