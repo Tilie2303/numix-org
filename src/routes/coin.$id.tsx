@@ -993,22 +993,33 @@ function Stat({ label, value, sub }: { label: string; value: React.ReactNode; su
 function PopulationSection({ coin }: { coin: Coin }) {
   const { ngc, pcgs, knownExamples } = coin.population;
   return (
-    <div className="grid gap-6 md:grid-cols-2">
-      <PopCard house="NGC" graded={ngc.graded} finer={ngc.finer} topGrade={ngc.topGrade} />
-      <PopCard house="PCGS" graded={pcgs.graded} finer={pcgs.finer} topGrade={pcgs.topGrade} />
+    <div className="space-y-10">
+      {/* DOMINANT INSIGHT */}
       {knownExamples !== undefined && (
-        <div className="md:col-span-2 flex items-baseline justify-between rounded-xl border border-border/40 bg-card/30 px-6 py-5">
-          <div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Known examples
-            </div>
-            <div className="mt-1 text-xs font-light text-muted-foreground">
-              Across grading services, museums, and published collections
-            </div>
+        <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-9 md:px-10 md:py-12">
+          <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+            Known Examples
           </div>
-          <div className="font-serif text-3xl text-ice">{knownExamples}</div>
+          <div className="mt-4 font-serif text-6xl leading-none text-ice text-aura md:text-7xl">
+            {knownExamples}
+          </div>
+          <p className="mt-5 max-w-xl font-serif text-base italic leading-[1.55] text-muted-foreground md:text-lg">
+            Across grading services, auction records and documented private collections.
+            High-grade survivors remain materially scarcer than the headline figure suggests.
+          </p>
         </div>
       )}
+
+      {/* SUPPORTING EVIDENCE */}
+      <div>
+        <div className="mb-5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+          Supporting evidence · Grading services
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <PopCard house="NGC" graded={ngc.graded} finer={ngc.finer} topGrade={ngc.topGrade} />
+          <PopCard house="PCGS" graded={pcgs.graded} finer={pcgs.finer} topGrade={pcgs.topGrade} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -1025,32 +1036,21 @@ function PopCard({
   topGrade: string;
 }) {
   return (
-    <div className="rounded-xl border border-border/40 bg-card/30 p-6">
+    <div className="rounded-xl border border-border/40 bg-card/20 px-6 py-5">
       <div className="flex items-baseline justify-between">
-        <div className="font-serif text-xl">{house}</div>
+        <div className="font-serif text-lg text-foreground">{house}</div>
         <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          Population
+          {graded} certified
         </div>
       </div>
-      <div className="mt-6 grid grid-cols-3 gap-4">
-        <div>
-          <div className="font-serif text-3xl text-foreground">{graded}</div>
-          <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Graded
-          </div>
+      <div className="mt-5 flex items-baseline justify-between border-t border-border/30 pt-4">
+        <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+          Finest known
         </div>
-        <div>
-          <div className="font-serif text-3xl text-ice">{finer}</div>
-          <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Finer known
-          </div>
-        </div>
-        <div>
-          <div className="font-serif text-3xl text-foreground">{topGrade}</div>
-          <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Top grade
-          </div>
-        </div>
+        <div className="font-serif text-3xl text-ice">{topGrade}</div>
+      </div>
+      <div className="mt-2 text-xs font-light text-muted-foreground">
+        {finer} example{finer === 1 ? "" : "s"} at the top grade
       </div>
     </div>
   );
