@@ -39,7 +39,7 @@ function Landing() {
       </section>
 
       {/* ───────── LIVE DEMO ───────── */}
-      <section className="relative z-10 flex justify-center px-6 pb-36">
+      <section className="relative z-10 flex justify-center px-6 pb-12">
         <LiveDemo />
       </section>
 
