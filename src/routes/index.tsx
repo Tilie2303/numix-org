@@ -2,8 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AuraField } from "@/components/AuraField";
 import { LiveDemo } from "@/components/LiveDemo";
-import editorialRevelation from "@/assets/editorial-revelation.jpg";
-
 import editorialVitrine from "@/assets/editorial-vitrine.jpg";
 
 export const Route = createFileRoute("/")({
@@ -43,21 +41,6 @@ function Landing() {
         <LiveDemo />
       </section>
 
-      {/* ───────── MOOD — Revelation (after the demo) ───────── */}
-      <section className="relative z-10 w-full">
-        <div className="relative h-[88vh] min-h-[620px] w-full overflow-hidden md:h-screen">
-          <img
-            src={editorialRevelation}
-            alt=""
-            loading="lazy"
-            width={1920}
-            height={1280}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-background to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-background to-transparent" />
-        </div>
-      </section>
 
 
       {/* ───────── UNDERSTANDING ───────── */}
