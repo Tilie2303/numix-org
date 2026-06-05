@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AuraField } from "@/components/AuraField";
 import { LiveDemo } from "@/components/LiveDemo";
+import editorialGlovedHand from "@/assets/editorial-gloved-hand.jpg";
+import editorialLightMetal from "@/assets/editorial-light-metal.jpg";
+import editorialVitrine from "@/assets/editorial-vitrine.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -9,14 +12,10 @@ export const Route = createFileRoute("/")({
       { title: "RARE — The intelligence layer behind rare coins" },
       {
         name: "description",
-        content:
-          "RARE interprets rare coins. Understanding first. Evidence on demand. Search by name, ruler, year, reference or photograph.",
-      },
-      { property: "og:title", content: "RARE — The intelligence layer behind rare coins" },
-      {
-        property: "og:description",
         content: "Understanding first. Evidence on demand.",
       },
+      { property: "og:title", content: "RARE — The intelligence layer behind rare coins" },
+      { property: "og:description", content: "Understanding first. Evidence on demand." },
     ],
   }),
   component: Landing,
@@ -25,52 +24,161 @@ export const Route = createFileRoute("/")({
 function Landing() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background grain">
-      {/* atmospheric ambient light */}
+      {/* Hero ambient */}
       <div className="pointer-events-none absolute -top-40 left-1/2 h-[700px] w-[1100px] -translate-x-1/2 aura-hero animate-aura" />
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[400px] bg-gradient-to-t from-background to-transparent" />
 
       <SiteHeader />
 
-      <main className="relative z-10 flex flex-col items-center px-6 pt-16 pb-32 md:pt-28">
-        <div className="mb-8 animate-rise text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-          The intelligence layer behind rare coins
-        </div>
-
-        <h1 className="animate-rise delay-1 max-w-4xl text-center font-serif text-5xl leading-[1.05] tracking-tight text-foreground md:text-7xl lg:text-[5.5rem]">
-          Identify, understand
+      {/* ───────── HERO ───────── */}
+      <section className="relative z-10 flex flex-col items-center px-6 pt-20 pb-40 md:pt-32 md:pb-56">
+        <h1 className="animate-rise max-w-5xl text-center font-serif text-6xl leading-[0.95] tracking-tight text-foreground md:text-8xl lg:text-[8.5rem]">
+          The rare,
           <br />
-          <span className="italic text-ice text-aura">and value</span> rare coins.
+          <span className="italic text-ice text-aura">understood.</span>
         </h1>
 
-        <p className="animate-rise delay-2 mt-8 max-w-xl text-center text-base font-light leading-relaxed text-muted-foreground md:text-lg">
-          Most platforms hand you data. RARE interprets it first — so you understand
-          a coin within seconds, and the evidence is always one breath away.
-        </p>
-
-        <div className="mt-14 w-full animate-rise delay-2 flex justify-center">
+        <div className="mt-20 w-full animate-rise delay-2 flex justify-center">
           <AuraField />
         </div>
+      </section>
 
-        <div className="mt-24 w-full flex justify-center">
-          <LiveDemo />
-        </div>
+      {/* ───────── LIVE DEMO ───────── */}
+      <section className="relative z-10 flex justify-center px-6 pb-48">
+        <LiveDemo />
+      </section>
 
-        <div className="mt-32 grid w-full max-w-4xl gap-12 text-center md:grid-cols-3 animate-rise delay-4">
-          <Principle title="Search" body="A single field. Name, ruler, year, reference or photograph." />
-          <Principle title="Understand" body="Value, rarity, demand and confidence — read in seconds." />
-          <Principle title="Prove" body="Auctions, populations, provenance — revealed when you ask." />
+      {/* ───────── EDITORIAL I — Discovery ───────── */}
+      <EditorialChapter
+        image={editorialGlovedHand}
+        alt="A white-gloved hand revealing a single coin"
+        statement={
+          <>
+            What you hold
+            <br />
+            is rarely <span className="italic text-ice">what you think.</span>
+          </>
+        }
+        align="right"
+      />
+
+      {/* ───────── UNDERSTANDING FIRST ───────── */}
+      <section className="relative z-10 mx-auto max-w-5xl px-6 py-48 text-center">
+        <div className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
+          I
         </div>
-      </main>
+        <h2 className="mt-10 font-serif text-5xl leading-[1.05] tracking-tight md:text-7xl">
+          Understanding,
+          <br />
+          <span className="italic text-ice text-aura">before data.</span>
+        </h2>
+      </section>
+
+      {/* ───────── EDITORIAL II — Light through metal ───────── */}
+      <EditorialChapter
+        image={editorialLightMetal}
+        alt="An ancient coin emerging from darkness"
+        statement={
+          <>
+            Every coin
+            <br />
+            carries <span className="italic text-ice">a verdict.</span>
+          </>
+        }
+        align="left"
+      />
+
+      {/* ───────── EVIDENCE ON DEMAND ───────── */}
+      <section className="relative z-10 mx-auto max-w-5xl px-6 py-48 text-center">
+        <div className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
+          II
+        </div>
+        <h2 className="mt-10 font-serif text-5xl leading-[1.05] tracking-tight md:text-7xl">
+          Evidence,
+          <br />
+          <span className="italic text-ice text-aura">when you ask.</span>
+        </h2>
+      </section>
+
+      {/* ───────── EDITORIAL III — Private vitrine ───────── */}
+      <EditorialChapter
+        image={editorialVitrine}
+        alt="A private gallery vitrine"
+        statement={
+          <>
+            A private intelligence,
+            <br />
+            <span className="italic text-ice">held quietly.</span>
+          </>
+        }
+        align="right"
+      />
+
+      {/* ───────── MARKET INTELLIGENCE ───────── */}
+      <section className="relative z-10 mx-auto max-w-5xl px-6 pt-48 pb-56 text-center">
+        <div className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
+          III
+        </div>
+        <h2 className="mt-10 font-serif text-5xl leading-[1.05] tracking-tight md:text-7xl">
+          The market,
+          <br />
+          <span className="italic text-ice text-aura">interpreted.</span>
+        </h2>
+
+        <div className="mt-24 flex justify-center">
+          <AuraField />
+        </div>
+      </section>
+
+      {/* ───────── COLOPHON ───────── */}
+      <footer className="relative z-10 border-t border-border/30 px-8 py-12 text-[10px] uppercase tracking-[0.32em] text-muted-foreground md:px-14">
+        <div className="flex items-center justify-between">
+          <span className="font-serif text-base tracking-[0.2em] normal-case text-foreground">RARE</span>
+          <span>By invitation</span>
+        </div>
+      </footer>
     </div>
   );
 }
 
-function Principle({ title, body }: { title: string; body: string }) {
+function EditorialChapter({
+  image,
+  alt,
+  statement,
+  align,
+}: {
+  image: string;
+  alt: string;
+  statement: React.ReactNode;
+  align: "left" | "right";
+}) {
   return (
-    <div>
-      <div className="font-serif text-2xl text-foreground">{title}</div>
-      <div className="mx-auto mt-3 h-px w-8 bg-border" />
-      <div className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">{body}</div>
-    </div>
+    <section className="relative z-10 w-full">
+      <div className="relative h-[80vh] min-h-[560px] w-full overflow-hidden md:h-[92vh]">
+        <img
+          src={image}
+          alt={alt}
+          loading="lazy"
+          width={1920}
+          height={1080}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* edge fade into the page */}
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background to-transparent" />
+        <div className="absolute inset-0 bg-background/10" />
+
+        <div
+          className={`absolute inset-0 flex items-end px-8 pb-20 md:items-center md:px-20 md:pb-0 ${
+            align === "right" ? "md:justify-end" : "md:justify-start"
+          }`}
+        >
+          <div className="max-w-xl">
+            <h3 className="font-serif text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
+              {statement}
+            </h3>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
