@@ -539,10 +539,12 @@ function gradeTier(grade: string): GradeTier {
   return "base";
 }
 
+// Grade hierarchy — Mint State reads as Radiant Intelligence Blue,
+// About Uncirculated as silver-gray, VF and below as muted dark gray.
 const TIER_META: Record<GradeTier, { color: string; label: string; r: number }> = {
-  top: { color: "oklch(0.92 0.06 230)", label: "Mint / Choice", r: 6 },
-  mid: { color: "oklch(0.78 0.09 235)", label: "AU / EF", r: 5 },
-  base: { color: "oklch(0.62 0.04 235)", label: "VF and below", r: 4 },
+  top: { color: "oklch(0.78 0.11 238)", label: "MS · Mint State", r: 6 },
+  mid: { color: "oklch(0.78 0.01 250)", label: "AU · About Uncirculated", r: 5 },
+  base: { color: "oklch(0.48 0.005 250)", label: "VF and below", r: 4 },
 };
 
 function MarketSection({ coin }: { coin: Coin }) {
