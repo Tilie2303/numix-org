@@ -45,7 +45,6 @@ const SUGGESTIONS = [
 function SearchPage() {
   const { q } = Route.useSearch();
   const [value, setValue] = useState(q ?? "");
-  const [refine, setRefine] = useState(false);
   const navigate = useNavigate();
 
   const filtered = value.trim()
@@ -58,17 +57,13 @@ function SearchPage() {
 
       <SiteHeader />
 
-      <main className="relative z-10 mx-auto max-w-3xl px-6 pt-12 pb-32">
-        <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground animate-rise">
-          Search
-        </div>
-
+      <main className="relative z-10 mx-auto max-w-3xl px-6 pt-16 pb-32">
         <form
           onSubmit={(e) => {
             e.preventDefault();
             navigate({ to: "/search", search: { q: value } });
           }}
-          className="relative mt-6 animate-rise delay-1"
+          className="relative animate-rise"
         >
           <div className="absolute inset-0 -m-16 aura-field pointer-events-none" />
           <div className="relative flex items-center gap-3 rounded-full border-aura bg-card/40 backdrop-blur-xl pl-6 pr-2 py-2">
@@ -77,7 +72,7 @@ function SearchPage() {
               autoFocus
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder="A coin, a ruler, a year, a reference…"
+              placeholder="A coin, a ruler, a year…"
               className="flex-1 bg-transparent py-3 text-base font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
             />
             <button
@@ -89,32 +84,23 @@ function SearchPage() {
           </div>
         </form>
 
-        <div className="mt-5 flex items-center justify-center gap-7 text-xs text-muted-foreground animate-rise delay-2">
+        <div className="mt-6 flex items-center justify-center gap-7 text-xs text-muted-foreground animate-rise delay-1">
           <button className="inline-flex items-center gap-2 transition hover:text-ice">
-            <Camera className="size-3.5" strokeWidth={1.5} /> Search by photo
+            <Camera className="size-3.5" strokeWidth={1.5} /> By photo
           </button>
           <span className="opacity-30">·</span>
-          <button
-            onClick={() => setRefine((r) => !r)}
-            className="inline-flex items-center gap-2 transition hover:text-ice"
-          >
-            <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
-            {refine ? "Hide refine" : "Refine"}
-          </button>
+          <RefineSheet
+            trigger={
+              <button className="inline-flex items-center gap-2 transition hover:text-ice">
+                <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
+                Advanced
+              </button>
+            }
+          />
         </div>
 
-        {refine && (
-          <div className="mt-8 grid gap-4 rounded-xl border border-border/40 bg-card/30 p-6 text-xs text-muted-foreground md:grid-cols-3 animate-rise">
-            <Refinement label="Period" hint="Ancient · Medieval · Modern" />
-            <Refinement label="Metal" hint="Gold · Silver · Bronze" />
-            <Refinement label="Grade" hint="MS · AU · XF · VF" />
-          </div>
-        )}
+        <div className="mt-20 animate-rise delay-2">
 
-        <div className="mt-16 animate-rise delay-3">
-          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            {value.trim() ? "Closest matches" : "Begin with"}
-          </div>
 
           <div className="mt-6 divide-y divide-border/40">
             {filtered.map((s) => (
