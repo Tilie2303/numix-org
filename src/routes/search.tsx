@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Search, SlidersHorizontal, X, ArrowUpRight } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 
@@ -47,6 +47,17 @@ function SearchPage() {
   const [filters, setFilters] = useState<Filters>({});
   const [refineOpen, setRefineOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkHash = () => {
+      if (typeof window !== "undefined" && window.location.hash === "#advanced") {
+        setRefineOpen(true);
+      }
+    };
+    checkHash();
+    window.addEventListener("hashchange", checkHash);
+    return () => window.removeEventListener("hashchange", checkHash);
+  }, []);
 
   const activeTags = useMemo(
     () =>
