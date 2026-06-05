@@ -27,14 +27,14 @@ function Landing() {
       <SiteHeader />
 
       {/* ───────── HERO ───────── */}
-      <section className="relative z-10 flex flex-col items-center px-6 pt-20 pb-20 md:pt-28 md:pb-28">
-        <h1 className="animate-rise max-w-3xl text-center font-serif text-5xl leading-[1.05] tracking-tight text-foreground md:text-7xl lg:text-8xl">
+      <section className="relative z-10 flex flex-col items-center px-6 pt-16 pb-16 md:pt-20 md:pb-20">
+        <h1 className="animate-rise max-w-2xl text-center font-serif text-[2.4rem] leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-[3.6rem]">
           What is rare,
           <br />
           <span className="italic text-ice text-aura">is known.</span>
         </h1>
 
-        <div className="mt-14 w-full animate-rise delay-2 flex justify-center">
+        <div className="mt-12 w-full animate-rise delay-2 flex justify-center">
           <AuraField />
         </div>
       </section>
