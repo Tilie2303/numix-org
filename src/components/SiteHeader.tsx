@@ -6,19 +6,11 @@ export function SiteHeader() {
       <Link
         to="/"
         aria-label="RARE"
-        className="group flex items-baseline font-sans text-xl font-bold uppercase tracking-[0.32em] text-foreground"
+        className="font-sans text-[11px] font-medium uppercase tracking-[0.65em] text-foreground"
       >
-        <span>R</span>
-        <span
-          aria-hidden
-          className="relative mx-[0.08em] inline-flex h-[0.95em] w-[0.95em] -translate-y-[0.04em] items-center justify-center self-center rounded-full border-[1.5px] border-foreground"
-        >
-          <span className="absolute inset-[18%] rounded-full border border-foreground/45" />
-          <span className="relative text-[0.55em] font-bold leading-none tracking-normal text-foreground">
-            A
-          </span>
+        <span className="inline-block transition-transform duration-300 group-hover:-translate-y-0.5">
+          RARE
         </span>
-        <span>RE</span>
       </Link>
       <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
         By invitation
