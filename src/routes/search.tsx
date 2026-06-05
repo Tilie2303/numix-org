@@ -130,12 +130,3 @@ function SearchPage() {
     </div>
   );
 }
-
-function Refinement({ label, hint }: { label: string; hint: string }) {
-  return (
-    <div>
-      <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/80">{label}</div>
-      <div className="mt-2 text-sm font-light text-foreground">{hint}</div>
-    </div>
-  );
-}
