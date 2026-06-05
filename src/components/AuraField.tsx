@@ -1,7 +1,6 @@
 import { Search, Camera } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { RefineSheet } from "@/components/RefineSheet";
 
 export function AuraField({ minimal = false }: { minimal?: boolean }) {
   const [value, setValue] = useState("");
