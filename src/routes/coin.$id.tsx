@@ -230,7 +230,7 @@ function CoinPage() {
                   Recent results
                 </div>
                 <div className="mt-5 divide-y divide-border/40">
-                  {coin.evidence.auctions.map((a, i) => (
+                  {coin.evidence.auctions.map((a: Coin["evidence"]["auctions"][number], i: number) => (
                     <div key={i} className="grid grid-cols-4 items-baseline gap-4 py-4 text-sm">
                       <div className="font-serif text-foreground">{a.house}</div>
                       <div className="text-muted-foreground">{a.date}</div>
@@ -247,7 +247,7 @@ function CoinPage() {
                     Catalog references
                   </div>
                   <div className="mt-4 space-y-2 text-sm">
-                    {coin.evidence.references.map((r, i) => (
+                    {coin.evidence.references.map((r: Coin["evidence"]["references"][number], i: number) => (
                       <div key={i} className="flex justify-between border-b border-border/30 pb-2">
                         <span className="text-muted-foreground">{r.catalog}</span>
                         <span className="font-serif">{r.ref}</span>
