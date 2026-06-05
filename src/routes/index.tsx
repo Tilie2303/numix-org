@@ -109,9 +109,9 @@ function EditorialChapter({
           className="absolute inset-0 h-full w-full object-cover"
         />
         {/* top fade into page */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent" />
         {/* bottom anchor — heavy on mobile so the statement always reads, lighter on desktop */}
-        <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-background via-background/85 to-transparent md:h-[55%] md:via-background/40" />
+        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-background via-background/85 to-transparent md:h-[35%] md:via-background/40" />
 
         <div
           className={`absolute inset-0 flex items-end px-7 pb-16 md:items-center md:px-24 md:pb-0 ${
