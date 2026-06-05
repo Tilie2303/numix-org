@@ -336,7 +336,7 @@ function CoinPage() {
         {/* LAYER 4 — References */}
         <Layer id="references" number="04" title="References" caption="Catalog citations recognised across the field.">
           <div className="grid gap-3 md:grid-cols-2">
-            {coin.references.map((r, i) => (
+            {coin.references.map((r: Coin["references"][number], i: number) => (
               <div
                 key={i}
                 className="flex items-baseline justify-between gap-4 rounded-lg border border-border/40 bg-card/40 px-5 py-4 transition hover:border-ice/30 hover:bg-card/70"
