@@ -100,12 +100,12 @@ function Landing() {
       />
 
       {/* ───────── CLOSING SEARCH ───────── */}
-      <section className="relative z-10 mx-auto max-w-5xl px-6 pt-36 pb-48 text-center">
-        <h2 className="font-serif text-5xl leading-[1.05] tracking-tight md:text-7xl">
+      <section className="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-36 text-center">
+        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
           <span className="italic text-ice text-aura">Begin.</span>
         </h2>
 
-        <div className="mt-16 flex justify-center">
+        <div className="mt-12 flex justify-center">
           <AuraField />
         </div>
       </section>
