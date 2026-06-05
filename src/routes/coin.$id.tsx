@@ -367,7 +367,7 @@ function CoinPage() {
           <div className="relative">
             <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-ice/40 via-border/40 to-transparent" />
             <ol className="space-y-8">
-              {coin.provenance.map((p, i) => (
+              {coin.provenance.map((p: Coin["provenance"][number], i: number) => (
                 <li key={i} className="relative grid grid-cols-[40px_80px_1fr] items-baseline gap-4 md:grid-cols-[40px_120px_1fr] md:gap-8">
                   <span className="relative z-10 mt-1.5 size-3.5 rounded-full border border-ice/40 bg-background shadow-[0_0_16px_rgba(180,210,255,0.4)]" />
                   <span className="font-serif text-2xl text-ice">{p.year}</span>
