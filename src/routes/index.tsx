@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { AuraField } from "@/components/AuraField";
 import { LiveDemo } from "@/components/LiveDemo";
 import editorialRevelation from "@/assets/editorial-revelation.jpg";
-import editorialLightMetal from "@/assets/editorial-light-metal.jpg";
+
 import editorialVitrine from "@/assets/editorial-vitrine.jpg";
 
 export const Route = createFileRoute("/")({
@@ -69,12 +69,6 @@ function Landing() {
         </h2>
       </section>
 
-      {/* ───────── EDITORIAL II ───────── */}
-      <EditorialChapter
-        image={editorialLightMetal}
-        statement={<>Every coin <span className="italic text-ice">a verdict.</span></>}
-        align="left"
-      />
 
       {/* ───────── EVIDENCE ───────── */}
       <section className="relative z-10 mx-auto max-w-4xl px-6 py-28 text-center">
