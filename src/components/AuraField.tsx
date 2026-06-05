@@ -28,7 +28,7 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            placeholder="Tetradrachm of Athens, 5th century BC…"
+            placeholder="Friedrich August I · 1711 · Davenport 747 · Saxony Ducat"
             className="flex-1 bg-transparent py-4 text-lg font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
           <button
