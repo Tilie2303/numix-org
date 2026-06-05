@@ -1015,65 +1015,87 @@ function Stat({ label, value, sub }: { label: string; value: React.ReactNode; su
 
 function PopulationSection({ coin }: { coin: Coin }) {
   const { ngc, pcgs, knownExamples } = coin.population;
+
+  // Derive finest known across both services
+  const gradeOrder = ["MS", "AU", "EF", "VF", "F", "VG", "G"];
+  const parseGrade = (g: string) => {
+    const prefix = gradeOrder.find((p) => g.startsWith(p)) || "";
+    const num = parseInt(g.replace(/\D/g, ""), 10) || 0;
+    return { prefix, num, raw: g };
+  };
+  const ngcParsed = parseGrade(ngc.topGrade);
+  const pcgsParsed = parseGrade(pcgs.topGrade);
+  const finest =
+    gradeOrder.indexOf(ngcParsed.prefix) > gradeOrder.indexOf(pcgsParsed.prefix)
+      ? { grade: ngc.topGrade, count: ngc.finer, source: "NGC" }
+      : gradeOrder.indexOf(ngcParsed.prefix) < gradeOrder.indexOf(pcgsParsed.prefix)
+        ? { grade: pcgs.topGrade, count: pcgs.finer, source: "PCGS" }
+        : ngcParsed.num >= pcgsParsed.num
+          ? { grade: ngc.topGrade, count: ngc.finer, source: "NGC" }
+          : { grade: pcgs.topGrade, count: pcgs.finer, source: "PCGS" };
+
   return (
-    <div className="space-y-10">
-      {/* DOMINANT INSIGHT */}
+    <div className="space-y-14">
+      {/* KNOWN EXAMPLES — dominant conclusion */}
       {knownExamples !== undefined && (
-        <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-9 md:px-10 md:py-12">
+        <div>
           <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
             Known Examples
           </div>
-          <div className="mt-4 font-serif text-6xl leading-none text-ice text-aura md:text-7xl">
+          <div className="mt-5 font-serif text-7xl leading-none text-ice text-aura md:text-8xl">
             {knownExamples}
           </div>
-          <p className="mt-5 max-w-xl font-serif text-base italic leading-[1.55] text-muted-foreground md:text-lg">
-            Across grading services, auction records and documented private collections.
+          <p className="mt-6 max-w-xl font-serif text-lg italic leading-[1.6] text-muted-foreground md:text-xl">
+            Across grading services, auction records and documented collections.
             High-grade survivors remain materially scarcer than the headline figure suggests.
           </p>
         </div>
       )}
 
-      {/* SUPPORTING EVIDENCE */}
-      <div>
-        <div className="mb-5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          Supporting evidence · Grading services
+      {/* FINEST KNOWN — second insight */}
+      <div className="border-t border-border/30 pt-10">
+        <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+          Finest Known
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <PopCard house="NGC" graded={ngc.graded} finer={ngc.finer} topGrade={ngc.topGrade} />
-          <PopCard house="PCGS" graded={pcgs.graded} finer={pcgs.finer} topGrade={pcgs.topGrade} />
+        <div className="mt-4 flex items-baseline gap-5">
+          <div className="font-serif text-5xl text-ice md:text-6xl">{finest.grade}</div>
+          <div className="text-sm font-light text-muted-foreground">
+            {finest.count} example{finest.count === 1 ? "" : "s"} at the highest recorded grade
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
 
-function PopCard({
-  house,
-  graded,
-  finer,
-  topGrade,
-}: {
-  house: string;
-  graded: number;
-  finer: number;
-  topGrade: string;
-}) {
-  return (
-    <div className="rounded-xl border border-border/40 bg-card/20 px-6 py-5">
-      <div className="flex items-baseline justify-between">
-        <div className="font-serif text-lg text-foreground">{house}</div>
-        <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          {graded} certified
+      {/* GRADING SERVICES — supporting evidence, minimal */}
+      <div className="border-t border-border/30 pt-10">
+        <div className="mb-6 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+          Grading Services
         </div>
-      </div>
-      <div className="mt-5 flex items-baseline justify-between border-t border-border/30 pt-4">
-        <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-          Finest known
+        <div className="space-y-6">
+          <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
+            <div className="flex items-baseline gap-4">
+              <span className="w-12 text-sm font-medium text-foreground">NGC</span>
+              <span className="text-sm text-muted-foreground">{ngc.graded} Certified</span>
+            </div>
+            <div className="flex items-baseline gap-2 md:gap-3">
+              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                Finest Known
+              </span>
+              <span className="font-serif text-xl text-ice">{ngc.topGrade}</span>
+            </div>
+          </div>
+          <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
+            <div className="flex items-baseline gap-4">
+              <span className="w-12 text-sm font-medium text-foreground">PCGS</span>
+              <span className="text-sm text-muted-foreground">{pcgs.graded} Certified</span>
+            </div>
+            <div className="flex items-baseline gap-2 md:gap-3">
+              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                Finest Known
+              </span>
+              <span className="font-serif text-xl text-ice">{pcgs.topGrade}</span>
+            </div>
+          </div>
         </div>
-        <div className="font-serif text-3xl text-ice">{topGrade}</div>
-      </div>
-      <div className="mt-2 text-xs font-light text-muted-foreground">
-        {finer} example{finer === 1 ? "" : "s"} at the top grade
       </div>
     </div>
   );
