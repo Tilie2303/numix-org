@@ -1,8 +1,9 @@
-import { Search, Camera, SlidersHorizontal } from "lucide-react";
+import { Search, Camera } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { RefineSheet } from "@/components/RefineSheet";
 
-export function AuraField() {
+export function AuraField({ minimal = false }: { minimal?: boolean }) {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
 
@@ -13,7 +14,6 @@ export function AuraField() {
 
   return (
     <div className="relative w-full max-w-2xl">
-      {/* aura */}
       <div className="absolute inset-0 -m-24 aura-field animate-aura pointer-events-none" />
 
       <form
@@ -40,17 +40,16 @@ export function AuraField() {
         </div>
       </form>
 
-      <div className="mt-5 flex items-center justify-center gap-7 text-xs text-muted-foreground">
-        <button className="inline-flex items-center gap-2 transition hover:text-ice">
-          <Camera className="size-3.5" strokeWidth={1.5} />
-          Search by photo
-        </button>
-        <span className="opacity-30">·</span>
-        <button className="inline-flex items-center gap-2 transition hover:text-ice">
-          <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
-          Refine
-        </button>
-      </div>
+      {!minimal && (
+        <div className="mt-6 flex items-center justify-center gap-7 text-xs text-muted-foreground">
+          <button className="inline-flex items-center gap-2 transition hover:text-ice">
+            <Camera className="size-3.5" strokeWidth={1.5} />
+            By photo
+          </button>
+          <span className="opacity-30">·</span>
+          <RefineSheet />
+        </div>
+      )}
     </div>
   );
 }

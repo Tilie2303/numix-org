@@ -6,8 +6,8 @@ export function SiteHeader() {
       <Link to="/" className="font-serif text-xl tracking-[0.2em] text-foreground">
         RARE
       </Link>
-      <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        Understanding first · Evidence on demand
+      <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+        By invitation
       </div>
     </header>
   );
