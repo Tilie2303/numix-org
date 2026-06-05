@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AuraField } from "@/components/AuraField";
 import { LiveDemo } from "@/components/LiveDemo";
+import editorialUnderstanding from "@/assets/editorial-understanding.jpg";
+import editorialEvidence from "@/assets/editorial-evidence.jpg";
 import editorialVitrine from "@/assets/editorial-vitrine.jpg";
 
 export const Route = createFileRoute("/")({
@@ -44,23 +46,19 @@ function Landing() {
 
 
       {/* ───────── UNDERSTANDING ───────── */}
-      <section className="relative z-10 mx-auto max-w-4xl px-6 py-28 text-center">
-        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
-          Understanding,
-          <br />
-          <span className="italic text-ice text-aura">before data.</span>
-        </h2>
-      </section>
-
+      <EditorialChapter
+        image={editorialUnderstanding}
+        statement={<>Understanding,<br /><span className="italic text-ice">before data.</span></>}
+        align="left"
+      />
 
       {/* ───────── EVIDENCE ───────── */}
-      <section className="relative z-10 mx-auto max-w-4xl px-6 py-28 text-center">
-        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
-          Evidence,
-          <br />
-          <span className="italic text-ice text-aura">when you ask.</span>
-        </h2>
-      </section>
+      <EditorialChapter
+        image={editorialEvidence}
+        statement={<>Evidence,<br /><span className="italic text-ice">when you ask.</span></>}
+        align="right"
+      />
+
 
       {/* ───────── EDITORIAL III ───────── */}
       <EditorialChapter
