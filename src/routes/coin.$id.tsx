@@ -311,11 +311,8 @@ function CoinPage() {
         {/* Analysis Preview — single teaser paragraph, leads into the deeper layers */}
         <section className="mt-24 grid gap-10 md:mt-32 md:grid-cols-[260px_1fr] md:gap-16">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-              Analysis
-            </div>
             <div className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
-              Why it matters.
+              Understand the rarity.
             </div>
           </div>
           <div className="max-w-2xl">
