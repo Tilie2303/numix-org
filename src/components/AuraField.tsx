@@ -48,6 +48,7 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
           <span className="opacity-30">·</span>
           <Link
             to="/search"
+            hash="advanced"
             className="inline-flex items-center gap-2 transition hover:text-ice"
           >
             <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
