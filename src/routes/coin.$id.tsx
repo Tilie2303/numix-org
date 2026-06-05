@@ -296,14 +296,13 @@ function CoinPage() {
                 <Verdict label="Collector Demand" value={coin.demand} />
                 <Verdict label="Historical Importance" value={coin.importance} />
               </div>
-              <div className="mt-7 flex items-center gap-3 border-t border-border/40 pt-5">
-                <span className="size-1.5 rounded-full bg-ice shadow-[0_0_12px_rgba(180,210,255,0.8)]" />
-                <span className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+              <div className="mt-7 border-t border-border/40 pt-7">
+                <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
                   Confidence
-                </span>
-                <span className="ml-auto font-serif text-lg text-ice text-aura">
+                </div>
+                <div className="mt-2 font-serif text-2xl leading-tight text-ice text-aura md:text-3xl">
                   {coin.confidence}
-                </span>
+                </div>
               </div>
             </div>
           </div>
