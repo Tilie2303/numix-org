@@ -150,7 +150,7 @@ function EditorialChapter({
           }`}
         >
           <div className="max-w-xl">
-            <h3 className="font-serif text-4xl leading-[1.05] tracking-tight text-foreground md:text-5xl">
+            <h3 className="font-serif text-[1.75rem] leading-[1.05] tracking-tight text-foreground md:text-[2.4rem]">
               {statement}
             </h3>
           </div>
