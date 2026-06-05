@@ -106,7 +106,7 @@ const COINS: Record<string, Coin> = {
 };
 
 export const Route = createFileRoute("/coin/$id")({
-  loader: ({ params }) => {
+  loader: ({ params }): Coin => {
     const coin = COINS[params.id];
     if (!coin) throw notFound();
     return coin;
