@@ -84,8 +84,8 @@ function Landing() {
       />
 
       {/* ───────── EVIDENCE ───────── */}
-      <section className="relative z-10 mx-auto max-w-5xl px-6 py-36 text-center">
-        <h2 className="font-serif text-5xl leading-[1.05] tracking-tight md:text-7xl">
+      <section className="relative z-10 mx-auto max-w-4xl px-6 py-28 text-center">
+        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
           Evidence,
           <br />
           <span className="italic text-ice text-aura">when you ask.</span>
