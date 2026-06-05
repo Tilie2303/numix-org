@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronRight, ArrowLeft, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { ArrowLeft, TrendingUp, TrendingDown, Minus, ArrowRight } from "lucide-react";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { SiteHeader } from "@/components/SiteHeader";
 import coinHero from "@/assets/coin-hero.jpg";
 import coinDemo from "@/assets/coin-demo.jpg";
@@ -224,18 +225,26 @@ export const Route = createFileRoute("/coin/$id")({
   ),
 });
 
-const SECTIONS = [
-  { id: "insights", label: "Insights" },
-  { id: "reasoning", label: "Reasoning" },
-  { id: "market", label: "Market" },
-  { id: "references", label: "References" },
-  { id: "population", label: "Population" },
-  { id: "provenance", label: "Provenance" },
-  { id: "expert", label: "Expert" },
-] as const;
+type DeepTab = "analysis" | "market" | "references" | "population" | "provenance" | "expert";
+
+const DEEP_TABS: { id: DeepTab; label: string; caption: string }[] = [
+  { id: "analysis", label: "Analysis", caption: "Why this coin is what it is." },
+  { id: "market", label: "Market", caption: "Auction records and price behaviour." },
+  { id: "references", label: "References", caption: "Catalog citations." },
+  { id: "population", label: "Population", caption: "NGC, PCGS and known examples." },
+  { id: "provenance", label: "Provenance", caption: "Ownership lineage." },
+  { id: "expert", label: "Expert", caption: "Die studies, variants, literature." },
+];
 
 function CoinPage() {
   const coin = Route.useLoaderData();
+  const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState<DeepTab>("analysis");
+
+  const openAt = (id: DeepTab) => {
+    setTab(id);
+    setOpen(true);
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-background grain">
@@ -243,7 +252,7 @@ function CoinPage() {
 
       <SiteHeader />
 
-      <main className="relative z-10 mx-auto max-w-6xl px-5 pb-32 pt-6 md:px-6 md:pt-8">
+      <main className="relative z-10 mx-auto max-w-6xl px-5 pb-24 pt-6 md:px-6 md:pt-8">
         <Link
           to="/search"
           className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-muted-foreground transition hover:text-ice"
@@ -253,7 +262,7 @@ function CoinPage() {
         </Link>
 
         {/* HERO — coin as the product */}
-        <section id="insights" className="mt-10 grid gap-12 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-20">
+        <section className="mt-10 grid gap-12 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-20">
           <div className="relative animate-rise">
             <div className="absolute inset-0 -m-24 aura-hero" />
             <img
@@ -276,7 +285,7 @@ function CoinPage() {
               {coin.subtitle}
             </div>
 
-            {/* LAYER 1 — Insights. The 5-second understanding. */}
+            {/* Insights — the 5-second understanding */}
             <div className="mt-10 border-t border-border/40 pt-8">
               <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
                 Insights
@@ -300,142 +309,198 @@ function CoinPage() {
           </div>
         </section>
 
-        {/* Layer rail — progressive disclosure cue */}
-        <nav className="mt-20 hidden md:block">
-          <div className="flex items-center justify-between border-y border-border/40 py-4">
-            {SECTIONS.map((s, i) => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.32em] text-muted-foreground transition hover:text-ice"
-              >
-                <span className="font-serif text-base italic text-ice/60 group-hover:text-ice">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                {s.label}
-              </a>
-            ))}
+        {/* Analysis Preview — single teaser paragraph, leads into the deeper layers */}
+        <section className="mt-24 grid gap-10 md:mt-32 md:grid-cols-[260px_1fr] md:gap-16">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+              Analysis
+            </div>
+            <div className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
+              Why it matters.
+            </div>
           </div>
-        </nav>
-
-        {/* LAYER 2 — Reasoning */}
-        <Layer id="reasoning" number="02" title="Reasoning" caption="Why this coin is what it is. In human language.">
-          <div className="space-y-12">
-            <Paragraph title="Why this coin is rare" body={coin.reasoning.rarity} />
-            <Paragraph title="Why we estimate this value" body={coin.reasoning.value} />
-            <Paragraph title="Why demand is strong" body={coin.reasoning.demand} />
-            <Paragraph title="Why this coin matters" body={coin.reasoning.importance} />
+          <div className="max-w-2xl">
+            <p className="font-serif text-xl leading-[1.55] text-foreground/90 md:text-2xl">
+              {coin.reasoning.importance}
+            </p>
+            <p className="mt-6 text-sm font-light leading-[1.7] text-muted-foreground">
+              Reasoning, market data, references, population, provenance and expert research are kept out of sight until you ask for them.
+            </p>
           </div>
-        </Layer>
+        </section>
 
-        {/* LAYER 3 — Market */}
-        <Layer id="market" number="03" title="Market" caption="Auction records, recent sales, and price behaviour.">
-          <MarketSection coin={coin} />
-        </Layer>
-
-        {/* LAYER 4 — References */}
-        <Layer id="references" number="04" title="References" caption="Catalog citations recognised across the field.">
-          <div className="grid gap-3 md:grid-cols-2">
-            {coin.references.map((r: Coin["references"][number], i: number) => (
-              <div
-                key={i}
-                className="flex items-baseline justify-between gap-4 rounded-lg border border-border/40 bg-card/40 px-5 py-4 transition hover:border-ice/30 hover:bg-card/70"
-              >
-                <div>
-                  <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                    {r.catalog}
-                  </div>
-                  {r.note && (
-                    <div className="mt-1 text-xs font-light text-muted-foreground/80">
-                      {r.note}
-                    </div>
-                  )}
-                </div>
-                <div className="font-serif text-2xl text-ice">{r.ref}</div>
-              </div>
-            ))}
-          </div>
-        </Layer>
-
-        {/* LAYER 5 — Population */}
-        <Layer id="population" number="05" title="Population" caption="Certified counts from the principal grading houses.">
-          <PopulationSection coin={coin} />
-        </Layer>
-
-        {/* LAYER 6 — Provenance */}
-        <Layer id="provenance" number="06" title="Provenance" caption="Ownership lineage and collection history.">
-          <div className="relative">
-            <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-ice/40 via-border/40 to-transparent" />
-            <ol className="space-y-8">
-              {coin.provenance.map((p: Coin["provenance"][number], i: number) => (
-                <li key={i} className="relative grid grid-cols-[40px_80px_1fr] items-baseline gap-4 md:grid-cols-[40px_120px_1fr] md:gap-8">
-                  <span className="relative z-10 mt-1.5 size-3.5 rounded-full border border-ice/40 bg-background shadow-[0_0_16px_rgba(180,210,255,0.4)]" />
-                  <span className="font-serif text-2xl text-ice">{p.year}</span>
-                  <div>
-                    <div className="font-serif text-lg text-foreground">{p.owner}</div>
-                    <div className="mt-1 text-sm font-light text-muted-foreground">{p.detail}</div>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </Layer>
-
-        {/* LAYER 7 — Expert */}
-        <Layer id="expert" number="07" title="Expert Analysis" caption="Die studies, variants, and specialist literature.">
-          <ExpertSection coin={coin} />
-        </Layer>
-
-        <div className="mt-32 border-t border-border/40 pt-10 text-center">
-          <div className="font-serif text-2xl italic text-muted-foreground">
-            You now understand this coin.
-          </div>
-          <Link
-            to="/search"
-            className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-[0.32em] text-ice transition hover:text-foreground"
+        {/* Single interaction — Explore Deeper */}
+        <section className="mt-20 md:mt-24">
+          <button
+            onClick={() => openAt("analysis")}
+            className="group block w-full overflow-hidden rounded-2xl border border-border/50 bg-card/30 text-left transition hover:border-ice/40 hover:bg-card/50"
           >
-            <ArrowLeft className="size-3" strokeWidth={1.5} />
-            Continue exploring
-          </Link>
-        </div>
+            <div className="grid items-center gap-6 px-6 py-7 md:grid-cols-[1fr_auto] md:px-10 md:py-9">
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                  Six layers of depth
+                </div>
+                <div className="mt-2 font-serif text-3xl text-foreground transition group-hover:text-ice md:text-4xl">
+                  Explore Deeper
+                </div>
+                <div className="mt-3 text-sm font-light text-muted-foreground">
+                  Analysis · Market · References · Population · Provenance · Expert
+                </div>
+              </div>
+              <div className="flex size-14 items-center justify-center rounded-full border border-ice/30 text-ice transition group-hover:border-ice group-hover:bg-ice/10">
+                <ArrowRight className="size-5" strokeWidth={1.25} />
+              </div>
+            </div>
+          </button>
+        </section>
       </main>
+
+      <DeepSheet
+        open={open}
+        onOpenChange={setOpen}
+        tab={tab}
+        onTabChange={setTab}
+        coin={coin}
+      />
     </div>
   );
 }
 
-function Layer({
-  id,
-  number,
-  title,
-  caption,
-  children,
+function DeepSheet({
+  open,
+  onOpenChange,
+  tab,
+  onTabChange,
+  coin,
 }: {
-  id: string;
-  number: string;
-  title: string;
-  caption: string;
-  children: React.ReactNode;
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  tab: DeepTab;
+  onTabChange: (t: DeepTab) => void;
+  coin: Coin;
 }) {
   return (
-    <section id={id} className="mt-28 scroll-mt-24 md:mt-36">
-      <header className="mb-12 grid gap-3 md:grid-cols-[260px_1fr] md:gap-16">
-        <div>
-          <div className="flex items-baseline gap-3">
-            <span className="font-serif text-base italic text-ice/70">{number}</span>
-            <span className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-              Layer
-            </span>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent
+        side="bottom"
+        className="h-[92vh] rounded-t-3xl border-border/60 bg-background p-0"
+      >
+        <div className="flex h-full flex-col">
+          {/* Header */}
+          <div className="border-b border-border/40 px-5 pb-4 pt-6 md:px-10 md:pt-8">
+            <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-border/80 md:hidden" />
+            <div className="flex items-baseline justify-between gap-4">
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                  Deeper
+                </div>
+                <div className="mt-1 font-serif text-2xl text-foreground md:text-3xl">
+                  {coin.title}
+                </div>
+              </div>
+            </div>
+
+            {/* Tabs */}
+            <div className="mt-6 -mx-5 overflow-x-auto px-5 md:mx-0 md:px-0">
+              <div className="flex min-w-max gap-x-6 border-b border-transparent md:gap-x-8">
+                {DEEP_TABS.map((t) => {
+                  const active = tab === t.id;
+                  return (
+                    <button
+                      key={t.id}
+                      onClick={() => onTabChange(t.id)}
+                      className={`relative pb-3 text-[11px] uppercase tracking-[0.28em] transition ${
+                        active ? "text-ice" : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {t.label}
+                      {active && (
+                        <span className="absolute inset-x-0 -bottom-px h-px bg-ice shadow-[0_0_12px_rgba(180,210,255,0.8)]" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-          <div className="mt-3 font-serif text-3xl text-foreground md:text-4xl">{title}</div>
+
+          {/* Body */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="mx-auto max-w-4xl px-5 pb-24 pt-10 md:px-10 md:pt-12">
+              <div className="mb-8">
+                <div className="font-serif text-sm italic text-muted-foreground">
+                  {DEEP_TABS.find((t) => t.id === tab)?.caption}
+                </div>
+              </div>
+
+              {tab === "analysis" && (
+                <div className="space-y-10">
+                  <Paragraph title="Why this coin is rare" body={coin.reasoning.rarity} />
+                  <Paragraph title="Why we estimate this value" body={coin.reasoning.value} />
+                  <Paragraph title="Why demand is strong" body={coin.reasoning.demand} />
+                  <Paragraph title="Why this coin matters" body={coin.reasoning.importance} />
+                </div>
+              )}
+
+              {tab === "market" && <MarketSection coin={coin} />}
+
+              {tab === "references" && (
+                <div className="grid gap-3 md:grid-cols-2">
+                  {coin.references.map((r: Coin["references"][number], i: number) => (
+                    <div
+                      key={i}
+                      className="flex items-baseline justify-between gap-4 rounded-lg border border-border/40 bg-card/40 px-5 py-4 transition hover:border-ice/30 hover:bg-card/70"
+                    >
+                      <div>
+                        <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                          {r.catalog}
+                        </div>
+                        {r.note && (
+                          <div className="mt-1 text-xs font-light text-muted-foreground/80">
+                            {r.note}
+                          </div>
+                        )}
+                      </div>
+                      <div className="font-serif text-2xl text-ice">{r.ref}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {tab === "population" && <PopulationSection coin={coin} />}
+
+              {tab === "provenance" && (
+                <div className="relative">
+                  <div className="absolute left-[7px] top-2 bottom-2 w-px bg-gradient-to-b from-ice/40 via-border/40 to-transparent" />
+                  <ol className="space-y-8">
+                    {coin.provenance.map((p: Coin["provenance"][number], i: number) => (
+                      <li
+                        key={i}
+                        className="relative grid grid-cols-[40px_80px_1fr] items-baseline gap-4 md:grid-cols-[40px_120px_1fr] md:gap-8"
+                      >
+                        <span className="relative z-10 mt-1.5 size-3.5 rounded-full border border-ice/40 bg-background shadow-[0_0_16px_rgba(180,210,255,0.4)]" />
+                        <span className="font-serif text-2xl text-ice">{p.year}</span>
+                        <div>
+                          <div className="font-serif text-lg text-foreground">{p.owner}</div>
+                          <div className="mt-1 text-sm font-light text-muted-foreground">
+                            {p.detail}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
+              {tab === "expert" && <ExpertSection coin={coin} />}
+            </div>
+          </div>
         </div>
-        <div className="self-end pb-1 text-sm font-light text-muted-foreground md:text-base">
-          {caption}
-        </div>
-      </header>
-      <div className="md:pl-[276px]">{children}</div>
-    </section>
+      </SheetContent>
+    </Sheet>
   );
 }
+
 
 function Verdict({
   label,
