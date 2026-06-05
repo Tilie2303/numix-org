@@ -252,17 +252,17 @@ function CoinPage() {
 
       <SiteHeader />
 
-      <main className="relative z-10 mx-auto max-w-6xl px-5 pb-24 pt-6 md:px-6 md:pt-8">
+      <main className="relative z-10 mx-auto max-w-6xl px-6 pb-20 pt-5 md:px-8 md:pb-24 md:pt-8">
         <Link
           to="/search"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-muted-foreground transition hover:text-ice"
+          className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-muted-foreground transition hover:text-ice md:text-xs md:tracking-[0.22em]"
         >
           <ArrowLeft className="size-3" strokeWidth={1.5} />
           Search
         </Link>
 
         {/* HERO — coin as the product */}
-        <section className="mt-10 grid gap-12 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-20">
+        <section className="mt-8 grid gap-10 md:mt-16 md:grid-cols-[1.15fr_1fr] md:gap-20">
           <div className="relative animate-rise">
             <div className="absolute inset-0 -m-24 aura-hero" />
             <img
@@ -275,32 +275,32 @@ function CoinPage() {
           </div>
 
           <div className="flex flex-col justify-center animate-rise delay-1">
-            <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+            <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
               {coin.era}
             </div>
-            <h1 className="mt-5 font-serif text-5xl leading-[1.02] tracking-tight md:text-6xl">
+            <h1 className="mt-4 font-serif text-[2.5rem] leading-[1.04] tracking-tight md:mt-5 md:text-6xl">
               {coin.title}
             </h1>
-            <div className="mt-3 font-serif text-lg italic text-muted-foreground">
+            <div className="mt-3 font-serif text-base italic text-muted-foreground md:text-lg">
               {coin.subtitle}
             </div>
 
             {/* Insights — the 5-second understanding */}
-            <div className="mt-10 border-t border-border/40 pt-8">
-              <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+            <div className="mt-9 border-t border-border/40 pt-7 md:mt-10 md:pt-8">
+              <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
                 Insights
               </div>
-              <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-7">
+              <div className="mt-6 grid grid-cols-2 gap-x-5 gap-y-6 md:gap-x-6 md:gap-y-7">
                 <Verdict label="Estimated Value" value={coin.value.low} sub={`– ${coin.value.high}`} />
                 <Verdict label="Rarity" value={coin.rarity} />
                 <Verdict label="Collector Demand" value={coin.demand} />
                 <Verdict label="Historical Importance" value={coin.importance} />
               </div>
-              <div className="mt-7 border-t border-border/40 pt-7">
-                <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              <div className="mt-6 border-t border-border/40 pt-6 md:mt-7 md:pt-7">
+                <div className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground md:text-[10px] md:tracking-[0.22em]">
                   Confidence
                 </div>
-                <div className="mt-2 font-serif text-2xl leading-tight text-ice text-aura md:text-3xl">
+                <div className="mt-2 font-serif text-xl leading-tight text-ice text-aura md:text-3xl">
                   {coin.confidence}
                 </div>
               </div>
@@ -308,42 +308,45 @@ function CoinPage() {
           </div>
         </section>
 
-        {/* Analysis Preview — single teaser paragraph, leads into the deeper layers */}
-        <section className="mt-24 grid gap-10 md:mt-32 md:grid-cols-[260px_1fr] md:gap-16">
+        {/* Analysis Preview */}
+        <section className="mt-20 grid gap-8 md:mt-32 md:grid-cols-[260px_1fr] md:gap-16">
           <div>
-            <div className="mt-3 font-serif text-3xl text-foreground md:text-4xl">
+            <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
+              Analysis
+            </div>
+            <div className="mt-3 font-serif text-2xl text-foreground md:text-4xl">
               Understand the rarity.
             </div>
           </div>
           <div className="max-w-2xl">
-            <p className="font-serif text-xl leading-[1.55] text-foreground/90 md:text-2xl">
+            <p className="font-serif text-lg leading-[1.55] text-foreground/90 md:text-2xl">
               {coin.reasoning.importance}
             </p>
-            <p className="mt-6 text-sm font-light leading-[1.7] text-muted-foreground">
+            <p className="mt-5 text-[13px] font-light leading-[1.75] text-muted-foreground md:mt-6 md:text-sm">
               Reasoning, market data, references, population, provenance and expert research are kept out of sight until you ask for them.
             </p>
           </div>
         </section>
 
         {/* Single interaction — Explore Deeper */}
-        <section className="mt-20 md:mt-24">
+        <section className="mt-16 md:mt-24">
           <button
             onClick={() => openAt("analysis")}
             className="group block w-full overflow-hidden rounded-2xl border border-border/50 bg-card/30 text-left transition hover:border-ice/40 hover:bg-card/50"
           >
-            <div className="grid items-center gap-6 px-6 py-7 md:grid-cols-[1fr_auto] md:px-10 md:py-9">
+            <div className="grid items-center gap-5 px-6 py-7 md:grid-cols-[1fr_auto] md:gap-6 md:px-10 md:py-9">
               <div>
-                <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+                <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
                   Six layers of depth
                 </div>
-                <div className="mt-2 font-serif text-3xl text-foreground transition group-hover:text-ice md:text-4xl">
+                <div className="mt-2 font-serif text-2xl text-foreground transition group-hover:text-ice md:text-4xl">
                   Explore Deeper
                 </div>
-                <div className="mt-3 text-sm font-light text-muted-foreground">
+                <div className="mt-3 text-[13px] font-light leading-[1.6] text-muted-foreground md:text-sm">
                   Analysis · Market · References · Population · Provenance · Expert
                 </div>
               </div>
-              <div className="flex size-14 items-center justify-center rounded-full border border-ice/30 text-ice transition group-hover:border-ice group-hover:bg-ice/10">
+              <div className="flex size-12 items-center justify-center rounded-full border border-ice/30 text-ice transition group-hover:border-ice group-hover:bg-ice/10 md:size-14">
                 <ArrowRight className="size-5" strokeWidth={1.25} />
               </div>
             </div>
