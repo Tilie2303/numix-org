@@ -201,7 +201,7 @@ function CoinPage() {
             <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
               Why
             </div>
-            <div className="mt-4 font-serif text-3xl">Understanding first.</div>
+            <div className="mt-4 font-serif text-3xl">Understand First. Explore Deeper.</div>
             <div className="mt-2 text-sm font-light text-muted-foreground">
               In human language. No interpretation required.
             </div>
