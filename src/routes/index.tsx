@@ -28,9 +28,9 @@ function Landing() {
       {/* ───────── HERO ───────── */}
       <section className="relative z-10 flex flex-col items-center px-6 pt-16 pb-16 md:pt-20 md:pb-20">
         <h1 className="animate-rise max-w-2xl text-center font-serif text-[2.4rem] leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-[3.6rem]">
-          What is rare,
+          The Intelligence
           <br />
-          <span className="italic text-ice text-aura">is known.</span>
+          <span className="italic text-ice text-aura">Behind Rarity.</span>
         </h1>
 
         <div className="mt-12 w-full animate-rise delay-2 flex justify-center">
