@@ -284,6 +284,3 @@ function FilterGroup({
     </div>
   );
 }
-
-// Silence unused warning for Sheet trigger pattern
-void SheetTrigger;
