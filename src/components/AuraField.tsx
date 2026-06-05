@@ -22,17 +22,17 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
         }}
         className="relative"
       >
-        <div className="relative flex items-center gap-3 rounded-full border-aura bg-card/50 backdrop-blur-xl pl-7 pr-2.5 py-2.5 shadow-[0_30px_80px_-30px_oklch(0.72_0.12_240/0.35)]">
-          <Search className="size-5 text-muted-foreground shrink-0" strokeWidth={1.5} />
+        <div className="relative flex items-center gap-2 md:gap-3 rounded-full border-aura bg-card/50 backdrop-blur-xl pl-4 pr-2 md:pl-7 md:pr-2.5 py-2 md:py-2.5 shadow-[0_30px_80px_-30px_oklch(0.72_0.12_240/0.35)]">
+          <Search className="size-4 md:size-5 text-muted-foreground shrink-0" strokeWidth={1.5} />
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="Friedrich August I · 1711 · Davenport 747 · Saxony Ducat"
-            className="flex-1 bg-transparent py-4 text-lg font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
+            className="flex-1 min-w-0 bg-transparent py-2 md:py-4 text-sm md:text-lg font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
           <button
             type="submit"
-            className="rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+            className="rounded-full bg-primary px-4 md:px-7 py-2 md:py-3 text-xs md:text-sm font-medium text-primary-foreground transition hover:opacity-90 shrink-0"
           >
             Search
           </button>
