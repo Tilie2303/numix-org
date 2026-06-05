@@ -1,5 +1,5 @@
-import { Search, Camera } from "lucide-react";
-import { useNavigate } from "@tanstack/react-router";
+import { Search, Camera, SlidersHorizontal } from "lucide-react";
+import { useNavigate, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 export function AuraField({ minimal = false }: { minimal?: boolean }) {
@@ -45,6 +45,14 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
             <Camera className="size-3.5" strokeWidth={1.5} />
             By photo
           </button>
+          <span className="opacity-30">·</span>
+          <Link
+            to="/search"
+            className="inline-flex items-center gap-2 transition hover:text-ice"
+          >
+            <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
+            Refined search
+          </Link>
         </div>
       )}
     </div>
