@@ -3,7 +3,6 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { AuraField } from "@/components/AuraField";
 import { LiveDemo } from "@/components/LiveDemo";
 import editorialRevelation from "@/assets/editorial-revelation.jpg";
-import editorialGlovedHand from "@/assets/editorial-gloved-hand.jpg";
 import editorialLightMetal from "@/assets/editorial-light-metal.jpg";
 import editorialVitrine from "@/assets/editorial-vitrine.jpg";
 
@@ -60,12 +59,6 @@ function Landing() {
         </div>
       </section>
 
-      {/* ───────── EDITORIAL I ───────── */}
-      <EditorialChapter
-        image={editorialGlovedHand}
-        statement={<>Rarely <span className="italic text-ice">what you think.</span></>}
-        align="right"
-      />
 
       {/* ───────── UNDERSTANDING ───────── */}
       <section className="relative z-10 mx-auto max-w-4xl px-6 py-28 text-center">
