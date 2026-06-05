@@ -104,16 +104,12 @@ function SearchPage() {
 
         {/* ─── LEVEL 2 · ACCESS TO REFINE + PHOTO ─── */}
         <div className="mt-5 flex items-center justify-center gap-6 text-xs text-muted-foreground animate-rise delay-1">
-          <button className="inline-flex items-center gap-2 transition hover:text-ice">
-            <Camera className="size-3.5" strokeWidth={1.5} /> By photo
-          </button>
-          <span className="opacity-30">·</span>
           <button
             onClick={() => setRefineOpen(true)}
             className="inline-flex items-center gap-2 transition hover:text-ice"
           >
             <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
-            Refine search
+            Refined search
           </button>
         </div>
 
