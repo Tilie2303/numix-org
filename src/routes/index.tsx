@@ -99,7 +99,7 @@ function EditorialChapter({
 }) {
   return (
     <section className="relative z-10 w-full">
-      <div className="relative h-[80vh] min-h-[560px] w-full overflow-hidden md:h-[92vh]">
+      <div className="relative h-[88vh] min-h-[600px] w-full overflow-hidden md:h-[92vh]">
         <img
           src={image}
           alt=""
@@ -108,17 +108,21 @@ function EditorialChapter({
           height={1080}
           className="absolute inset-0 h-full w-full object-cover"
         />
+        {/* top fade into page */}
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background to-transparent" />
-        <div className="absolute inset-0 bg-background/10" />
+        {/* bottom anchor — heavy on mobile so the statement always reads, lighter on desktop */}
+        <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-background via-background/85 to-transparent md:h-[55%] md:via-background/40" />
 
         <div
-          className={`absolute inset-0 flex items-end px-8 pb-20 md:items-center md:px-24 md:pb-0 ${
+          className={`absolute inset-0 flex items-end px-7 pb-16 md:items-center md:px-24 md:pb-0 ${
             align === "right" ? "md:justify-end" : "md:justify-start"
           }`}
         >
           <div className="max-w-xl">
-            <h3 className="font-serif text-[1.75rem] leading-[1.05] tracking-tight text-foreground md:text-[2.4rem]">
+            <h3
+              className="font-serif text-[2.1rem] leading-[1.02] tracking-tight text-foreground md:text-[2.4rem]"
+              style={{ textShadow: "0 2px 24px rgba(0,0,0,0.55)" }}
+            >
               {statement}
             </h3>
           </div>
@@ -127,3 +131,4 @@ function EditorialChapter({
     </section>
   );
 }
+
