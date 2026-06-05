@@ -1,7 +1,6 @@
 import { Search, Camera } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { RefineSheet } from "@/components/RefineSheet";
 
 export function AuraField({ minimal = false }: { minimal?: boolean }) {
   const [value, setValue] = useState("");
@@ -28,7 +27,7 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            placeholder="Tetradrachm of Athens, 5th century BC…"
+            placeholder="Friedrich August I · 1711 · Davenport 747 · Saxony Ducat"
             className="flex-1 bg-transparent py-4 text-lg font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
           <button
@@ -46,8 +45,6 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
             <Camera className="size-3.5" strokeWidth={1.5} />
             By photo
           </button>
-          <span className="opacity-30">·</span>
-          <RefineSheet />
         </div>
       )}
     </div>
