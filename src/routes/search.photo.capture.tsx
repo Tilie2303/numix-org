@@ -134,7 +134,7 @@ function CapturePage() {
                 <div className="absolute left-1/2 top-1/2 size-[62%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ice/40 shadow-[0_0_60px_-10px_oklch(0.78_0.11_238/0.45)]" />
                 <div className="absolute left-1/2 top-1/2 size-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ice/70" />
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-background/60 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-muted-foreground backdrop-blur">
-                  {ready ? "Center · Steady · Capture" : "Awaiting camera"}
+                  {ready ? "Zentrieren · Ruhig halten · Auslösen" : "Warte auf Kamera"}
                 </div>
               </div>
             )}
