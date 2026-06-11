@@ -969,9 +969,16 @@ function MarketSection({ coin }: { coin: Coin }) {
               const tier = gradeTier(p.a.grade);
               const meta = TIER_META[tier];
               const isActive = activePointIndex === i;
+              const visible = isAuctionVisible(p.a);
               return (
-                <g key={i}>
-                  {isActive && (
+                <g
+                  key={i}
+                  style={{
+                    opacity: visible ? 1 : 0.12,
+                    transition: "opacity 320ms ease",
+                  }}
+                >
+                  {isActive && visible && (
                     <circle
                       cx={p.x}
                       cy={p.y}
@@ -989,15 +996,17 @@ function MarketSection({ coin }: { coin: Coin }) {
                     strokeWidth="1.5"
                   />
                   {/* invisible hit target */}
-                  <circle
-                    cx={p.x}
-                    cy={p.y}
-                    r={16}
-                    fill="transparent"
-                    style={{ cursor: "pointer" }}
-                    onMouseEnter={() => setHovered(i)}
-                    onClick={() => onPointActivate(i)}
-                  />
+                  {visible && (
+                    <circle
+                      cx={p.x}
+                      cy={p.y}
+                      r={16}
+                      fill="transparent"
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={() => setHovered(i)}
+                      onClick={() => onPointActivate(i)}
+                    />
+                  )}
                 </g>
               );
             })}
