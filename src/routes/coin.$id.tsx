@@ -1537,6 +1537,17 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
 }
 
 function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
+  const allGrades = data.map((d) => d.grade);
+  const [active, setActive] = useState<Set<string>>(new Set(allGrades));
+  const toggle = (g: string) =>
+    setActive((s) => {
+      const next = new Set(s);
+      if (next.has(g)) next.delete(g);
+      else next.add(g);
+      return next.size === 0 ? new Set(allGrades) : next;
+    });
+  const isOn = (g: string) => active.has(g);
+
   const W = 600;
   const H = 220;
   const padL = 44;
