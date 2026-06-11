@@ -1006,11 +1006,12 @@ function MarketSection({ coin }: { coin: Coin }) {
         <div className="mb-2 flex items-baseline justify-between">
           <div>
             <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Auction Record
+              Auktionsverlauf
             </div>
             <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-              Each point is a real sale. Color reflects grade. Tap to inspect.
+              Jeder Punkt ist ein dokumentiertes Auktionsergebnis. Farbe nach Erhaltungsgrad. Anklicken für Details.
             </div>
+
           </div>
           <div className="hidden font-serif text-sm italic text-muted-foreground md:block">
             {chrono[0].a.date} → {chrono[chrono.length - 1].a.date}
