@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, TrendingUp, TrendingDown, Minus, ArrowRight } from "lucide-react";
@@ -1469,16 +1470,25 @@ function SummaryCell({ label, value }: { label: string; value: string }) {
 
 function GradeDistributionChart({ data }: { data: GradeDist[] }) {
   const allGrades = data.map((d) => d.grade);
-  const [active, setActive] = useState<Set<string>>(new Set(allGrades));
+  const [focused, setFocused] = useState<Set<string>>(new Set(allGrades));
   const max = Math.max(...data.map((d) => d.pct));
-  const toggle = (g: string) => {
-    setActive((s) => {
-      const next = new Set(s);
-      if (next.has(g)) next.delete(g);
-      else next.add(g);
-      return next.size === 0 ? new Set(allGrades) : next;
+  const totalCount = data.reduce((s, d) => s + d.count, 0);
+
+  const handleToggle = (grade: string) => {
+    setFocused((prev) => {
+      if (prev.has(grade)) {
+        // Clicking the focused grade resets to all
+        return new Set(allGrades);
+      }
+      // Focus only this grade
+      return new Set([grade]);
     });
   };
+
+  const handleReset = () => setFocused(new Set(allGrades));
+
+  const hasFocus = focused.size < allGrades.length;
+
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between">
@@ -1495,28 +1505,47 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
         <div className="grid grid-cols-1 gap-3">
           {data.map((d, i) => {
             const w = Math.max((d.pct / max) * 100, 2);
-            const on = active.has(d.grade);
+            const isFocused = hasFocus && focused.has(d.grade);
+            const isDimmed = hasFocus && !focused.has(d.grade);
             return (
               <div
                 key={i}
                 className="grid grid-cols-[60px_1fr_72px] items-center gap-4"
-                style={{ opacity: on ? 1 : 0.25, transition: "opacity 280ms ease" }}
+                style={{
+                  opacity: isDimmed ? 0.28 : 1,
+                  transition: "opacity 280ms ease",
+                }}
               >
-                <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                <span
+                  className={cn(
+                    "text-[11px] uppercase tracking-[0.22em] transition-colors duration-300",
+                    isDimmed ? "text-muted-foreground/30" : "text-muted-foreground",
+                  )}
+                >
                   {d.grade}
                 </span>
                 <div className="relative h-2 overflow-hidden rounded-full bg-border/40">
                   <div
                     className="absolute inset-y-0 left-0 rounded-full"
                     style={{
-                      width: on ? `${w}%` : "0%",
-                      background:
-                        "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
-                      transition: "width 480ms cubic-bezier(.22,.61,.36,1)",
+                      width: `${w}%`,
+                      background: isFocused
+                        ? "linear-gradient(90deg, oklch(0.78 0.12 240) 0%, oklch(0.88 0.08 230) 100%)"
+                        : "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
+                      opacity: isDimmed ? 0.25 : isFocused ? 1 : 0.85,
+                      filter: isFocused
+                        ? "brightness(1.2) drop-shadow(0 0 6px oklch(0.78 0.12 240 / 0.5))"
+                        : undefined,
+                      transition: "all 480ms cubic-bezier(.22,.61,.36,1)",
                     }}
                   />
                 </div>
-                <span className="text-right font-serif text-sm text-foreground">
+                <span
+                  className={cn(
+                    "text-right font-serif text-sm transition-colors duration-300",
+                    isDimmed ? "text-foreground/25" : "text-foreground",
+                  )}
+                >
                   {d.pct}% · {d.count}
                 </span>
               </div>
@@ -1527,10 +1556,18 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
       <FilterChips
         label="Grade"
         options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade, count: d.count }))}
-        active={active}
-        onToggle={toggle}
-        onAll={() => setActive(new Set(allGrades))}
-        totalLabel={`${active.size} of ${allGrades.length} grades`}
+        active={focused}
+        onToggle={handleToggle}
+        onAll={handleReset}
+        totalLabel={
+          hasFocus
+            ? (() => {
+                const g = data.find((d) => focused.has(d.grade));
+                return g ? `${g.count} examples · ${g.pct}% of distribution` : "";
+              })()
+            : `${totalCount} examples · ${allGrades.length} grades`
+        }
+        mode="focus"
       />
     </div>
   );
