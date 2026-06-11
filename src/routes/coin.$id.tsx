@@ -334,16 +334,16 @@ export const Route = createFileRoute("/coin/$id")({
   notFoundComponent: () => (
     <div className="flex min-h-screen items-center justify-center bg-background text-center">
       <div>
-        <div className="font-serif text-3xl">Not in the index yet.</div>
-        <Link to="/search" className="mt-6 inline-block text-ice">Return to search →</Link>
+        <div className="font-serif text-3xl">Noch nicht im Index erfasst.</div>
+        <Link to="/search" className="mt-6 inline-block text-ice">Zurück zur Suche →</Link>
       </div>
     </div>
   ),
   errorComponent: () => (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="text-center">
-        <div className="font-serif text-2xl">Something interrupted the interpretation.</div>
-        <Link to="/" className="mt-6 inline-block text-ice">Return home →</Link>
+        <div className="font-serif text-2xl">Die Interpretation wurde unterbrochen.</div>
+        <Link to="/" className="mt-6 inline-block text-ice">Zur Startseite →</Link>
       </div>
     </div>
   ),
@@ -352,13 +352,14 @@ export const Route = createFileRoute("/coin/$id")({
 type DeepTab = "analysis" | "market" | "references" | "population" | "provenance" | "expert";
 
 const DEEP_TABS: { id: DeepTab; label: string; caption: string }[] = [
-  { id: "analysis", label: "Analysis", caption: "Why this coin is what it is." },
-  { id: "market", label: "Market", caption: "Auction records and price behaviour." },
-  { id: "references", label: "References", caption: "Catalog citations." },
-  { id: "population", label: "Population", caption: "NGC, PCGS and known examples." },
-  { id: "provenance", label: "Provenance", caption: "Ownership lineage." },
-  { id: "expert", label: "Expert", caption: "Die studies, variants, literature." },
+  { id: "analysis", label: "Analyse", caption: "Warum diese Münze ist, was sie ist." },
+  { id: "market", label: "Markt", caption: "Auktionsergebnisse und Preisverhalten." },
+  { id: "references", label: "Referenzen", caption: "Katalogzitate." },
+  { id: "population", label: "Populationen", caption: "NGC, PCGS und bekannte Exemplare." },
+  { id: "provenance", label: "Provenienz", caption: "Eigentumshistorie." },
+  { id: "expert", label: "Expertenanalyse", caption: "Stempelstudien, Varianten, Literatur." },
 ];
+
 
 function CoinPage() {
   const coin = Route.useLoaderData();
