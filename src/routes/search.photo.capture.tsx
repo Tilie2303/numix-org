@@ -161,10 +161,10 @@ function CapturePage() {
                   type="button"
                   onClick={() => setFacing((f) => (f === "environment" ? "user" : "environment"))}
                   className="inline-flex items-center gap-2 rounded-full border border-border/50 px-3 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-aura hover:text-ice"
-                  aria-label="Switch camera"
+                  aria-label="Kamera wechseln"
                 >
                   <SwitchCamera className="size-3.5" strokeWidth={1.5} />
-                  Flip
+                  Wechseln
                 </button>
 
                 <button
@@ -172,7 +172,7 @@ function CapturePage() {
                   onClick={capture}
                   disabled={!ready}
                   className="group relative grid size-16 place-items-center rounded-full border border-ice/40 bg-ice/10 transition hover:bg-ice/20 disabled:opacity-40"
-                  aria-label="Capture"
+                  aria-label="Auslösen"
                 >
                   <span className="size-12 rounded-full bg-ice/90 transition group-hover:scale-95" />
                 </button>
@@ -181,7 +181,7 @@ function CapturePage() {
                   to="/search/photo"
                   className="inline-flex items-center gap-2 rounded-full border border-border/50 px-3 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-aura hover:text-ice"
                 >
-                  Cancel
+                  Abbrechen
                 </Link>
               </>
             ) : (
@@ -192,7 +192,7 @@ function CapturePage() {
                   className="inline-flex items-center gap-2 rounded-full border border-border/50 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-aura hover:text-ice"
                 >
                   <RefreshCw className="size-3.5" strokeWidth={1.5} />
-                  Retake
+                  Wiederholen
                 </button>
                 <button
                   type="button"
@@ -201,10 +201,10 @@ function CapturePage() {
                     navigate({ to: "/search/photo" });
                   }}
                   className="inline-flex items-center gap-2 rounded-full border border-border/50 px-3 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-aura hover:text-ice"
-                  aria-label="Discard"
+                  aria-label="Verwerfen"
                 >
                   <X className="size-3.5" strokeWidth={1.5} />
-                  Discard
+                  Verwerfen
                 </button>
                 <button
                   type="button"
@@ -212,7 +212,7 @@ function CapturePage() {
                   className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-[11px] uppercase tracking-[0.22em] text-primary-foreground transition hover:opacity-90"
                 >
                   <Check className="size-3.5" strokeWidth={1.5} />
-                  Identify
+                  Identifizieren
                 </button>
               </>
             )}
