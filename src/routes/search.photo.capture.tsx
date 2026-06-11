@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from "react";
 export const Route = createFileRoute("/search/photo/capture")({
   head: () => ({
     meta: [
-      { title: "NUMIX — Capture coin" },
+      { title: "NUMIX — Münze aufnehmen" },
       {
         name: "description",
-        content: "Photograph a coin live with your camera for instant numismatic identification.",
+        content: "Eine Münze live mit der Kamera erfassen — für die unmittelbare numismatische Identifikation.",
       },
     ],
   }),
@@ -49,7 +49,7 @@ function CapturePage() {
       }
     } catch {
       setError(
-        "Camera access denied. Allow camera permission in your browser, or upload an image instead.",
+        "Kein Zugriff auf die Kamera. Erteilen Sie der Anwendung im Browser die Kameraberechtigung — oder laden Sie stattdessen ein Bild hoch.",
       );
     }
   };
@@ -96,14 +96,14 @@ function CapturePage() {
           className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-muted-foreground transition hover:text-ice"
         >
           <ArrowLeft className="size-3.5" strokeWidth={1.5} />
-          Back
+          Zurück
         </Link>
 
         <h1 className="mt-6 font-serif text-4xl tracking-tight text-foreground md:text-5xl">
-          Capture the <span className="italic text-ice text-aura">coin.</span>
+          Münze <span className="italic text-ice text-aura">aufnehmen.</span>
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          Hold the piece flat under even light. Fill the circle with the obverse, then capture.
+          Halten Sie das Stück flach unter gleichmäßigem Licht. Füllen Sie den Kreis mit dem Avers — und lösen Sie aus.
         </p>
 
         <div className="mt-10 overflow-hidden rounded-3xl border border-border/60 bg-card/30 backdrop-blur-xl">
@@ -134,7 +134,7 @@ function CapturePage() {
                 <div className="absolute left-1/2 top-1/2 size-[62%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ice/40 shadow-[0_0_60px_-10px_oklch(0.78_0.11_238/0.45)]" />
                 <div className="absolute left-1/2 top-1/2 size-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ice/70" />
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-background/60 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-muted-foreground backdrop-blur">
-                  {ready ? "Center · Steady · Capture" : "Awaiting camera"}
+                  {ready ? "Zentrieren · Ruhig halten · Auslösen" : "Warte auf Kamera"}
                 </div>
               </div>
             )}
@@ -147,7 +147,7 @@ function CapturePage() {
                   to="/search/photo"
                   className="mt-2 rounded-full border border-border/50 px-4 py-1.5 text-xs text-muted-foreground transition hover:border-aura hover:text-ice"
                 >
-                  Upload instead
+                  Stattdessen hochladen
                 </Link>
               </div>
             )}
@@ -161,10 +161,10 @@ function CapturePage() {
                   type="button"
                   onClick={() => setFacing((f) => (f === "environment" ? "user" : "environment"))}
                   className="inline-flex items-center gap-2 rounded-full border border-border/50 px-3 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-aura hover:text-ice"
-                  aria-label="Switch camera"
+                  aria-label="Kamera wechseln"
                 >
                   <SwitchCamera className="size-3.5" strokeWidth={1.5} />
-                  Flip
+                  Wechseln
                 </button>
 
                 <button
@@ -172,7 +172,7 @@ function CapturePage() {
                   onClick={capture}
                   disabled={!ready}
                   className="group relative grid size-16 place-items-center rounded-full border border-ice/40 bg-ice/10 transition hover:bg-ice/20 disabled:opacity-40"
-                  aria-label="Capture"
+                  aria-label="Auslösen"
                 >
                   <span className="size-12 rounded-full bg-ice/90 transition group-hover:scale-95" />
                 </button>
@@ -181,7 +181,7 @@ function CapturePage() {
                   to="/search/photo"
                   className="inline-flex items-center gap-2 rounded-full border border-border/50 px-3 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-aura hover:text-ice"
                 >
-                  Cancel
+                  Abbrechen
                 </Link>
               </>
             ) : (
@@ -192,7 +192,7 @@ function CapturePage() {
                   className="inline-flex items-center gap-2 rounded-full border border-border/50 px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-aura hover:text-ice"
                 >
                   <RefreshCw className="size-3.5" strokeWidth={1.5} />
-                  Retake
+                  Wiederholen
                 </button>
                 <button
                   type="button"
@@ -201,10 +201,10 @@ function CapturePage() {
                     navigate({ to: "/search/photo" });
                   }}
                   className="inline-flex items-center gap-2 rounded-full border border-border/50 px-3 py-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-aura hover:text-ice"
-                  aria-label="Discard"
+                  aria-label="Verwerfen"
                 >
                   <X className="size-3.5" strokeWidth={1.5} />
-                  Discard
+                  Verwerfen
                 </button>
                 <button
                   type="button"
@@ -212,7 +212,7 @@ function CapturePage() {
                   className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-[11px] uppercase tracking-[0.22em] text-primary-foreground transition hover:opacity-90"
                 >
                   <Check className="size-3.5" strokeWidth={1.5} />
-                  Identify
+                  Identifizieren
                 </button>
               </>
             )}
@@ -220,9 +220,9 @@ function CapturePage() {
         </div>
 
         <div className="mt-8 grid grid-cols-3 gap-3 text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-          <FrameTip n="01" label="Hold steady" />
-          <FrameTip n="02" label="Even light" />
-          <FrameTip n="03" label="Fill circle" />
+          <FrameTip n="01" label="Ruhig halten" />
+          <FrameTip n="02" label="Gleichmäßiges Licht" />
+          <FrameTip n="03" label="Kreis ausfüllen" />
         </div>
 
         <canvas ref={canvasRef} className="hidden" />

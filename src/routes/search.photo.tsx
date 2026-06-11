@@ -6,8 +6,8 @@ import { useRef, useState } from "react";
 export const Route = createFileRoute("/search/photo")({
   head: () => ({
     meta: [
-      { title: "NUMIX — Search by photo" },
-      { name: "description", content: "Identify rare coins by photograph — upload an image or capture one live." },
+      { title: "NUMIX — Suche per Foto" },
+      { name: "description", content: "Seltene Münzen anhand einer Fotografie identifizieren — Bild hochladen oder live aufnehmen." },
     ],
   }),
   component: PhotoSearch,
@@ -24,14 +24,14 @@ function PhotoSearch() {
 
       <section className="relative z-10 mx-auto flex max-w-3xl flex-col px-6 pt-12 pb-24">
         <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-          Visual identification
+          Visuelle Identifikation
         </div>
         <h1 className="mt-5 font-serif text-4xl tracking-tight text-foreground md:text-5xl">
-          Search by <span className="italic text-ice text-aura">photo.</span>
+          Suche per <span className="italic text-ice text-aura">Foto.</span>
         </h1>
         <p className="mt-4 max-w-xl text-sm text-muted-foreground">
-          Choose how you would like to present the coin. The system will read the
-          legend, the iconography and the fabric to propose an attribution.
+          Wählen Sie, wie Sie die Münze vorlegen möchten. Das System liest Umschrift,
+          Ikonographie und Fabrik und schlägt darauf eine Zuordnung vor.
         </p>
 
         {/* ─── TWO-CHOICE PANEL ─── */}
@@ -46,14 +46,14 @@ function PhotoSearch() {
               <Camera className="size-5" strokeWidth={1.4} />
             </div>
             <div className="relative mt-6 font-serif text-2xl text-foreground transition group-hover:text-ice">
-              Take a photo
+              Foto aufnehmen
             </div>
             <p className="relative mt-2 text-xs leading-relaxed text-muted-foreground">
-              Open the camera and capture the coin live. Best for in-hand pieces
-              under controlled light.
+              Kamera öffnen und die Münze unmittelbar erfassen. Geeignet für Stücke
+              in der Hand bei kontrolliertem Licht.
             </p>
             <div className="relative mt-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-ice">
-              Open camera <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
+              Kamera öffnen <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
             </div>
           </Link>
 
@@ -68,14 +68,14 @@ function PhotoSearch() {
               <Upload className="size-5" strokeWidth={1.4} />
             </div>
             <div className="relative mt-6 font-serif text-2xl text-foreground transition group-hover:text-ice">
-              Upload a photograph
+              Fotografie hochladen
             </div>
             <p className="relative mt-2 text-xs leading-relaxed text-muted-foreground">
-              Select an existing image of the obverse or reverse from your device,
-              catalogue scan or auction archive.
+              Wählen Sie eine bestehende Aufnahme von Avers oder Revers — vom Gerät,
+              aus einem Katalogscan oder einem Auktionsarchiv.
             </p>
             <div className="relative mt-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-foreground/70 transition group-hover:text-ice">
-              Choose a file <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
+              Datei auswählen <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
             </div>
 
             <input
@@ -95,12 +95,12 @@ function PhotoSearch() {
         {preview && (
           <div className="mt-10 overflow-hidden rounded-3xl border border-border/50 bg-card/30 p-5 backdrop-blur-xl">
             <div className="flex items-center justify-between gap-4 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
-              <span>Selected image</span>
+              <span>Gewählte Aufnahme</span>
               <button
                 onClick={() => setPreview(null)}
                 className="transition hover:text-ice"
               >
-                Replace
+                Ersetzen
               </button>
             </div>
             <div className="mt-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl bg-background/60">
@@ -110,16 +110,16 @@ function PhotoSearch() {
               type="button"
               className="mt-5 w-full rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
             >
-              Identify
+              Identifizieren
             </button>
           </div>
         )}
 
         {/* ─── GUIDANCE ─── */}
         <div className="mt-14 grid grid-cols-3 gap-4 text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-          <Tip n="01" label="Even light" />
-          <Tip n="02" label="Neutral field" />
-          <Tip n="03" label="Both sides" />
+          <Tip n="01" label="Gleichmäßiges Licht" />
+          <Tip n="02" label="Neutraler Hintergrund" />
+          <Tip n="03" label="Beide Seiten" />
         </div>
 
         {/* ─── PREFER TO TYPE ─── */}
@@ -132,14 +132,14 @@ function PhotoSearch() {
           </div>
           <div className="flex-1 min-w-0">
             <div className="font-serif text-lg text-foreground transition group-hover:text-ice">
-              Prefer to type?
+              Lieber tippen?
             </div>
             <div className="mt-0.5 text-xs text-muted-foreground">
-              Switch to the refined text search instead.
+              Wechseln Sie zur verfeinerten Textsuche.
             </div>
           </div>
           <div className="inline-flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-[0.28em] text-foreground/70 transition group-hover:text-ice">
-            Refined search <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
+            Verfeinerte Suche <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
           </div>
         </Link>
       </section>

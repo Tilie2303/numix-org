@@ -4,8 +4,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const Route = createFileRoute("/auth/register")({
   head: () => ({
     meta: [
-      { title: "NUMIX — Request invitation" },
-      { name: "description", content: "Request access to the NUMIX private research terminal." },
+      { title: "NUMIX — Einladung anfragen" },
+      { name: "description", content: "Zugang zum privaten NUMIX-Recherche-Terminal anfragen." },
     ],
   }),
   component: RegisterPage,
@@ -18,29 +18,29 @@ function RegisterPage() {
       <SiteHeader />
       <section className="relative z-10 mx-auto flex max-w-md flex-col px-6 pt-12 pb-24">
         <h1 className="font-serif text-4xl tracking-tight text-foreground md:text-5xl">
-          Request <span className="italic text-ice text-aura">access.</span>
+          Zugang <span className="italic text-ice text-aura">anfragen.</span>
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          NUMIX is offered by invitation. Tell us about your collection.
+          NUMIX wird auf Einladung gewährt. Erzählen Sie uns von Ihrer Sammlung.
         </p>
 
         <form className="mt-12 space-y-6">
-          <Field label="Full name" type="text" placeholder="Friedrich August" />
-          <Field label="Email" type="email" placeholder="you@library.com" />
-          <Field label="Collecting focus" type="text" placeholder="German thalers, 17th–18th c." />
-          <Field label="Password" type="password" placeholder="••••••••" />
+          <Field label="Vollständiger Name" type="text" placeholder="Friedrich August" />
+          <Field label="E-Mail" type="email" placeholder="sie@bibliothek.de" />
+          <Field label="Sammelschwerpunkt" type="text" placeholder="Sächsische Taler, 17.–18. Jh." />
+          <Field label="Passwort" type="password" placeholder="••••••••" />
           <button
             type="submit"
             className="w-full rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
           >
-            Submit request
+            Anfrage senden
           </button>
         </form>
 
         <div className="mt-8 text-center text-xs text-muted-foreground">
-          Already a member?{" "}
+          Bereits Mitglied?{" "}
           <Link to="/auth/login" className="transition hover:text-ice">
-            Sign in
+            Anmelden
           </Link>
         </div>
       </section>
