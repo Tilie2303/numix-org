@@ -1602,8 +1602,8 @@ function ExpertSection({ coin }: { coin: Coin }) {
             </ul>
           ) : (
             <p className="max-w-2xl font-serif text-base italic text-muted-foreground">
-              Comparable specimens are being indexed.
-            </p>
+              Vergleichsstücke werden noch indexiert.
+
           )
         )}
         {tab === "notes" && (
