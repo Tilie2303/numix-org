@@ -6,7 +6,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 type SearchParams = { q?: string };
 
-export const Route = createFileRoute("/search")({
+export const Route = createFileRoute("/search/")({
   validateSearch: (s: Record<string, unknown>): SearchParams => ({
     q: typeof s.q === "string" ? s.q : undefined,
   }),

@@ -9,8 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SearchRouteImport } from './routes/search'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SearchIndexRouteImport } from './routes/search.index'
 import { Route as SearchPhotoRouteImport } from './routes/search.photo'
 import { Route as CoinIdRouteImport } from './routes/coin.$id'
 import { Route as AuthRegisterRouteImport } from './routes/auth.register'
@@ -18,20 +18,20 @@ import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AuthForgotRouteImport } from './routes/auth.forgot'
 import { Route as SearchPhotoCaptureRouteImport } from './routes/search.photo.capture'
 
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SearchIndexRoute = SearchIndexRouteImport.update({
+  id: '/search/',
+  path: '/search/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchPhotoRoute = SearchPhotoRouteImport.update({
-  id: '/photo',
-  path: '/photo',
-  getParentRoute: () => SearchRoute,
+  id: '/search/photo',
+  path: '/search/photo',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const CoinIdRoute = CoinIdRouteImport.update({
   id: '/coin/$id',
@@ -61,86 +61,80 @@ const SearchPhotoCaptureRoute = SearchPhotoCaptureRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/search': typeof SearchRouteWithChildren
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/coin/$id': typeof CoinIdRoute
   '/search/photo': typeof SearchPhotoRouteWithChildren
+  '/search/': typeof SearchIndexRoute
   '/search/photo/capture': typeof SearchPhotoCaptureRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/search': typeof SearchRouteWithChildren
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/coin/$id': typeof CoinIdRoute
   '/search/photo': typeof SearchPhotoRouteWithChildren
+  '/search': typeof SearchIndexRoute
   '/search/photo/capture': typeof SearchPhotoCaptureRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/search': typeof SearchRouteWithChildren
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/coin/$id': typeof CoinIdRoute
   '/search/photo': typeof SearchPhotoRouteWithChildren
+  '/search/': typeof SearchIndexRoute
   '/search/photo/capture': typeof SearchPhotoCaptureRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/search'
     | '/auth/forgot'
     | '/auth/login'
     | '/auth/register'
     | '/coin/$id'
     | '/search/photo'
+    | '/search/'
     | '/search/photo/capture'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/search'
     | '/auth/forgot'
     | '/auth/login'
     | '/auth/register'
     | '/coin/$id'
     | '/search/photo'
+    | '/search'
     | '/search/photo/capture'
   id:
     | '__root__'
     | '/'
-    | '/search'
     | '/auth/forgot'
     | '/auth/login'
     | '/auth/register'
     | '/coin/$id'
     | '/search/photo'
+    | '/search/'
     | '/search/photo/capture'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SearchRoute: typeof SearchRouteWithChildren
   AuthForgotRoute: typeof AuthForgotRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   CoinIdRoute: typeof CoinIdRoute
+  SearchPhotoRoute: typeof SearchPhotoRouteWithChildren
+  SearchIndexRoute: typeof SearchIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -148,12 +142,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/search/': {
+      id: '/search/'
+      path: '/search'
+      fullPath: '/search/'
+      preLoaderRoute: typeof SearchIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search/photo': {
       id: '/search/photo'
-      path: '/photo'
+      path: '/search/photo'
       fullPath: '/search/photo'
       preLoaderRoute: typeof SearchPhotoRouteImport
-      parentRoute: typeof SearchRoute
+      parentRoute: typeof rootRouteImport
     }
     '/coin/$id': {
       id: '/coin/$id'
@@ -205,25 +206,25 @@ const SearchPhotoRouteWithChildren = SearchPhotoRoute._addFileChildren(
   SearchPhotoRouteChildren,
 )
 
-interface SearchRouteChildren {
-  SearchPhotoRoute: typeof SearchPhotoRouteWithChildren
-}
-
-const SearchRouteChildren: SearchRouteChildren = {
-  SearchPhotoRoute: SearchPhotoRouteWithChildren,
-}
-
-const SearchRouteWithChildren =
-  SearchRoute._addFileChildren(SearchRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SearchRoute: SearchRouteWithChildren,
   AuthForgotRoute: AuthForgotRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   CoinIdRoute: CoinIdRoute,
+  SearchPhotoRoute: SearchPhotoRouteWithChildren,
+  SearchIndexRoute: SearchIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
