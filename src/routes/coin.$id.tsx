@@ -955,29 +955,27 @@ function MarketSection({ coin }: { coin: Coin }) {
       <div>
         <InsightCard
           kicker="Auction Behaviour"
-          title={
-            coin.market.trend.direction === "up"
-              ? "Market is strengthening"
-              : coin.market.trend.direction === "down"
-                ? "Market is softening"
-                : "Market is holding steady"
-          }
+          title="Market development"
           headline={
             <>
               {coin.market.trend.pct}{" "}
               <span className="text-foreground/70">
-                across {coin.market.trend.window}
+                over the last {coin.market.trend.window}
               </span>
             </>
           }
           body={
-            <>
-              {coin.market.activity.lots12m} sales recorded in the last 12 months
-              at {coin.market.activity.sellThrough} sell-through, landing{" "}
-              {coin.market.activity.medianPremium.toLowerCase()}. Tap any point on
-              the chart to inspect the underlying sale — auction house, grade,
-              realised price and premium versus estimate.
-            </>
+            <span className="block space-y-1">
+              <span className="block">
+                {coin.market.activity.lots12m} auction results in the last 12 months.
+              </span>
+              <span className="block">
+                {coin.market.activity.sellThrough} sell-through rate.
+              </span>
+              <span className="block">
+                Average result: {coin.market.activity.medianPremium}.
+              </span>
+            </span>
           }
         />
         <div className="mb-2 flex items-baseline justify-between">
