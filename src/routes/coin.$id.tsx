@@ -728,6 +728,73 @@ const TIER_META: Record<GradeTier, { color: string; label: string; r: number }> 
   base: { color: "oklch(0.48 0.005 250)", label: "VF and below", r: 4 },
 };
 
+function InsightCard({
+  kicker,
+  title,
+  headline,
+  body,
+}: {
+  kicker: string;
+  title: string;
+  headline: React.ReactNode;
+  body?: React.ReactNode;
+}) {
+  return (
+    <div className="mb-5 rounded-2xl border border-aura/30 bg-gradient-to-br from-ice/[0.05] via-ice/[0.02] to-transparent px-5 py-5 md:px-6 md:py-6">
+      <div className="text-[10px] uppercase tracking-[0.32em] text-aura/80">{kicker}</div>
+      <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+        {title}
+      </div>
+      <div className="mt-2 font-serif text-2xl leading-tight text-ice text-aura md:text-3xl">
+        {headline}
+      </div>
+      {body && (
+        <p className="mt-3 max-w-2xl text-[13px] font-light leading-[1.7] text-muted-foreground md:text-sm">
+          {body}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function dominantTier(data: GradeDist[]) {
+  const groups: Record<GradeTier, GradeDist[]> = { top: [], mid: [], base: [] };
+  data.forEach((d) => groups[gradeTier(d.grade)].push(d));
+  let best: GradeTier = "mid";
+  let bestPct = 0;
+  (Object.keys(groups) as GradeTier[]).forEach((t) => {
+    const sum = groups[t].reduce((s, d) => s + d.pct, 0);
+    if (sum > bestPct) {
+      bestPct = sum;
+      best = t;
+    }
+  });
+  const grades = groups[best];
+  return {
+    tier: best,
+    range:
+      grades.length === 0
+        ? "—"
+        : grades.length === 1
+          ? grades[0].grade
+          : `${grades[0].grade}–${grades[grades.length - 1].grade}`,
+    pct: bestPct,
+    label: TIER_META[best].label,
+  };
+}
+
+function premiumAnalysis(data: EstByGrade[]) {
+  const top = data[data.length - 1];
+  const benchmark =
+    data.find((d) => d.gradeNum === 55) ||
+    data.find((d) => d.gradeNum >= 53 && d.gradeNum <= 58) ||
+    data[Math.floor(data.length / 2)];
+  const pct = Math.round(((top.estimate - benchmark.estimate) / benchmark.estimate) * 100);
+  return { top, benchmark, pct };
+}
+
+
+
 function MarketSection({ coin }: { coin: Coin }) {
   const [selected, setSelected] = useState<number | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
