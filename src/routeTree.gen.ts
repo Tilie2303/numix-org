@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SearchPhotoRouteImport } from './routes/search.photo'
 import { Route as CoinIdRouteImport } from './routes/coin.$id'
 import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
@@ -25,6 +26,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const SearchPhotoRoute = SearchPhotoRouteImport.update({
+  id: '/photo',
+  path: '/photo',
+  getParentRoute: () => SearchRoute,
 } as any)
 const CoinIdRoute = CoinIdRouteImport.update({
   id: '/coin/$id',
@@ -49,28 +55,31 @@ const AuthForgotRoute = AuthForgotRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/search': typeof SearchRoute
+  '/search': typeof SearchRouteWithChildren
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/coin/$id': typeof CoinIdRoute
+  '/search/photo': typeof SearchPhotoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/search': typeof SearchRoute
+  '/search': typeof SearchRouteWithChildren
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/coin/$id': typeof CoinIdRoute
+  '/search/photo': typeof SearchPhotoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/search': typeof SearchRoute
+  '/search': typeof SearchRouteWithChildren
   '/auth/forgot': typeof AuthForgotRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/coin/$id': typeof CoinIdRoute
+  '/search/photo': typeof SearchPhotoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/coin/$id'
+    | '/search/photo'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/coin/$id'
+    | '/search/photo'
   id:
     | '__root__'
     | '/'
@@ -97,11 +108,12 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/coin/$id'
+    | '/search/photo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SearchRoute: typeof SearchRoute
+  SearchRoute: typeof SearchRouteWithChildren
   AuthForgotRoute: typeof AuthForgotRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
@@ -123,6 +135,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/search/photo': {
+      id: '/search/photo'
+      path: '/photo'
+      fullPath: '/search/photo'
+      preLoaderRoute: typeof SearchPhotoRouteImport
+      parentRoute: typeof SearchRoute
     }
     '/coin/$id': {
       id: '/coin/$id'
@@ -155,9 +174,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface SearchRouteChildren {
+  SearchPhotoRoute: typeof SearchPhotoRoute
+}
+
+const SearchRouteChildren: SearchRouteChildren = {
+  SearchPhotoRoute: SearchPhotoRoute,
+}
+
+const SearchRouteWithChildren =
+  SearchRoute._addFileChildren(SearchRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SearchRoute: SearchRoute,
+  SearchRoute: SearchRouteWithChildren,
   AuthForgotRoute: AuthForgotRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
