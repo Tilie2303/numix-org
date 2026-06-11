@@ -1384,7 +1384,7 @@ function PremiumBadge({ price, estimate }: { price: number; estimate: number }) 
       }`}
     >
       {positive ? "+" : ""}
-      {pct}% vs est
+      {pct}% vs. Schätzung
     </span>
   );
 }
