@@ -1626,44 +1626,77 @@ function SummaryCell({ label, value }: { label: string; value: string }) {
   );
 }
 
-function GradeDistributionChart({ data }: { data: GradeDist[] }) {
-  const allGrades = data.map((d) => d.grade);
-  const [active, setActive] = useState<Set<string>>(new Set(allGrades));
+function GradeDistributionChart({ data, auctions }: { data: GradeDist[]; auctions: AuctionRecord[] }) {
+  const [selected, setSelected] = useState<string | null>(null);
   const max = Math.max(...data.map((d) => d.pct));
-  const toggle = (g: string) => {
-    setActive((s) => {
-      const next = new Set(s);
-      if (next.has(g)) next.delete(g);
-      else next.add(g);
-      return next.size === 0 ? new Set(allGrades) : next;
-    });
-  };
-  const dom = dominantTier(data);
-  const highest = data[data.length - 1];
+
+  // Häufigster / Seltenster Erhaltungsgrad
+  const sortedByPct = [...data].sort((a, b) => b.pct - a.pct);
+  const mostCommon = sortedByPct[0];
+  const rarest = sortedByPct[sortedByPct.length - 1];
+
+  // Typischer Marktbereich = zusammenhängender Bereich um den Median, der ≥50% der Ergebnisse abdeckt
+  const total = data.reduce((s, d) => s + d.pct, 0);
+  let typicalRange = `${mostCommon.grade}`;
+  let typicalShare = mostCommon.pct;
+  {
+    const peakIdx = data.findIndex((d) => d.grade === mostCommon.grade);
+    let lo = peakIdx, hi = peakIdx, acc = data[peakIdx].pct;
+    while (acc / total < 0.5 && (lo > 0 || hi < data.length - 1)) {
+      const leftPct = lo > 0 ? data[lo - 1].pct : -1;
+      const rightPct = hi < data.length - 1 ? data[hi + 1].pct : -1;
+      if (rightPct >= leftPct && hi < data.length - 1) {
+        hi++;
+        acc += data[hi].pct;
+      } else if (lo > 0) {
+        lo--;
+        acc += data[lo].pct;
+      } else break;
+    }
+    typicalRange = lo === hi ? data[lo].grade : `${data[lo].grade}–${data[hi].grade}`;
+    typicalShare = Math.round(acc);
+  }
+  const typicalTier = TIER_META[gradeTier(data[Math.floor((data.findIndex(d=>d.grade===mostCommon.grade)))].grade)].label;
+
+  // Detail-Daten für gewähltes Grade
+  const selectedAuctions = selected ? auctions.filter((a) => a.grade === selected) : [];
+  const selectedDist = selected ? data.find((d) => d.grade === selected) : null;
+  const avg = selectedAuctions.length
+    ? Math.round(selectedAuctions.reduce((s, a) => s + a.priceNum, 0) / selectedAuctions.length)
+    : 0;
+  const highest = selectedAuctions.length
+    ? selectedAuctions.reduce((m, a) => (a.priceNum > m.priceNum ? a : m), selectedAuctions[0])
+    : null;
+  const last = selectedAuctions[0] ?? null; // erstes Element ist neueste
+  const fmt = (n: number) => `€${new Intl.NumberFormat("de-DE").format(n)}`;
+
   return (
     <div>
-      <div className="mb-5 grid gap-4 md:grid-cols-2">
+      <div className="mb-5 grid gap-4 md:grid-cols-3">
         <InsightCard
-          kicker="Insight"
-          title="Most common grade range"
-          headline={dom.range}
+          kicker="Befund"
+          title="Häufigster Erhaltungsgrad"
+          headline={mostCommon.grade}
+          body={<>{mostCommon.pct}% aller dokumentierten Auktionsergebnisse.</>}
+        />
+        <InsightCard
+          kicker="Befund"
+          title="Seltenster dokumentierter Erhaltungsgrad"
+          headline={rarest.grade}
           body={
             <>
-              {dom.pct}% of all recorded auction appearances fall within the{" "}
-              {dom.label.toLowerCase()} band. These are the grades collectors
-              encounter most often on the open market.
+              Nur {rarest.count} dokumentierte{rarest.count === 1 ? "s" : ""} Auktionsergebnis
+              {rarest.count === 1 ? "" : "se"}.
             </>
           }
         />
         <InsightCard
-          kicker="Insight"
-          title="Highest recorded grade"
-          headline={highest.grade}
+          kicker="Befund"
+          title="Typischer Marktbereich"
+          headline={typicalRange}
           body={
             <>
-              Only {highest.count} example
-              {highest.count === 1 ? " has" : "s have"} appeared in the auction
-              record at this grade — a meaningful indicator of condition rarity.
+              {typicalShare}% aller dokumentierten Exemplare im Bereich {typicalTier}.
             </>
           }
         />
@@ -1671,33 +1704,44 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
       <div className="mb-2 flex items-baseline justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Grade Distribution
+            Erhaltungsverteilung
           </div>
           <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-            Evidence · share of recorded auction appearances by grade.
+            Anteil der dokumentierten Auktionsergebnisse je Erhaltungsgrad. Anklicken für Detailauswertung.
           </div>
         </div>
+        {selected && (
+          <button
+            onClick={() => setSelected(null)}
+            className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition hover:text-ice"
+          >
+            Auswahl zurücksetzen
+          </button>
+        )}
       </div>
 
       <div className="rounded-xl border border-border/40 bg-card/30 p-5 md:p-6">
         <div className="grid grid-cols-1 gap-3">
           {data.map((d, i) => {
             const w = Math.max((d.pct / max) * 100, 2);
-            const on = active.has(d.grade);
+            const isSel = selected === d.grade;
             return (
-              <div
+              <button
                 key={i}
-                className="grid grid-cols-[60px_1fr_72px] items-center gap-4"
-                style={{ opacity: on ? 1 : 0.25, transition: "opacity 280ms ease" }}
+                onClick={() => setSelected((s) => (s === d.grade ? null : d.grade))}
+                className={`grid w-full grid-cols-[60px_1fr_72px] items-center gap-4 rounded-md px-2 py-1 text-left transition ${
+                  isSel ? "bg-ice/[0.05]" : "hover:bg-card/40"
+                }`}
+                style={{ opacity: selected && !isSel ? 0.45 : 1, transition: "opacity 280ms ease" }}
               >
-                <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                <span className={`text-[11px] uppercase tracking-[0.22em] ${isSel ? "text-ice" : "text-muted-foreground"}`}>
                   {d.grade}
                 </span>
                 <div className="relative h-2 overflow-hidden rounded-full bg-border/40">
                   <div
                     className="absolute inset-y-0 left-0 rounded-full"
                     style={{
-                      width: on ? `${w}%` : "0%",
+                      width: `${w}%`,
                       background:
                         "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
                       transition: "width 480ms cubic-bezier(.22,.61,.36,1)",
@@ -1707,22 +1751,44 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
                 <span className="text-right font-serif text-sm text-foreground">
                   {d.pct}% · {d.count}
                 </span>
-              </div>
+              </button>
             );
           })}
         </div>
       </div>
-      <FilterChips
-        label="Grade"
-        options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade, count: d.count }))}
-        active={active}
-        onToggle={toggle}
-        onAll={() => setActive(new Set(allGrades))}
-        totalLabel={`${active.size} of ${allGrades.length} grades`}
-      />
+
+      {selected && selectedDist && (
+        <div className="mt-4 rounded-xl border border-ice/30 bg-card/40 px-5 py-5 md:px-6 md:py-6">
+          <div className="flex items-baseline justify-between">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.32em] text-aura/80">
+                Erhaltungsgrad
+              </div>
+              <div className="mt-1 font-serif text-3xl text-ice text-aura md:text-4xl">
+                {selected}
+              </div>
+            </div>
+            <div className="text-right text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+              {selectedDist.pct}% Anteil
+            </div>
+          </div>
+          <div className="mt-5 grid grid-cols-2 gap-x-5 gap-y-5 border-t border-border/40 pt-5 md:grid-cols-4">
+            <SummaryCell label="Auktionsergebnisse" value={String(selectedDist.count)} />
+            <SummaryCell label="Durchschnittspreis" value={avg ? fmt(avg) : "—"} />
+            <SummaryCell label="Höchstes Ergebnis" value={highest ? highest.price : "—"} />
+            <SummaryCell label="Letztes Ergebnis" value={last ? `${last.price} · ${last.date}` : "—"} />
+          </div>
+          {selectedAuctions.length === 0 && (
+            <p className="mt-4 text-[12px] font-light italic text-muted-foreground">
+              Keine Einzelergebnisse in diesem Datensatz hinterlegt — Anteil basiert auf der aggregierten Erhaltungsverteilung.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
+
 
 function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
   const allGrades = data.map((d) => d.grade);
