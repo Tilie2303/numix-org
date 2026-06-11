@@ -84,9 +84,9 @@ function Landing() {
           <img
             src={numixLogo.url}
             alt="NUMIX"
-            className="h-7 w-auto opacity-90"
+            className="h-14 w-auto opacity-90 md:h-[68px]"
           />
-          <span className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">By invitation</span>
+          <span className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground">Registration / Log in</span>
         </div>
       </footer>
     </div>
