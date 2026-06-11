@@ -76,6 +76,28 @@ type Coin = {
 };
 
 
+const DE_MAP: Record<string, string> = {
+  // Rarity
+  Rare: "Selten",
+  Iconic: "Ikonisch",
+  Common: "Häufig",
+  Scarce: "Knapp",
+  // Demand
+  Strong: "Stark",
+  Steady: "Stetig",
+  Soft: "Schwach",
+  // Importance
+  High: "Hoch",
+  Foundational: "Grundlegend",
+  Moderate: "Moderat",
+  // Confidence
+  "High Confidence": "Hohe Datensicherheit",
+  "Moderate Confidence": "Moderate Datensicherheit",
+  "Emerging Data": "Aufkommende Daten",
+};
+const de = (v: string) => DE_MAP[v] ?? v;
+
+
 const COINS: Record<string, Coin> = {
   "davenport-747": {
     id: "davenport-747",
@@ -334,16 +356,16 @@ export const Route = createFileRoute("/coin/$id")({
   notFoundComponent: () => (
     <div className="flex min-h-screen items-center justify-center bg-background text-center">
       <div>
-        <div className="font-serif text-3xl">Not in the index yet.</div>
-        <Link to="/search" className="mt-6 inline-block text-ice">Return to search →</Link>
+        <div className="font-serif text-3xl">Noch nicht im Index erfasst.</div>
+        <Link to="/search" className="mt-6 inline-block text-ice">Zurück zur Suche →</Link>
       </div>
     </div>
   ),
   errorComponent: () => (
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="text-center">
-        <div className="font-serif text-2xl">Something interrupted the interpretation.</div>
-        <Link to="/" className="mt-6 inline-block text-ice">Return home →</Link>
+        <div className="font-serif text-2xl">Die Interpretation wurde unterbrochen.</div>
+        <Link to="/" className="mt-6 inline-block text-ice">Zur Startseite →</Link>
       </div>
     </div>
   ),
@@ -352,13 +374,14 @@ export const Route = createFileRoute("/coin/$id")({
 type DeepTab = "analysis" | "market" | "references" | "population" | "provenance" | "expert";
 
 const DEEP_TABS: { id: DeepTab; label: string; caption: string }[] = [
-  { id: "analysis", label: "Analysis", caption: "Why this coin is what it is." },
-  { id: "market", label: "Market", caption: "Auction records and price behaviour." },
-  { id: "references", label: "References", caption: "Catalog citations." },
-  { id: "population", label: "Population", caption: "NGC, PCGS and known examples." },
-  { id: "provenance", label: "Provenance", caption: "Ownership lineage." },
-  { id: "expert", label: "Expert", caption: "Die studies, variants, literature." },
+  { id: "analysis", label: "Analyse", caption: "Warum diese Münze ist, was sie ist." },
+  { id: "market", label: "Markt", caption: "Auktionsergebnisse und Preisverhalten." },
+  { id: "references", label: "Referenzen", caption: "Katalogzitate." },
+  { id: "population", label: "Populationen", caption: "NGC, PCGS und bekannte Exemplare." },
+  { id: "provenance", label: "Provenienz", caption: "Eigentumshistorie." },
+  { id: "expert", label: "Expertenanalyse", caption: "Stempelstudien, Varianten, Literatur." },
 ];
+
 
 function CoinPage() {
   const coin = Route.useLoaderData();
@@ -382,7 +405,7 @@ function CoinPage() {
           className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-muted-foreground transition hover:text-ice md:text-xs md:tracking-[0.22em]"
         >
           <ArrowLeft className="size-3" strokeWidth={1.5} />
-          Search
+          Suche
         </Link>
 
         {/* HERO — coin as the product */}
@@ -412,21 +435,22 @@ function CoinPage() {
             {coin.specs && (
               <div className="mt-7 border-t border-border/40 pt-6 md:mt-8 md:pt-7">
                 <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
-                  Coin Information
+                  Münzinformationen
                 </div>
                 <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 md:grid-cols-3 md:gap-x-6 md:gap-y-5">
-                  {coin.specs.metal && <Spec label="Metal" value={coin.specs.metal} />}
-                  {coin.specs.weight && <Spec label="Weight" value={coin.specs.weight} />}
-                  {coin.specs.diameter && <Spec label="Diameter" value={coin.specs.diameter} />}
-                  {coin.specs.mint && <Spec label="Mint" value={coin.specs.mint} />}
-                  {coin.specs.mintYears && <Spec label="Mint Years" value={coin.specs.mintYears} />}
+                  {coin.specs.metal && <Spec label="Metall" value={coin.specs.metal} />}
+                  {coin.specs.weight && <Spec label="Gewicht" value={coin.specs.weight} />}
+                  {coin.specs.diameter && <Spec label="Durchmesser" value={coin.specs.diameter} />}
+                  {coin.specs.mint && <Spec label="Münzstätte" value={coin.specs.mint} />}
+                  {coin.specs.mintYears && <Spec label="Prägejahre" value={coin.specs.mintYears} />}
                   {coin.references[0] && (
                     <Spec
-                      label="Catalog Ref."
+                      label="Katalogreferenz"
                       value={`${coin.references[0].catalog} ${coin.references[0].ref}`}
                     />
                   )}
                 </dl>
+
               </div>
             )}
 
@@ -435,22 +459,23 @@ function CoinPage() {
             {/* Insights — the 5-second understanding */}
             <div className="mt-9 border-t border-border/40 pt-7 md:mt-10 md:pt-8">
               <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
-                Insights
+                Erkenntnisse
               </div>
               <div className="mt-6 grid grid-cols-2 gap-x-5 gap-y-6 md:gap-x-6 md:gap-y-7">
-                <Verdict label="Estimated Value" value={coin.value.low} sub={`– ${coin.value.high}`} />
-                <Verdict label="Rarity" value={coin.rarity} />
-                <Verdict label="Collector Demand" value={coin.demand} />
-                <Verdict label="Historical Importance" value={coin.importance} />
+                <Verdict label="Geschätzter Wert" value={coin.value.low} sub={`– ${coin.value.high}`} />
+                <Verdict label="Seltenheit" value={de(coin.rarity)} />
+                <Verdict label="Sammlernachfrage" value={de(coin.demand)} />
+                <Verdict label="Historische Bedeutung" value={de(coin.importance)} />
               </div>
               <div className="mt-6 border-t border-border/40 pt-6 md:mt-7 md:pt-7">
                 <div className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground md:text-[10px] md:tracking-[0.22em]">
-                  Confidence
+                  Datensicherheit
                 </div>
                 <div className="mt-2 font-serif text-xl leading-tight text-ice text-aura md:text-3xl">
-                  {coin.confidence}
+                  {de(coin.confidence)}
                 </div>
               </div>
+
             </div>
           </div>
         </section>
@@ -459,10 +484,10 @@ function CoinPage() {
         <section className="mt-20 grid gap-8 md:mt-32 md:grid-cols-[260px_1fr] md:gap-16">
           <div>
             <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
-              Analysis
+              Analyse
             </div>
             <div className="mt-3 font-serif text-2xl text-foreground md:text-4xl">
-              Understand the rarity.
+              Seltenheit verstehen.
             </div>
           </div>
           <div className="max-w-2xl">
@@ -470,7 +495,7 @@ function CoinPage() {
               {coin.reasoning.importance}
             </p>
             <p className="mt-5 text-[13px] font-light leading-[1.75] text-muted-foreground md:mt-6 md:text-sm">
-              Reasoning, market data, references, population, provenance and expert research are kept out of sight until you ask for them.
+              Begründung, Marktdaten, Referenzen, Populationen, Provenienz und Expertenanalyse bleiben verborgen, bis sie angefragt werden.
             </p>
           </div>
         </section>
@@ -484,15 +509,16 @@ function CoinPage() {
             <div className="grid items-center gap-5 px-6 py-7 md:grid-cols-[1fr_auto] md:gap-6 md:px-10 md:py-9">
               <div>
                 <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
-                  Six layers of depth
+                  Sechs Ebenen der Tiefe
                 </div>
                 <div className="mt-2 font-serif text-2xl text-foreground transition group-hover:text-ice md:text-4xl">
-                  Explore Deeper
+                  Tiefer erkunden
                 </div>
                 <div className="mt-3 text-[13px] font-light leading-[1.6] text-muted-foreground md:text-sm">
-                  Analysis · Market · References · Population · Provenance · Expert
+                  Analyse · Markt · Referenzen · Populationen · Provenienz · Expertenanalyse
                 </div>
               </div>
+
               <div className="flex size-12 items-center justify-center rounded-full border border-ice/30 text-ice transition group-hover:border-ice group-hover:bg-ice/10 md:size-14">
                 <ArrowRight className="size-5" strokeWidth={1.25} />
               </div>
@@ -538,7 +564,8 @@ function DeepSheet({
             <div className="flex items-baseline justify-between gap-4">
               <div>
                 <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-                  Deeper
+                  Tiefer
+
                 </div>
                 <div className="mt-1 font-serif text-2xl text-foreground md:text-3xl">
                   {coin.title}
@@ -581,10 +608,11 @@ function DeepSheet({
 
               {tab === "analysis" && (
                 <div className="space-y-10">
-                  <Paragraph title="Why this coin is rare" body={coin.reasoning.rarity} />
-                  <Paragraph title="Why we estimate this value" body={coin.reasoning.value} />
-                  <Paragraph title="Why demand is strong" body={coin.reasoning.demand} />
-                  <Paragraph title="Why this coin matters" body={coin.reasoning.importance} />
+                  <Paragraph title="Warum diese Münze selten ist" body={coin.reasoning.rarity} />
+                  <Paragraph title="Wie sich der Schätzwert begründet" body={coin.reasoning.value} />
+                  <Paragraph title="Warum die Nachfrage stark ist" body={coin.reasoning.demand} />
+                  <Paragraph title="Warum diese Münze bedeutsam ist" body={coin.reasoning.importance} />
+
                 </div>
               )}
 
@@ -725,7 +753,7 @@ function gradeTier(grade: string): GradeTier {
 const TIER_META: Record<GradeTier, { color: string; label: string; r: number }> = {
   top: { color: "oklch(0.78 0.11 238)", label: "MS · Mint State", r: 6 },
   mid: { color: "oklch(0.78 0.01 250)", label: "AU · About Uncirculated", r: 5 },
-  base: { color: "oklch(0.48 0.005 250)", label: "VF and below", r: 4 },
+  base: { color: "oklch(0.48 0.005 250)", label: "VF und darunter", r: 4 },
 };
 
 function InsightCard({
@@ -863,7 +891,7 @@ function MarketSection({ coin }: { coin: Coin }) {
   };
 
   const formatPrice = (n: number) =>
-    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
+    new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(n);
 
   const estimateFor = (priceNum: number) =>
     Math.round(priceNum / 1.08 / 50) * 50;
@@ -871,120 +899,120 @@ function MarketSection({ coin }: { coin: Coin }) {
   // y-axis ticks
   const ticks = [min, min + range / 2, max];
 
+  const windowDE = coin.market.trend.window.replace(/\s*mo\b/i, " Monate").replace(/\s*yr\b/i, " Jahre");
+  const premiumDE = coin.market.activity.medianPremium
+    .replace(/over estimate/i, "über Schätzung")
+    .replace(/below estimate/i, "unter Schätzung");
+  const premiumPctMatch = premiumDE.match(/[+-]?\d+%/);
+  const premiumPct = premiumPctMatch ? premiumPctMatch[0] : premiumDE;
+
   return (
     <div className="space-y-14">
-      {/* MARKET INTELLIGENCE — interpretation first */}
+      {/* MARKTANALYSE — Befund zuerst */}
       <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-7 md:px-8 md:py-8">
         <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-          Market Intelligence
+          Marktanalyse
         </div>
         <p className="mt-4 font-serif text-lg italic leading-[1.55] text-foreground/90 md:text-2xl">
           {coin.market.trend.direction === "up"
-            ? `Prices have risen ${coin.market.trend.pct} over the last ${coin.market.trend.window}.`
+            ? `Realisationen ${coin.market.trend.pct} über ${windowDE}.`
             : coin.market.trend.direction === "down"
-            ? `Prices have softened ${coin.market.trend.pct} over the last ${coin.market.trend.window}.`
-            : `Prices have held steady across the last ${coin.market.trend.window}.`}
+            ? `Realisationen ${coin.market.trend.pct} über ${windowDE}.`
+            : `Preisniveau über ${windowDE} stabil.`}
         </p>
         <ul className="mt-4 space-y-2 text-[13px] font-light leading-[1.7] text-muted-foreground md:text-sm">
-          <li>· High-grade examples (MS and finer) consistently command a meaningful premium.</li>
-          <li>
-            · Recent activity is healthy — {coin.market.activity.lots12m} auction
-            appearances in the last 12 months at a {coin.market.activity.sellThrough} sell-through.
-          </li>
-          <li>
-            · Realised prices land {coin.market.activity.medianPremium.toLowerCase()},
-            indicating sustained competition among advanced collectors.
-          </li>
+          <li>· {coin.market.activity.lots12m} dokumentierte Auktionsergebnisse in den letzten 12 Monaten.</li>
+          <li>· Verkaufsquote {coin.market.activity.sellThrough}.</li>
+          <li>· Durchschnittlich {premiumPct} {premiumPctMatch && premiumPctMatch[0].startsWith("-") ? "unter" : "über"} Schätzung realisiert.</li>
         </ul>
       </div>
 
-      {/* MARKET SUMMARY — understanding before evidence */}
+      {/* MARKTKENNZAHLEN */}
       {coin.market.summary && (
         <div>
           <div className="mb-5 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            Market Summary
+            Marktkennzahlen
           </div>
           <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-5">
-            <SummaryCell label="Appearances" value={String(coin.market.summary.totalAppearances)} />
-            <SummaryCell label="Median Price" value={coin.market.summary.medianPrice} />
-            <SummaryCell label="Highest Result" value={coin.market.summary.highestResult} />
-            <SummaryCell label="Lowest Result" value={coin.market.summary.lowestResult} />
-            <SummaryCell label="Most Common Grade" value={coin.market.summary.mostCommonGrade} />
+            <SummaryCell label="Auktionsergebnisse" value={String(coin.market.summary.totalAppearances)} />
+            <SummaryCell label="Medianpreis" value={coin.market.summary.medianPrice} />
+            <SummaryCell label="Höchstes Ergebnis" value={coin.market.summary.highestResult} />
+            <SummaryCell label="Niedrigstes Ergebnis" value={coin.market.summary.lowestResult} />
+            <SummaryCell label="Häufigster Erhaltungsgrad" value={coin.market.summary.mostCommonGrade} />
           </div>
         </div>
       )}
 
-      {/* GRADE DISTRIBUTION */}
+      {/* ERHALTUNGSVERTEILUNG */}
       {coin.market.gradeDistribution && (
-        <GradeDistributionChart data={coin.market.gradeDistribution} />
+        <GradeDistributionChart data={coin.market.gradeDistribution} auctions={coin.market.auctions} />
+
       )}
 
-      {/* ESTIMATED VALUE BY GRADE */}
+      {/* SCHÄTZWERT NACH ERHALTUNGSGRAD */}
       {coin.market.estimatedByGrade && (
         <EstimatedByGradeChart data={coin.market.estimatedByGrade} />
       )}
 
-      {/* INDICATORS */}
+      {/* INDIKATOREN */}
       <div className="grid gap-px overflow-hidden rounded-xl border border-border/40 bg-border/40 md:grid-cols-3">
         <Stat
-          label="Market Momentum"
+          label="Marktentwicklung"
           value={
             <span className="inline-flex items-center gap-2">
               <TrendIcon className="size-5" strokeWidth={1.5} />
               {coin.market.trend.pct}
             </span>
           }
-          sub={`Trend over ${coin.market.trend.window}`}
+          sub={`Trend über ${windowDE}`}
         />
         <Stat
-          label="Market Activity"
+          label="Marktaktivität"
           value={String(coin.market.activity.lots12m)}
-          sub={`Auction appearances in last 12 mo · ${coin.market.activity.sellThrough} sold`}
+          sub={`Auktionsergebnisse in den letzten 12 Monaten · ${coin.market.activity.sellThrough} Verkaufsquote`}
         />
         <Stat
-          label="Auction Performance"
-          value={coin.market.activity.medianPremium}
-          sub="Median result vs. auction estimate"
+          label="Zuschlagsverhalten"
+          value={premiumPct}
+          sub={`Median Realisation vs. Schätzung`}
         />
       </div>
 
-      {/* PRICE HISTORY — numismatic auction chart */}
+      {/* AUKTIONSVERHALTEN */}
       <div>
         <InsightCard
-          kicker="Auction Behaviour"
+          kicker="Auktionsverhalten"
           title={
             coin.market.trend.direction === "up"
-              ? "Market is strengthening"
+              ? "Markt zieht an"
               : coin.market.trend.direction === "down"
-                ? "Market is softening"
-                : "Market is holding steady"
+                ? "Markt gibt nach"
+                : "Markt bleibt stabil"
           }
           headline={
             <>
               {coin.market.trend.pct}{" "}
               <span className="text-foreground/70">
-                across {coin.market.trend.window}
+                über {windowDE}
               </span>
             </>
           }
           body={
             <>
-              {coin.market.activity.lots12m} sales recorded in the last 12 months
-              at {coin.market.activity.sellThrough} sell-through, landing{" "}
-              {coin.market.activity.medianPremium.toLowerCase()}. Tap any point on
-              the chart to inspect the underlying sale — auction house, grade,
-              realised price and premium versus estimate.
+              {coin.market.activity.lots12m} Auktionsergebnisse in den letzten 12 Monaten · {coin.market.activity.sellThrough} Verkaufsquote · durchschnittlich {premiumPct} {premiumPctMatch && premiumPctMatch[0].startsWith("-") ? "unter" : "über"} Schätzung.
             </>
           }
         />
+
         <div className="mb-2 flex items-baseline justify-between">
           <div>
             <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Auction Record
+              Auktionsverlauf
             </div>
             <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-              Each point is a real sale. Color reflects grade. Tap to inspect.
+              Jeder Punkt ist ein dokumentiertes Auktionsergebnis. Farbe nach Erhaltungsgrad. Anklicken für Details.
             </div>
+
           </div>
           <div className="hidden font-serif text-sm italic text-muted-foreground md:block">
             {chrono[0].a.date} → {chrono[chrono.length - 1].a.date}
@@ -1133,7 +1161,7 @@ function MarketSection({ coin }: { coin: Coin }) {
 
         {/* Interactive filters */}
         <FilterChips
-          label="Grade"
+          label="Erhaltung"
           options={allTiers.map<ChipOption>((t) => ({
             key: t,
             label: TIER_META[t].label.split(" ")[0],
@@ -1145,10 +1173,10 @@ function MarketSection({ coin }: { coin: Coin }) {
             setActiveTiers((s) => toggle(s, k as GradeTier, allTiers))
           }
           onAll={() => setActiveTiers(new Set(allTiers))}
-          totalLabel={`${coin.market.auctions.filter(isAuctionVisible).length} of ${coin.market.auctions.length} visible`}
+          totalLabel={`${coin.market.auctions.filter(isAuctionVisible).length} von ${coin.market.auctions.length} sichtbar`}
         />
         <FilterChips
-          label="House"
+          label="Auktionshaus"
           options={allHouses.map<ChipOption>((h) => ({
             key: h,
             label: h,
@@ -1158,13 +1186,14 @@ function MarketSection({ coin }: { coin: Coin }) {
           onToggle={(k) => setActiveHouses((s) => toggle(s, k, allHouses))}
           onAll={() => setActiveHouses(new Set(allHouses))}
         />
+
       </div>
 
       {/* RECENT SALES — connected to chart */}
       <div>
         <div className="mb-5 flex items-baseline justify-between">
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Recent sales
+            Letzte Verkäufe
           </div>
           {activeAuctionIndex !== null && (
             <button
@@ -1174,18 +1203,19 @@ function MarketSection({ coin }: { coin: Coin }) {
               }}
               className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition hover:text-ice"
             >
-              Clear selection
+              Auswahl zurücksetzen
             </button>
           )}
         </div>
         <div className="divide-y divide-border/40">
           <div className="hidden grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1fr] gap-4 pb-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:grid">
-            <div>Auction house</div>
-            <div>Date</div>
-            <div>Grade</div>
-            <div>Lot</div>
-            <div className="text-right">Result</div>
+            <div>Auktionshaus</div>
+            <div>Datum</div>
+            <div>Erhaltung</div>
+            <div>Los</div>
+            <div className="text-right">Ergebnis</div>
           </div>
+
           {coin.market.auctions.map((a, i) => {
             const tier = gradeTier(a.grade);
             const isActive = activeAuctionIndex === i;
@@ -1221,7 +1251,7 @@ function MarketSection({ coin }: { coin: Coin }) {
                   {a.date}
                 </div>
                 <div className="order-4 col-span-2 text-xs text-muted-foreground md:order-none md:col-span-1 md:text-sm">
-                  <span className="md:hidden">Grade · </span>
+                  <span className="md:hidden">Erhaltung · </span>
                   {a.grade}
                 </div>
                 <div className="order-5 col-span-2 hidden text-sm text-muted-foreground md:block">
@@ -1291,17 +1321,18 @@ function FloatingAuctionCard({
         </div>
         <div className="mt-1 font-serif text-2xl text-ice">{point.a.price}</div>
         <div className="mt-1 flex items-baseline justify-between text-xs font-light text-muted-foreground">
-          <span>Estimate €{new Intl.NumberFormat("en-US").format(estimate)}</span>
+          <span>Schätzung €{new Intl.NumberFormat("de-DE").format(estimate)}</span>
           <PremiumBadge price={point.a.priceNum} estimate={estimate} />
         </div>
         <div className="mt-3 grid grid-cols-2 gap-3 border-t border-border/40 pt-3">
-          <Detail label="Sale date" value={point.a.date} />
-          <Detail label="Grade" value={point.a.grade} />
-          {point.a.lot && <Detail label="Lot" value={`#${point.a.lot}`} />}
+          <Detail label="Verkaufsdatum" value={point.a.date} />
+          <Detail label="Erhaltung" value={point.a.grade} />
+          {point.a.lot && <Detail label="Los" value={`#${point.a.lot}`} />}
         </div>
         <div className="mt-3 border-t border-border/40 pt-3 text-[10px] uppercase tracking-[0.22em] text-aura/80">
-          View auction record →
+          Auktionslos ansehen →
         </div>
+
       </div>
 
     </div>
@@ -1317,26 +1348,27 @@ function AuctionDetail({ record, estimate }: { record: AuctionRecord; estimate: 
       </div>
       <div className="mt-2 font-serif text-4xl text-ice">{record.price}</div>
       <div className="mt-1 flex items-baseline justify-between text-sm font-light text-muted-foreground">
-        <span>Estimate €{new Intl.NumberFormat("en-US").format(estimate)}</span>
+        <span>Schätzung €{new Intl.NumberFormat("de-DE").format(estimate)}</span>
         <PremiumBadge price={record.priceNum} estimate={estimate} />
       </div>
       <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border/40 pt-5">
-        <Detail label="Sale date" value={record.date} />
-        <Detail label="Grade" value={record.grade} />
-        {record.lot && <Detail label="Lot" value={`#${record.lot}`} />}
+        <Detail label="Verkaufsdatum" value={record.date} />
+        <Detail label="Erhaltung" value={record.grade} />
+        {record.lot && <Detail label="Los" value={`#${record.lot}`} />}
         <Detail
-          label="Premium vs estimate"
+          label="Differenz zur Schätzung"
           value={`${record.priceNum >= estimate ? "+" : ""}${Math.round(((record.priceNum - estimate) / estimate) * 100)}%`}
         />
       </div>
       <div className="mt-6 flex gap-3">
         <button className="flex-1 rounded-md border border-ice/40 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-ice transition hover:bg-ice/10">
-          View Auction Record
+          Auktionslos ansehen
         </button>
         <button className="flex-1 rounded-md border border-border/60 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-ice/40 hover:text-ice">
-          View Images
+          Abbildungen ansehen
         </button>
       </div>
+
     </div>
   );
 }
@@ -1353,7 +1385,7 @@ function PremiumBadge({ price, estimate }: { price: number; estimate: number }) 
       }`}
     >
       {positive ? "+" : ""}
-      {pct}% vs est
+      {pct}% vs. Schätzung
     </span>
   );
 }
@@ -1406,35 +1438,35 @@ function PopulationSection({ coin }: { coin: Coin }) {
       {knownExamples !== undefined && (
         <div>
           <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            Known Examples
+            Bekannte Exemplare
           </div>
           <div className="mt-5 font-serif text-7xl leading-none text-ice text-aura md:text-8xl">
             {knownExamples}
           </div>
           <p className="mt-6 max-w-xl font-serif text-lg italic leading-[1.6] text-muted-foreground md:text-xl">
-            Across grading services, auction records and documented collections.
-            High-grade survivors remain materially scarcer than the headline figure suggests.
+            Aggregiert aus Zertifizierungsdiensten, Auktionsergebnissen und dokumentierten Sammlungen.
+            Exemplare in hohen Erhaltungsgraden bleiben deutlich seltener als die Gesamtzahl vermuten lässt.
           </p>
         </div>
       )}
 
-      {/* FINEST KNOWN — second insight */}
+      {/* HÖCHSTBEKANNTER ERHALTUNGSGRAD */}
       <div className="border-t border-border/30 pt-10">
         <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-          Finest Known
+          Höchstbekannter Erhaltungsgrad
         </div>
         <div className="mt-4 flex items-baseline gap-5">
           <div className="font-serif text-5xl text-ice md:text-6xl">{finest.grade}</div>
           <div className="text-sm font-light text-muted-foreground">
-            {finest.count} example{finest.count === 1 ? "" : "s"} at the highest recorded grade
+            {finest.count} Exemplar{finest.count === 1 ? "" : "e"} im höchsten dokumentierten Erhaltungsgrad
           </div>
         </div>
       </div>
 
-      {/* GRADING SERVICES — structured evidence */}
+      {/* ZERTIFIZIERUNGSDIENSTE */}
       <div className="border-t border-border/30 pt-10">
         <div className="mb-6 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-          Grading Services
+          Zertifizierungsdienste
         </div>
         <div className="grid gap-5 md:grid-cols-2">
           <PopCard service="NGC" graded={ngc.graded} top={ngc.topGrade} finer={ngc.finer} />
@@ -1442,24 +1474,25 @@ function PopulationSection({ coin }: { coin: Coin }) {
         </div>
       </div>
 
-      {/* TOP CENSUS */}
+      {/* TOP-ZENSUS */}
       {coin.population.topCensus && coin.population.topCensus.length > 0 && (
         <div className="border-t border-border/30 pt-10">
           <div className="mb-5 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            Top Census
+            Top-Zensus
           </div>
           <ul className="divide-y divide-border/40 border-y border-border/40">
             {coin.population.topCensus.map((c, i) => (
               <li key={i} className="flex items-baseline justify-between gap-6 py-3">
                 <span className="font-serif text-lg text-foreground">{c.grade}</span>
                 <span className="text-sm text-muted-foreground">
-                  {c.count} example{c.count === 1 ? "" : "s"}
+                  {c.count} Exemplar{c.count === 1 ? "" : "e"}
                 </span>
               </li>
             ))}
           </ul>
         </div>
       )}
+
     </div>
   );
 }
@@ -1479,19 +1512,20 @@ function PopCard({
     <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-6">
       <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">{service}</div>
       <div className="mt-3 font-serif text-4xl text-foreground">{graded}</div>
-      <div className="mt-1 text-xs font-light text-muted-foreground">Total certified</div>
+      <div className="mt-1 text-xs font-light text-muted-foreground">Insgesamt zertifiziert</div>
       <div className="mt-5 flex items-baseline justify-between border-t border-border/40 pt-4">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Finest
+            Höchster Grad
           </div>
           <div className="mt-1 font-serif text-2xl text-ice">{top}</div>
         </div>
         <div className="text-right">
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            At finest
+            Anzahl im höchsten Grad
           </div>
           <div className="mt-1 font-serif text-2xl text-foreground">{finer}</div>
+
         </div>
       </div>
     </div>
@@ -1502,12 +1536,13 @@ function PopCard({
 function ExpertSection({ coin }: { coin: Coin }) {
   const [tab, setTab] = useState<"dies" | "variants" | "literature" | "comparatives" | "notes">("dies");
   const tabs = [
-    { id: "dies" as const, label: "Die studies" },
-    { id: "variants" as const, label: "Variants" },
-    { id: "literature" as const, label: "Literature" },
-    { id: "comparatives" as const, label: "Comparative examples" },
-    { id: "notes" as const, label: "Specialist notes" },
+    { id: "dies" as const, label: "Stempelstudien" },
+    { id: "variants" as const, label: "Varianten" },
+    { id: "literature" as const, label: "Literatur" },
+    { id: "comparatives" as const, label: "Vergleichsstücke" },
+    { id: "notes" as const, label: "Fachhinweise" },
   ];
+
   return (
     <div>
       <div className="flex flex-wrap gap-x-6 gap-y-2 border-b border-border/40 pb-3">
@@ -1568,9 +1603,10 @@ function ExpertSection({ coin }: { coin: Coin }) {
             </ul>
           ) : (
             <p className="max-w-2xl font-serif text-base italic text-muted-foreground">
-              Comparable specimens are being indexed.
+              Vergleichsstücke werden noch indexiert.
             </p>
           )
+
         )}
         {tab === "notes" && (
           <p className="max-w-2xl font-serif text-lg leading-[1.7] text-foreground/90">
@@ -1591,44 +1627,77 @@ function SummaryCell({ label, value }: { label: string; value: string }) {
   );
 }
 
-function GradeDistributionChart({ data }: { data: GradeDist[] }) {
-  const allGrades = data.map((d) => d.grade);
-  const [active, setActive] = useState<Set<string>>(new Set(allGrades));
+function GradeDistributionChart({ data, auctions }: { data: GradeDist[]; auctions: AuctionRecord[] }) {
+  const [selected, setSelected] = useState<string | null>(null);
   const max = Math.max(...data.map((d) => d.pct));
-  const toggle = (g: string) => {
-    setActive((s) => {
-      const next = new Set(s);
-      if (next.has(g)) next.delete(g);
-      else next.add(g);
-      return next.size === 0 ? new Set(allGrades) : next;
-    });
-  };
-  const dom = dominantTier(data);
-  const highest = data[data.length - 1];
+
+  // Häufigster / Seltenster Erhaltungsgrad
+  const sortedByPct = [...data].sort((a, b) => b.pct - a.pct);
+  const mostCommon = sortedByPct[0];
+  const rarest = sortedByPct[sortedByPct.length - 1];
+
+  // Typischer Marktbereich = zusammenhängender Bereich um den Median, der ≥50% der Ergebnisse abdeckt
+  const total = data.reduce((s, d) => s + d.pct, 0);
+  let typicalRange = `${mostCommon.grade}`;
+  let typicalShare = mostCommon.pct;
+  {
+    const peakIdx = data.findIndex((d) => d.grade === mostCommon.grade);
+    let lo = peakIdx, hi = peakIdx, acc = data[peakIdx].pct;
+    while (acc / total < 0.5 && (lo > 0 || hi < data.length - 1)) {
+      const leftPct = lo > 0 ? data[lo - 1].pct : -1;
+      const rightPct = hi < data.length - 1 ? data[hi + 1].pct : -1;
+      if (rightPct >= leftPct && hi < data.length - 1) {
+        hi++;
+        acc += data[hi].pct;
+      } else if (lo > 0) {
+        lo--;
+        acc += data[lo].pct;
+      } else break;
+    }
+    typicalRange = lo === hi ? data[lo].grade : `${data[lo].grade}–${data[hi].grade}`;
+    typicalShare = Math.round(acc);
+  }
+  const typicalTier = TIER_META[gradeTier(data[Math.floor((data.findIndex(d=>d.grade===mostCommon.grade)))].grade)].label;
+
+  // Detail-Daten für gewähltes Grade
+  const selectedAuctions = selected ? auctions.filter((a) => a.grade === selected) : [];
+  const selectedDist = selected ? data.find((d) => d.grade === selected) : null;
+  const avg = selectedAuctions.length
+    ? Math.round(selectedAuctions.reduce((s, a) => s + a.priceNum, 0) / selectedAuctions.length)
+    : 0;
+  const highest = selectedAuctions.length
+    ? selectedAuctions.reduce((m, a) => (a.priceNum > m.priceNum ? a : m), selectedAuctions[0])
+    : null;
+  const last = selectedAuctions[0] ?? null; // erstes Element ist neueste
+  const fmt = (n: number) => `€${new Intl.NumberFormat("de-DE").format(n)}`;
+
   return (
     <div>
-      <div className="mb-5 grid gap-4 md:grid-cols-2">
+      <div className="mb-5 grid gap-4 md:grid-cols-3">
         <InsightCard
-          kicker="Insight"
-          title="Most common grade range"
-          headline={dom.range}
+          kicker="Befund"
+          title="Häufigster Erhaltungsgrad"
+          headline={mostCommon.grade}
+          body={<>{mostCommon.pct}% aller dokumentierten Auktionsergebnisse.</>}
+        />
+        <InsightCard
+          kicker="Befund"
+          title="Seltenster dokumentierter Erhaltungsgrad"
+          headline={rarest.grade}
           body={
             <>
-              {dom.pct}% of all recorded auction appearances fall within the{" "}
-              {dom.label.toLowerCase()} band. These are the grades collectors
-              encounter most often on the open market.
+              Nur {rarest.count} dokumentierte{rarest.count === 1 ? "s" : ""} Auktionsergebnis
+              {rarest.count === 1 ? "" : "se"}.
             </>
           }
         />
         <InsightCard
-          kicker="Insight"
-          title="Highest recorded grade"
-          headline={highest.grade}
+          kicker="Befund"
+          title="Typischer Marktbereich"
+          headline={typicalRange}
           body={
             <>
-              Only {highest.count} example
-              {highest.count === 1 ? " has" : "s have"} appeared in the auction
-              record at this grade — a meaningful indicator of condition rarity.
+              {typicalShare}% aller dokumentierten Exemplare im Bereich {typicalTier}.
             </>
           }
         />
@@ -1636,33 +1705,44 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
       <div className="mb-2 flex items-baseline justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Grade Distribution
+            Erhaltungsverteilung
           </div>
           <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-            Evidence · share of recorded auction appearances by grade.
+            Anteil der dokumentierten Auktionsergebnisse je Erhaltungsgrad. Anklicken für Detailauswertung.
           </div>
         </div>
+        {selected && (
+          <button
+            onClick={() => setSelected(null)}
+            className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition hover:text-ice"
+          >
+            Auswahl zurücksetzen
+          </button>
+        )}
       </div>
 
       <div className="rounded-xl border border-border/40 bg-card/30 p-5 md:p-6">
         <div className="grid grid-cols-1 gap-3">
           {data.map((d, i) => {
             const w = Math.max((d.pct / max) * 100, 2);
-            const on = active.has(d.grade);
+            const isSel = selected === d.grade;
             return (
-              <div
+              <button
                 key={i}
-                className="grid grid-cols-[60px_1fr_72px] items-center gap-4"
-                style={{ opacity: on ? 1 : 0.25, transition: "opacity 280ms ease" }}
+                onClick={() => setSelected((s) => (s === d.grade ? null : d.grade))}
+                className={`grid w-full grid-cols-[60px_1fr_72px] items-center gap-4 rounded-md px-2 py-1 text-left transition ${
+                  isSel ? "bg-ice/[0.05]" : "hover:bg-card/40"
+                }`}
+                style={{ opacity: selected && !isSel ? 0.45 : 1, transition: "opacity 280ms ease" }}
               >
-                <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                <span className={`text-[11px] uppercase tracking-[0.22em] ${isSel ? "text-ice" : "text-muted-foreground"}`}>
                   {d.grade}
                 </span>
                 <div className="relative h-2 overflow-hidden rounded-full bg-border/40">
                   <div
                     className="absolute inset-y-0 left-0 rounded-full"
                     style={{
-                      width: on ? `${w}%` : "0%",
+                      width: `${w}%`,
                       background:
                         "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
                       transition: "width 480ms cubic-bezier(.22,.61,.36,1)",
@@ -1672,22 +1752,44 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
                 <span className="text-right font-serif text-sm text-foreground">
                   {d.pct}% · {d.count}
                 </span>
-              </div>
+              </button>
             );
           })}
         </div>
       </div>
-      <FilterChips
-        label="Grade"
-        options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade, count: d.count }))}
-        active={active}
-        onToggle={toggle}
-        onAll={() => setActive(new Set(allGrades))}
-        totalLabel={`${active.size} of ${allGrades.length} grades`}
-      />
+
+      {selected && selectedDist && (
+        <div className="mt-4 rounded-xl border border-ice/30 bg-card/40 px-5 py-5 md:px-6 md:py-6">
+          <div className="flex items-baseline justify-between">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.32em] text-aura/80">
+                Erhaltungsgrad
+              </div>
+              <div className="mt-1 font-serif text-3xl text-ice text-aura md:text-4xl">
+                {selected}
+              </div>
+            </div>
+            <div className="text-right text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+              {selectedDist.pct}% Anteil
+            </div>
+          </div>
+          <div className="mt-5 grid grid-cols-2 gap-x-5 gap-y-5 border-t border-border/40 pt-5 md:grid-cols-4">
+            <SummaryCell label="Auktionsergebnisse" value={String(selectedDist.count)} />
+            <SummaryCell label="Durchschnittspreis" value={avg ? fmt(avg) : "—"} />
+            <SummaryCell label="Höchstes Ergebnis" value={highest ? highest.price : "—"} />
+            <SummaryCell label="Letztes Ergebnis" value={last ? `${last.price} · ${last.date}` : "—"} />
+          </div>
+          {selectedAuctions.length === 0 && (
+            <p className="mt-4 text-[12px] font-light italic text-muted-foreground">
+              Keine Einzelergebnisse in diesem Datensatz hinterlegt — Anteil basiert auf der aggregierten Erhaltungsverteilung.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
+
 
 function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
   const allGrades = data.map((d) => d.grade);
@@ -1728,7 +1830,7 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
     .join(" ");
 
   const formatPrice = (n: number) =>
-    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
+    new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(n);
 
   const ticks = [0, Math.round(maxVal / 2), maxVal];
 
@@ -1736,34 +1838,33 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
   return (
     <div>
       <InsightCard
-        kicker="Insight"
-        title="Grade Premium Analysis"
+        kicker="Befund"
+        title="Werteinfluss des Erhaltungsgrades"
         headline={
           <>
             {prem.top.grade}{" "}
-            <span className="text-foreground/70">commands ~{prem.pct}% more</span>{" "}
-            than {prem.benchmark.grade}
+            <span className="text-foreground/70">erzielt rund {prem.pct}% höhere Ergebnisse als</span>{" "}
+            {prem.benchmark.grade}
           </>
         }
         body={
           <>
-            Value acceleration steepens noticeably once examples cross from
-            About Uncirculated into Mint State. A single grade upgrade in the
-            MS tier can shift the market value by several thousand euros — a
-            premium driven by genuine condition scarcity, not market hype.
+            Stärkster Wertanstieg oberhalb von AU58, mit deutlicher Beschleunigung im Mint-State-Bereich.
+            Eine einzelne Stufe innerhalb MS verschiebt das Marktniveau um mehrere tausend Euro.
           </>
         }
       />
       <div className="mb-2 flex items-baseline justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Estimated Value by Grade
+            Schätzwert nach Erhaltungsgrad
           </div>
           <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-            Evidence · estimate curve, 80% confidence interval, observed sales.
+            Schätzwertkurve, 80%-Konfidenzintervall und dokumentierte Auktionsergebnisse.
           </div>
         </div>
       </div>
+
 
       <div className="rounded-xl border border-border/40 bg-card/30 p-4">
         <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="h-64 w-full md:h-72">
@@ -1847,30 +1948,31 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
         </svg>
       </div>
       <FilterChips
-        label="Grade"
+        label="Erhaltung"
         options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade }))}
         active={active}
         onToggle={toggle}
         onAll={() => setActive(new Set(allGrades))}
-        totalLabel={`${active.size} of ${allGrades.length} grades`}
+        totalLabel={`${active.size} von ${allGrades.length} Erhaltungsgraden`}
       />
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         <span className="inline-flex items-center gap-2">
           <span className="inline-block h-0.5 w-5 bg-[oklch(0.78_0.11_238)]" />
-          Estimate curve
+          Schätzwertkurve
         </span>
         <span className="inline-flex items-center gap-2">
           <span
             className="inline-block h-2.5 w-3 rounded-sm"
             style={{ background: "oklch(0.72 0.12 240 / 0.25)" }}
           />
-          80% confidence
+          80%-Konfidenzintervall
         </span>
         <span className="inline-flex items-center gap-2">
           <span className="inline-block size-2 rounded-full bg-[oklch(0.78_0.11_238)]" />
-          Observed sales
+          Dokumentierte Ergebnisse
         </span>
       </div>
+
     </div>
   );
 }
