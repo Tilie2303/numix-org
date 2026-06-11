@@ -1248,41 +1248,73 @@ function PopulationSection({ coin }: { coin: Coin }) {
         </div>
       </div>
 
-      {/* GRADING SERVICES — supporting evidence, minimal */}
+      {/* GRADING SERVICES — structured evidence */}
       <div className="border-t border-border/30 pt-10">
         <div className="mb-6 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
           Grading Services
         </div>
-        <div className="space-y-6">
-          <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-            <div className="flex items-baseline gap-4">
-              <span className="w-12 text-sm font-medium text-foreground">NGC</span>
-              <span className="text-sm text-muted-foreground">{ngc.graded} Certified</span>
-            </div>
-            <div className="flex items-baseline gap-2 md:gap-3">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                Finest Known
-              </span>
-              <span className="font-serif text-xl text-ice">{ngc.topGrade}</span>
-            </div>
+        <div className="grid gap-5 md:grid-cols-2">
+          <PopCard service="NGC" graded={ngc.graded} top={ngc.topGrade} finer={ngc.finer} />
+          <PopCard service="PCGS" graded={pcgs.graded} top={pcgs.topGrade} finer={pcgs.finer} />
+        </div>
+      </div>
+
+      {/* TOP CENSUS */}
+      {coin.population.topCensus && coin.population.topCensus.length > 0 && (
+        <div className="border-t border-border/30 pt-10">
+          <div className="mb-5 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+            Top Census
           </div>
-          <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-            <div className="flex items-baseline gap-4">
-              <span className="w-12 text-sm font-medium text-foreground">PCGS</span>
-              <span className="text-sm text-muted-foreground">{pcgs.graded} Certified</span>
-            </div>
-            <div className="flex items-baseline gap-2 md:gap-3">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                Finest Known
-              </span>
-              <span className="font-serif text-xl text-ice">{pcgs.topGrade}</span>
-            </div>
+          <ul className="divide-y divide-border/40 border-y border-border/40">
+            {coin.population.topCensus.map((c, i) => (
+              <li key={i} className="flex items-baseline justify-between gap-6 py-3">
+                <span className="font-serif text-lg text-foreground">{c.grade}</span>
+                <span className="text-sm text-muted-foreground">
+                  {c.count} example{c.count === 1 ? "" : "s"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PopCard({
+  service,
+  graded,
+  top,
+  finer,
+}: {
+  service: string;
+  graded: number;
+  top: string;
+  finer: number;
+}) {
+  return (
+    <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-6">
+      <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">{service}</div>
+      <div className="mt-3 font-serif text-4xl text-foreground">{graded}</div>
+      <div className="mt-1 text-xs font-light text-muted-foreground">Total certified</div>
+      <div className="mt-5 flex items-baseline justify-between border-t border-border/40 pt-4">
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Finest
           </div>
+          <div className="mt-1 font-serif text-2xl text-ice">{top}</div>
+        </div>
+        <div className="text-right">
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            At finest
+          </div>
+          <div className="mt-1 font-serif text-2xl text-foreground">{finer}</div>
         </div>
       </div>
     </div>
   );
 }
+
 
 function ExpertSection({ coin }: { coin: Coin }) {
   const [tab, setTab] = useState<"dies" | "variants" | "literature" | "notes">("dies");
