@@ -459,22 +459,23 @@ function CoinPage() {
             {/* Insights — the 5-second understanding */}
             <div className="mt-9 border-t border-border/40 pt-7 md:mt-10 md:pt-8">
               <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
-                Insights
+                Erkenntnisse
               </div>
               <div className="mt-6 grid grid-cols-2 gap-x-5 gap-y-6 md:gap-x-6 md:gap-y-7">
-                <Verdict label="Estimated Value" value={coin.value.low} sub={`– ${coin.value.high}`} />
-                <Verdict label="Rarity" value={coin.rarity} />
-                <Verdict label="Collector Demand" value={coin.demand} />
-                <Verdict label="Historical Importance" value={coin.importance} />
+                <Verdict label="Geschätzter Wert" value={coin.value.low} sub={`– ${coin.value.high}`} />
+                <Verdict label="Seltenheit" value={de(coin.rarity)} />
+                <Verdict label="Sammlernachfrage" value={de(coin.demand)} />
+                <Verdict label="Historische Bedeutung" value={de(coin.importance)} />
               </div>
               <div className="mt-6 border-t border-border/40 pt-6 md:mt-7 md:pt-7">
                 <div className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground md:text-[10px] md:tracking-[0.22em]">
-                  Confidence
+                  Datensicherheit
                 </div>
                 <div className="mt-2 font-serif text-xl leading-tight text-ice text-aura md:text-3xl">
-                  {coin.confidence}
+                  {de(coin.confidence)}
                 </div>
               </div>
+
             </div>
           </div>
         </section>
