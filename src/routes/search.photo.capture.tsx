@@ -96,14 +96,14 @@ function CapturePage() {
           className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-muted-foreground transition hover:text-ice"
         >
           <ArrowLeft className="size-3.5" strokeWidth={1.5} />
-          Back
+          Zurück
         </Link>
 
         <h1 className="mt-6 font-serif text-4xl tracking-tight text-foreground md:text-5xl">
-          Capture the <span className="italic text-ice text-aura">coin.</span>
+          Münze <span className="italic text-ice text-aura">aufnehmen.</span>
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          Hold the piece flat under even light. Fill the circle with the obverse, then capture.
+          Halten Sie das Stück flach unter gleichmäßigem Licht. Füllen Sie den Kreis mit dem Avers — und lösen Sie aus.
         </p>
 
         <div className="mt-10 overflow-hidden rounded-3xl border border-border/60 bg-card/30 backdrop-blur-xl">
