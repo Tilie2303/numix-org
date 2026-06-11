@@ -171,7 +171,7 @@ const COINS: Record<string, Coin> = {
       ],
     },
     references: [
-      { catalog: "Davenport", ref: "747", note: "Primary reference" },
+      { catalog: "Davenport", ref: "747", note: "Primärreferenz" },
       { catalog: "Schnee", ref: "1006" },
       { catalog: "KM", ref: "#831" },
       { catalog: "Kahnt", ref: "298" },
