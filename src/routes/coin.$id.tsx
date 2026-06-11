@@ -111,21 +111,21 @@ const COINS: Record<string, Coin> = {
     importance: "High",
     confidence: "High Confidence",
     specs: {
-      metal: "Silver (.888, Leipzig standard)",
-      weight: "29.10 g",
+      metal: "Silber (.888, Leipziger Münzfuß)",
+      weight: "29,10 g",
       diameter: "42 mm",
       mint: "Dresden",
       mintYears: "1711",
     },
     reasoning: {
       rarity:
-        "Struck in limited numbers at the Dresden mint during a transitional reign, surviving specimens in collectable grade rarely exceed three figures worldwide.",
+        "In begrenzter Auflage in der Münzstätte Dresden während einer Übergangsregierung geprägt; weltweit überschreiten erhaltene Exemplare in sammelwürdiger Erhaltung selten die dreistellige Anzahl.",
       value:
-        "Recent results across four major European auctions cluster tightly between €4,800 and €6,200 for comparable grade, with little dispersion — a sign of a mature, confident market.",
+        "Jüngste Ergebnisse aus vier großen europäischen Auktionen liegen für vergleichbare Erhaltungsgrade eng zwischen 4.800 € und 6.200 € — ein Zeichen für einen gereiften, gefestigten Markt.",
       demand:
-        "Saxon thalers of this period remain a cornerstone of German numismatics. Demand from Central European collectors has steadied prices through the last three sale cycles.",
+        "Sächsische Taler dieser Periode bleiben ein Eckpfeiler der deutschen Numismatik. Die Nachfrage mitteleuropäischer Sammler hat die Preise über die letzten drei Verkaufszyklen stabilisiert.",
       importance:
-        "Friedrich August I — known as August the Strong — reshaped Saxon coinage and the Dresden mint itself. His thalers carry both monetary and historical weight.",
+        "Friedrich August I. — bekannt als August der Starke — formte das sächsische Münzwesen und die Dresdner Münzstätte neu. Seine Taler tragen sowohl monetäres als auch historisches Gewicht.",
     },
     market: {
       auctions: [
