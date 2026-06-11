@@ -1628,43 +1628,58 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
           <polygon points={`${areaTop} ${areaBottom}`} fill="url(#ciFill)" />
           <path d={linePath} fill="none" stroke="oklch(0.78 0.11 238)" strokeWidth="1.5" />
           {data.flatMap((d) =>
-            d.sales.map((s, j) => (
-              <circle
-                key={`${d.grade}-${j}`}
-                cx={xFor(d.gradeNum)}
-                cy={yFor(s)}
-                r={3}
-                fill="oklch(0.78 0.11 238)"
-                fillOpacity="0.55"
-                stroke="oklch(0.12 0.005 250)"
-                strokeWidth="1"
-              />
-            )),
+            d.sales.map((s, j) => {
+              const on = isOn(d.grade);
+              return (
+                <circle
+                  key={`${d.grade}-${j}`}
+                  cx={xFor(d.gradeNum)}
+                  cy={yFor(s)}
+                  r={3}
+                  fill="oklch(0.78 0.11 238)"
+                  fillOpacity={on ? 0.55 : 0.08}
+                  stroke="oklch(0.12 0.005 250)"
+                  strokeWidth="1"
+                  style={{ transition: "fill-opacity 300ms ease" }}
+                />
+              );
+            }),
           )}
-          {data.map((d, i) => (
-            <g key={`x-${i}`}>
-              <circle
-                cx={xFor(d.gradeNum)}
-                cy={yFor(d.estimate)}
-                r={4}
-                fill="oklch(0.92 0.04 230)"
-                stroke="oklch(0.12 0.005 250)"
-                strokeWidth="1.5"
-              />
-              <text
-                x={xFor(d.gradeNum)}
-                y={H - 10}
-                textAnchor="middle"
-                fontSize="9"
-                fill="oklch(0.62 0.01 250)"
-                fontFamily="Inter, sans-serif"
-              >
-                {d.grade}
-              </text>
-            </g>
-          ))}
+          {data.map((d, i) => {
+            const on = isOn(d.grade);
+            return (
+              <g key={`x-${i}`} style={{ opacity: on ? 1 : 0.28, transition: "opacity 300ms ease" }}>
+                <circle
+                  cx={xFor(d.gradeNum)}
+                  cy={yFor(d.estimate)}
+                  r={4}
+                  fill="oklch(0.92 0.04 230)"
+                  stroke="oklch(0.12 0.005 250)"
+                  strokeWidth="1.5"
+                />
+                <text
+                  x={xFor(d.gradeNum)}
+                  y={H - 10}
+                  textAnchor="middle"
+                  fontSize="9"
+                  fill="oklch(0.62 0.01 250)"
+                  fontFamily="Inter, sans-serif"
+                >
+                  {d.grade}
+                </text>
+              </g>
+            );
+          })}
         </svg>
       </div>
+      <FilterChips
+        label="Grade"
+        options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade }))}
+        active={active}
+        onToggle={toggle}
+        onAll={() => setActive(new Set(allGrades))}
+        totalLabel={`${active.size} of ${allGrades.length} grades`}
+      />
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         <span className="inline-flex items-center gap-2">
           <span className="inline-block h-0.5 w-5 bg-[oklch(0.78_0.11_238)]" />
