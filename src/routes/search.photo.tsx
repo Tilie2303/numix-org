@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
-import { Camera, Upload, ArrowUpRight } from "lucide-react";
+import { Camera, Upload, ArrowUpRight, Keyboard } from "lucide-react";
 import { useRef, useState } from "react";
 
 export const Route = createFileRoute("/search/photo")({
