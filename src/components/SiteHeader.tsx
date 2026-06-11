@@ -11,9 +11,11 @@ export function SiteHeader() {
           className="h-14 w-auto md:h-[68px] transition-transform duration-300 group-hover:-translate-y-0.5"
         />
       </Link>
-      <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
-        By invitation
-      </div>
+      <nav className="flex items-center gap-5 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+        <Link to="/auth/login" className="transition hover:text-ice">Sign in</Link>
+        <span className="opacity-30">·</span>
+        <Link to="/auth/register" className="transition hover:text-ice">Request invitation</Link>
+      </nav>
     </header>
   );
 }
