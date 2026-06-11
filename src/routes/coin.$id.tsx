@@ -728,6 +728,73 @@ const TIER_META: Record<GradeTier, { color: string; label: string; r: number }> 
   base: { color: "oklch(0.48 0.005 250)", label: "VF and below", r: 4 },
 };
 
+function InsightCard({
+  kicker,
+  title,
+  headline,
+  body,
+}: {
+  kicker: string;
+  title: string;
+  headline: React.ReactNode;
+  body?: React.ReactNode;
+}) {
+  return (
+    <div className="mb-5 rounded-2xl border border-aura/30 bg-gradient-to-br from-ice/[0.05] via-ice/[0.02] to-transparent px-5 py-5 md:px-6 md:py-6">
+      <div className="text-[10px] uppercase tracking-[0.32em] text-aura/80">{kicker}</div>
+      <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+        {title}
+      </div>
+      <div className="mt-2 font-serif text-2xl leading-tight text-ice text-aura md:text-3xl">
+        {headline}
+      </div>
+      {body && (
+        <p className="mt-3 max-w-2xl text-[13px] font-light leading-[1.7] text-muted-foreground md:text-sm">
+          {body}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function dominantTier(data: GradeDist[]) {
+  const groups: Record<GradeTier, GradeDist[]> = { top: [], mid: [], base: [] };
+  data.forEach((d) => groups[gradeTier(d.grade)].push(d));
+  let best: GradeTier = "mid";
+  let bestPct = 0;
+  (Object.keys(groups) as GradeTier[]).forEach((t) => {
+    const sum = groups[t].reduce((s, d) => s + d.pct, 0);
+    if (sum > bestPct) {
+      bestPct = sum;
+      best = t;
+    }
+  });
+  const grades = groups[best];
+  return {
+    tier: best,
+    range:
+      grades.length === 0
+        ? "—"
+        : grades.length === 1
+          ? grades[0].grade
+          : `${grades[0].grade}–${grades[grades.length - 1].grade}`,
+    pct: bestPct,
+    label: TIER_META[best].label,
+  };
+}
+
+function premiumAnalysis(data: EstByGrade[]) {
+  const top = data[data.length - 1];
+  const benchmark =
+    data.find((d) => d.gradeNum === 55) ||
+    data.find((d) => d.gradeNum >= 53 && d.gradeNum <= 58) ||
+    data[Math.floor(data.length / 2)];
+  const pct = Math.round(((top.estimate - benchmark.estimate) / benchmark.estimate) * 100);
+  return { top, benchmark, pct };
+}
+
+
+
 function MarketSection({ coin }: { coin: Coin }) {
   const [selected, setSelected] = useState<number | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
@@ -883,19 +950,47 @@ function MarketSection({ coin }: { coin: Coin }) {
 
       {/* PRICE HISTORY — numismatic auction chart */}
       <div>
+        <InsightCard
+          kicker="Auction Behaviour"
+          title={
+            coin.market.trend.direction === "up"
+              ? "Market is strengthening"
+              : coin.market.trend.direction === "down"
+                ? "Market is softening"
+                : "Market is holding steady"
+          }
+          headline={
+            <>
+              {coin.market.trend.pct}{" "}
+              <span className="text-foreground/70">
+                across {coin.market.trend.window}
+              </span>
+            </>
+          }
+          body={
+            <>
+              {coin.market.activity.lots12m} sales recorded in the last 12 months
+              at {coin.market.activity.sellThrough} sell-through, landing{" "}
+              {coin.market.activity.medianPremium.toLowerCase()}. Tap any point on
+              the chart to inspect the underlying sale — auction house, grade,
+              realised price and premium versus estimate.
+            </>
+          }
+        />
         <div className="mb-2 flex items-baseline justify-between">
           <div>
             <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
               Auction Record
             </div>
             <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-              Each point is a real sale. Color reflects grade.
+              Each point is a real sale. Color reflects grade. Tap to inspect.
             </div>
           </div>
           <div className="hidden font-serif text-sm italic text-muted-foreground md:block">
             {chrono[0].a.date} → {chrono[chrono.length - 1].a.date}
           </div>
         </div>
+
 
         <div className="relative rounded-xl border border-border/40 bg-card/30 p-4">
           <svg
@@ -1190,20 +1285,25 @@ function FloatingAuctionCard({
         })`,
       }}
     >
-      <div className="w-64 rounded-xl border border-ice/30 bg-background/95 p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.8)] backdrop-blur">
+      <div className="w-72 rounded-xl border border-ice/30 bg-background/95 p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.8)] backdrop-blur">
         <div className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground">
           {point.a.house}
         </div>
         <div className="mt-1 font-serif text-2xl text-ice">{point.a.price}</div>
-        <div className="mt-1 text-xs font-light text-muted-foreground">
-          Estimate €{new Intl.NumberFormat("en-US").format(estimate)}
+        <div className="mt-1 flex items-baseline justify-between text-xs font-light text-muted-foreground">
+          <span>Estimate €{new Intl.NumberFormat("en-US").format(estimate)}</span>
+          <PremiumBadge price={point.a.priceNum} estimate={estimate} />
         </div>
         <div className="mt-3 grid grid-cols-2 gap-3 border-t border-border/40 pt-3">
           <Detail label="Sale date" value={point.a.date} />
           <Detail label="Grade" value={point.a.grade} />
           {point.a.lot && <Detail label="Lot" value={`#${point.a.lot}`} />}
         </div>
+        <div className="mt-3 border-t border-border/40 pt-3 text-[10px] uppercase tracking-[0.22em] text-aura/80">
+          View auction record →
+        </div>
       </div>
+
     </div>
   );
 }
@@ -1216,17 +1316,22 @@ function AuctionDetail({ record, estimate }: { record: AuctionRecord; estimate: 
         {record.house}
       </div>
       <div className="mt-2 font-serif text-4xl text-ice">{record.price}</div>
-      <div className="mt-1 text-sm font-light text-muted-foreground">
-        Estimate €{new Intl.NumberFormat("en-US").format(estimate)}
+      <div className="mt-1 flex items-baseline justify-between text-sm font-light text-muted-foreground">
+        <span>Estimate €{new Intl.NumberFormat("en-US").format(estimate)}</span>
+        <PremiumBadge price={record.priceNum} estimate={estimate} />
       </div>
       <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border/40 pt-5">
         <Detail label="Sale date" value={record.date} />
         <Detail label="Grade" value={record.grade} />
         {record.lot && <Detail label="Lot" value={`#${record.lot}`} />}
+        <Detail
+          label="Premium vs estimate"
+          value={`${record.priceNum >= estimate ? "+" : ""}${Math.round(((record.priceNum - estimate) / estimate) * 100)}%`}
+        />
       </div>
       <div className="mt-6 flex gap-3">
         <button className="flex-1 rounded-md border border-ice/40 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-ice transition hover:bg-ice/10">
-          View Lot
+          View Auction Record
         </button>
         <button className="flex-1 rounded-md border border-border/60 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-ice/40 hover:text-ice">
           View Images
@@ -1235,6 +1340,25 @@ function AuctionDetail({ record, estimate }: { record: AuctionRecord; estimate: 
     </div>
   );
 }
+
+function PremiumBadge({ price, estimate }: { price: number; estimate: number }) {
+  const pct = Math.round(((price - estimate) / estimate) * 100);
+  const positive = pct >= 0;
+  return (
+    <span
+      className={`rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.18em] ${
+        positive
+          ? "border-aura/40 text-aura"
+          : "border-border/50 text-muted-foreground"
+      }`}
+    >
+      {positive ? "+" : ""}
+      {pct}% vs est
+    </span>
+  );
+}
+
+
 
 function Detail({ label, value }: { label: string; value: string }) {
   return (
@@ -1479,18 +1603,47 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
       return next.size === 0 ? new Set(allGrades) : next;
     });
   };
+  const dom = dominantTier(data);
+  const highest = data[data.length - 1];
   return (
     <div>
+      <div className="mb-5 grid gap-4 md:grid-cols-2">
+        <InsightCard
+          kicker="Insight"
+          title="Most common grade range"
+          headline={dom.range}
+          body={
+            <>
+              {dom.pct}% of all recorded auction appearances fall within the{" "}
+              {dom.label.toLowerCase()} band. These are the grades collectors
+              encounter most often on the open market.
+            </>
+          }
+        />
+        <InsightCard
+          kicker="Insight"
+          title="Highest recorded grade"
+          headline={highest.grade}
+          body={
+            <>
+              Only {highest.count} example
+              {highest.count === 1 ? " has" : "s have"} appeared in the auction
+              record at this grade — a meaningful indicator of condition rarity.
+            </>
+          }
+        />
+      </div>
       <div className="mb-2 flex items-baseline justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
             Grade Distribution
           </div>
           <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-            Share of recorded auction appearances by grade.
+            Evidence · share of recorded auction appearances by grade.
           </div>
         </div>
       </div>
+
       <div className="rounded-xl border border-border/40 bg-card/30 p-5 md:p-6">
         <div className="grid grid-cols-1 gap-3">
           {data.map((d, i) => {
@@ -1579,18 +1732,39 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
 
   const ticks = [0, Math.round(maxVal / 2), maxVal];
 
+  const prem = premiumAnalysis(data);
   return (
     <div>
+      <InsightCard
+        kicker="Insight"
+        title="Grade Premium Analysis"
+        headline={
+          <>
+            {prem.top.grade}{" "}
+            <span className="text-foreground/70">commands ~{prem.pct}% more</span>{" "}
+            than {prem.benchmark.grade}
+          </>
+        }
+        body={
+          <>
+            Value acceleration steepens noticeably once examples cross from
+            About Uncirculated into Mint State. A single grade upgrade in the
+            MS tier can shift the market value by several thousand euros — a
+            premium driven by genuine condition scarcity, not market hype.
+          </>
+        }
+      />
       <div className="mb-2 flex items-baseline justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
             Estimated Value by Grade
           </div>
           <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-            Estimate curve · 80% confidence interval · observed sales.
+            Evidence · estimate curve, 80% confidence interval, observed sales.
           </div>
         </div>
       </div>
+
       <div className="rounded-xl border border-border/40 bg-card/30 p-4">
         <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="h-64 w-full md:h-72">
           <defs>
