@@ -63,7 +63,7 @@ function Landing() {
       {/* ───────── EDITORIAL III ───────── */}
       <EditorialChapter
         image={editorialVitrine}
-        statement={<>Collected <span className="italic text-ice">quietly.</span></>}
+        statement={<>Held <span className="italic text-ice">quietly.</span></>}
         align="right"
       />
 
@@ -110,16 +110,8 @@ function EditorialChapter({
         />
         {/* top fade into page */}
         <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent" />
-        {/* bottom anchor */}
+        {/* bottom anchor — heavy on mobile so the statement always reads, lighter on desktop */}
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-background via-background/85 to-transparent md:h-[35%] md:via-background/40" />
-        {/* side fade for readability where text sits */}
-        <div
-          className={`absolute inset-y-0 w-3/4 md:w-2/3 ${
-            align === "right"
-              ? "right-0 bg-gradient-to-l"
-              : "left-0 bg-gradient-to-r"
-          } from-background/80 via-background/40 to-transparent`}
-        />
 
         <div
           className={`absolute inset-0 flex items-end px-7 pb-16 md:items-center md:px-24 md:pb-0 ${
@@ -129,7 +121,7 @@ function EditorialChapter({
           <div className="max-w-xl">
             <h3
               className="font-serif text-[2.1rem] leading-[1.02] tracking-tight text-foreground md:text-[2.4rem]"
-              style={{ textShadow: "0 2px 32px rgba(0,0,0,0.7)" }}
+              style={{ textShadow: "0 2px 24px rgba(0,0,0,0.55)" }}
             >
               {statement}
             </h3>
