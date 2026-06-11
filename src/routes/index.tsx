@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AuraField } from "@/components/AuraField";
 import { LiveDemo } from "@/components/LiveDemo";
@@ -86,7 +86,12 @@ function Landing() {
             alt="NUMIX"
             className="h-14 w-auto opacity-90 md:h-[68px]"
           />
-          <span className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground">Registration / Log in</span>
+          <Link
+            to="/auth"
+            className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground transition hover:text-ice"
+          >
+            Registration / Log in
+          </Link>
         </div>
       </footer>
     </div>
