@@ -286,10 +286,10 @@ const COINS: Record<string, Coin> = {
     },
     references: [
       { catalog: "SNG Cop.", ref: "31" },
-      { catalog: "Kroll", ref: "8", note: "Standard typology" },
+      { catalog: "Kroll", ref: "8", note: "Standardtypologie" },
       { catalog: "HGC", ref: "4.1597" },
       { catalog: "Sear", ref: "2526" },
-      { catalog: "Starr", ref: "Group V.B" },
+      { catalog: "Starr", ref: "Gruppe V.B" },
       { catalog: "Krause", ref: "—" },
     ],
     population: {
