@@ -608,10 +608,11 @@ function DeepSheet({
 
               {tab === "analysis" && (
                 <div className="space-y-10">
-                  <Paragraph title="Why this coin is rare" body={coin.reasoning.rarity} />
-                  <Paragraph title="Why we estimate this value" body={coin.reasoning.value} />
-                  <Paragraph title="Why demand is strong" body={coin.reasoning.demand} />
-                  <Paragraph title="Why this coin matters" body={coin.reasoning.importance} />
+                  <Paragraph title="Warum diese Münze selten ist" body={coin.reasoning.rarity} />
+                  <Paragraph title="Wie sich der Schätzwert begründet" body={coin.reasoning.value} />
+                  <Paragraph title="Warum die Nachfrage stark ist" body={coin.reasoning.demand} />
+                  <Paragraph title="Warum diese Münze bedeutsam ist" body={coin.reasoning.importance} />
+
                 </div>
               )}
 
