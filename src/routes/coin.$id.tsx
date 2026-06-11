@@ -887,14 +887,14 @@ function MarketSection({ coin }: { coin: Coin }) {
             : `Prices have held steady across the last ${coin.market.trend.window}.`}
         </p>
         <ul className="mt-4 space-y-2 text-[13px] font-light leading-[1.7] text-muted-foreground md:text-sm">
-          <li>· High-grade examples (MS and finer) consistently command a meaningful premium.</li>
           <li>
-            · Recent activity is healthy — {coin.market.activity.lots12m} auction
-            appearances in the last 12 months at a {coin.market.activity.sellThrough} sell-through.
+            · {coin.market.activity.lots12m} auction results in the last 12 months.
           </li>
           <li>
-            · Realised prices land {coin.market.activity.medianPremium.toLowerCase()},
-            indicating sustained competition among advanced collectors.
+            · {coin.market.activity.sellThrough} sell-through rate.
+          </li>
+          <li>
+            · Median result {coin.market.activity.medianPremium}.
           </li>
         </ul>
       </div>
