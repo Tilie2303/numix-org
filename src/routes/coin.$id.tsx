@@ -753,7 +753,7 @@ function gradeTier(grade: string): GradeTier {
 const TIER_META: Record<GradeTier, { color: string; label: string; r: number }> = {
   top: { color: "oklch(0.78 0.11 238)", label: "MS · Mint State", r: 6 },
   mid: { color: "oklch(0.78 0.01 250)", label: "AU · About Uncirculated", r: 5 },
-  base: { color: "oklch(0.48 0.005 250)", label: "VF and below", r: 4 },
+  base: { color: "oklch(0.48 0.005 250)", label: "VF und darunter", r: 4 },
 };
 
 function InsightCard({
