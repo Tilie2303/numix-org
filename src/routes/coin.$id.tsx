@@ -564,7 +564,8 @@ function DeepSheet({
             <div className="flex items-baseline justify-between gap-4">
               <div>
                 <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-                  Deeper
+                  Tiefer
+
                 </div>
                 <div className="mt-1 font-serif text-2xl text-foreground md:text-3xl">
                   {coin.title}
