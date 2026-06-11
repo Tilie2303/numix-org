@@ -1859,20 +1859,20 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
     <div>
       <InsightCard
         kicker="Insight"
-        title="Grade Premium Analysis"
+        title="Grade premium analysis"
         headline={
           <>
             {prem.top.grade}{" "}
-            <span className="text-foreground/70">commands ~{prem.pct}% more</span>{" "}
+            <span className="text-foreground/70">
+              achieves approximately {prem.pct}% higher results
+            </span>{" "}
             than {prem.benchmark.grade}
           </>
         }
         body={
           <>
-            Value acceleration steepens noticeably once examples cross from
-            About Uncirculated into Mint State. A single grade upgrade in the
-            MS tier can shift the market value by several thousand euros — a
-            premium driven by genuine condition scarcity, not market hype.
+            The strongest value increase starts above AU58 and accelerates within
+            the Mint State range.
           </>
         }
       />
