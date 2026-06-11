@@ -891,7 +891,7 @@ function MarketSection({ coin }: { coin: Coin }) {
   };
 
   const formatPrice = (n: number) =>
-    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
+    new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(n);
 
   const estimateFor = (priceNum: number) =>
     Math.round(priceNum / 1.08 / 50) * 50;
@@ -1830,7 +1830,7 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
     .join(" ");
 
   const formatPrice = (n: number) =>
-    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
+    new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(n);
 
   const ticks = [0, Math.round(maxVal / 2), maxVal];
 
