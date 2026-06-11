@@ -87,6 +87,13 @@ const COINS: Record<string, Coin> = {
     demand: "Strong",
     importance: "High",
     confidence: "High Confidence",
+    specs: {
+      metal: "Silver (.875)",
+      weight: "29.10 g",
+      diameter: "42 mm",
+      mint: "Dresden",
+      mintYears: "1711",
+    },
     reasoning: {
       rarity:
         "Struck in limited numbers at the Dresden mint during a transitional reign, surviving specimens in collectable grade rarely exceed three figures worldwide.",
