@@ -4,6 +4,7 @@ import { ArrowLeft, TrendingUp, TrendingDown, Minus, ArrowRight } from "lucide-r
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { SiteHeader } from "@/components/SiteHeader";
 import { FilterChips, type ChipOption } from "@/components/FilterChips";
+import { cn } from "@/lib/utils";
 import coinHero from "@/assets/coin-hero.jpg";
 import coinDemo from "@/assets/coin-demo.jpg";
 
