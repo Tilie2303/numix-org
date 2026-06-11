@@ -10,24 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
-import { Route as PhotoRouteImport } from './routes/photo'
-import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoinIdRouteImport } from './routes/coin.$id'
 
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PhotoRoute = PhotoRouteImport.update({
-  id: '/photo',
-  path: '/photo',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,38 +31,30 @@ const CoinIdRoute = CoinIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
-  '/photo': typeof PhotoRoute
   '/search': typeof SearchRoute
   '/coin/$id': typeof CoinIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
-  '/photo': typeof PhotoRoute
   '/search': typeof SearchRoute
   '/coin/$id': typeof CoinIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
-  '/photo': typeof PhotoRoute
   '/search': typeof SearchRoute
   '/coin/$id': typeof CoinIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/photo' | '/search' | '/coin/$id'
+  fullPaths: '/' | '/search' | '/coin/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/photo' | '/search' | '/coin/$id'
-  id: '__root__' | '/' | '/auth' | '/photo' | '/search' | '/coin/$id'
+  to: '/' | '/search' | '/coin/$id'
+  id: '__root__' | '/' | '/search' | '/coin/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRoute
-  PhotoRoute: typeof PhotoRoute
   SearchRoute: typeof SearchRoute
   CoinIdRoute: typeof CoinIdRoute
 }
@@ -86,20 +66,6 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/photo': {
-      id: '/photo'
-      path: '/photo'
-      fullPath: '/photo'
-      preLoaderRoute: typeof PhotoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -121,8 +87,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthRoute: AuthRoute,
-  PhotoRoute: PhotoRoute,
   SearchRoute: SearchRoute,
   CoinIdRoute: CoinIdRoute,
 }
