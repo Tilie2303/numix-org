@@ -1732,18 +1732,39 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
 
   const ticks = [0, Math.round(maxVal / 2), maxVal];
 
+  const prem = premiumAnalysis(data);
   return (
     <div>
+      <InsightCard
+        kicker="Insight"
+        title="Grade Premium Analysis"
+        headline={
+          <>
+            {prem.top.grade}{" "}
+            <span className="text-foreground/70">commands ~{prem.pct}% more</span>{" "}
+            than {prem.benchmark.grade}
+          </>
+        }
+        body={
+          <>
+            Value acceleration steepens noticeably once examples cross from
+            About Uncirculated into Mint State. A single grade upgrade in the
+            MS tier can shift the market value by several thousand euros — a
+            premium driven by genuine condition scarcity, not market hype.
+          </>
+        }
+      />
       <div className="mb-2 flex items-baseline justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
             Estimated Value by Grade
           </div>
           <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-            Estimate curve · 80% confidence interval · observed sales.
+            Evidence · estimate curve, 80% confidence interval, observed sales.
           </div>
         </div>
       </div>
+
       <div className="rounded-xl border border-border/40 bg-card/30 p-4">
         <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="h-64 w-full md:h-72">
           <defs>
