@@ -625,7 +625,7 @@ function DeepSheet({
                   <div className="space-y-10">
                     <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-8 md:px-10 md:py-10">
                       <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-                        Primary reference
+                        Primärreferenz
                       </div>
                       <div className="mt-4 flex items-baseline gap-5">
                         <div className="font-serif text-3xl text-foreground md:text-4xl">
