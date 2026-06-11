@@ -950,19 +950,47 @@ function MarketSection({ coin }: { coin: Coin }) {
 
       {/* PRICE HISTORY — numismatic auction chart */}
       <div>
+        <InsightCard
+          kicker="Auction Behaviour"
+          title={
+            coin.market.trend.direction === "up"
+              ? "Market is strengthening"
+              : coin.market.trend.direction === "down"
+                ? "Market is softening"
+                : "Market is holding steady"
+          }
+          headline={
+            <>
+              {coin.market.trend.pct}{" "}
+              <span className="text-foreground/70">
+                across {coin.market.trend.window}
+              </span>
+            </>
+          }
+          body={
+            <>
+              {coin.market.activity.lots12m} sales recorded in the last 12 months
+              at {coin.market.activity.sellThrough} sell-through, landing{" "}
+              {coin.market.activity.medianPremium.toLowerCase()}. Tap any point on
+              the chart to inspect the underlying sale — auction house, grade,
+              realised price and premium versus estimate.
+            </>
+          }
+        />
         <div className="mb-2 flex items-baseline justify-between">
           <div>
             <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
               Auction Record
             </div>
             <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-              Each point is a real sale. Color reflects grade.
+              Each point is a real sale. Color reflects grade. Tap to inspect.
             </div>
           </div>
           <div className="hidden font-serif text-sm italic text-muted-foreground md:block">
             {chrono[0].a.date} → {chrono[chrono.length - 1].a.date}
           </div>
         </div>
+
 
         <div className="relative rounded-xl border border-border/40 bg-card/30 p-4">
           <svg
