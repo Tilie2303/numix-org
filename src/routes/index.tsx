@@ -9,9 +9,9 @@ import editorialVitrine from "@/assets/editorial-vitrine.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "RARE — The intelligence layer behind rare coins" },
+      { title: "NUMIX — The intelligence layer behind rare coins" },
       { name: "description", content: "Understanding first. Evidence on demand." },
-      { property: "og:title", content: "RARE — The intelligence layer behind rare coins" },
+      { property: "og:title", content: "NUMIX — The intelligence layer behind rare coins" },
       { property: "og:description", content: "Understanding first. Evidence on demand." },
     ],
   }),
@@ -80,7 +80,7 @@ function Landing() {
 
       <footer className="relative z-10 border-t border-border/30 px-8 py-12 md:px-14">
         <div className="flex items-center justify-between">
-          <span className="font-serif text-base tracking-[0.2em] text-foreground">RARE</span>
+          <span className="font-serif text-base tracking-[0.2em] text-foreground">NUMIX</span>
           <span className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">By invitation</span>
         </div>
       </footer>

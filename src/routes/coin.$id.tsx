@@ -198,9 +198,9 @@ export const Route = createFileRoute("/coin/$id")({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.title} — RARE` },
+          { title: `${loaderData.title} — NUMIX` },
           { name: "description", content: `${loaderData.subtitle}. ${loaderData.era}.` },
-          { property: "og:title", content: `${loaderData.title} — RARE` },
+          { property: "og:title", content: `${loaderData.title} — NUMIX` },
           { property: "og:description", content: `${loaderData.subtitle}. ${loaderData.era}.` },
           { property: "og:image", content: loaderData.image },
         ]

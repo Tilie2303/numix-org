@@ -12,7 +12,7 @@ export const Route = createFileRoute("/search")({
   }),
   head: () => ({
     meta: [
-      { title: "Search — RARE" },
+      { title: "Search — NUMIX" },
       { name: "description", content: "Search rare coins by name, ruler, year, catalog reference or photograph." },
     ],
   }),
