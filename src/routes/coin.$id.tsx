@@ -1192,7 +1192,7 @@ function MarketSection({ coin }: { coin: Coin }) {
       <div>
         <div className="mb-5 flex items-baseline justify-between">
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Recent sales
+            Letzte Verkäufe
           </div>
           {activeAuctionIndex !== null && (
             <button
@@ -1202,18 +1202,19 @@ function MarketSection({ coin }: { coin: Coin }) {
               }}
               className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition hover:text-ice"
             >
-              Clear selection
+              Auswahl zurücksetzen
             </button>
           )}
         </div>
         <div className="divide-y divide-border/40">
           <div className="hidden grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1fr] gap-4 pb-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:grid">
-            <div>Auction house</div>
-            <div>Date</div>
-            <div>Grade</div>
-            <div>Lot</div>
-            <div className="text-right">Result</div>
+            <div>Auktionshaus</div>
+            <div>Datum</div>
+            <div>Erhaltung</div>
+            <div>Los</div>
+            <div className="text-right">Ergebnis</div>
           </div>
+
           {coin.market.auctions.map((a, i) => {
             const tier = gradeTier(a.grade);
             const isActive = activeAuctionIndex === i;
