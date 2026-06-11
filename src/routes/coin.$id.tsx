@@ -1603,8 +1603,9 @@ function ExpertSection({ coin }: { coin: Coin }) {
           ) : (
             <p className="max-w-2xl font-serif text-base italic text-muted-foreground">
               Vergleichsstücke werden noch indexiert.
-
+            </p>
           )
+
         )}
         {tab === "notes" && (
           <p className="max-w-2xl font-serif text-lg leading-[1.7] text-foreground/90">
