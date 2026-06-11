@@ -1398,3 +1398,196 @@ function ExpertSection({ coin }: { coin: Coin }) {
     </div>
   );
 }
+
+function SummaryCell({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</div>
+      <div className="mt-2 font-serif text-2xl text-foreground md:text-3xl">{value}</div>
+    </div>
+  );
+}
+
+function GradeDistributionChart({ data }: { data: GradeDist[] }) {
+  const max = Math.max(...data.map((d) => d.pct));
+  return (
+    <div>
+      <div className="mb-2 flex items-baseline justify-between">
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Grade Distribution
+          </div>
+          <div className="mt-1 font-serif text-sm italic text-muted-foreground">
+            Share of recorded auction appearances by grade.
+          </div>
+        </div>
+      </div>
+      <div className="rounded-xl border border-border/40 bg-card/30 p-5 md:p-6">
+        <div className="grid grid-cols-1 gap-3">
+          {data.map((d, i) => {
+            const w = Math.max((d.pct / max) * 100, 2);
+            return (
+              <div key={i} className="grid grid-cols-[60px_1fr_72px] items-center gap-4">
+                <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                  {d.grade}
+                </span>
+                <div className="relative h-2 overflow-hidden rounded-full bg-border/40">
+                  <div
+                    className="absolute inset-y-0 left-0 rounded-full"
+                    style={{
+                      width: `${w}%`,
+                      background:
+                        "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
+                    }}
+                  />
+                </div>
+                <span className="text-right font-serif text-sm text-foreground">
+                  {d.pct}% · {d.count}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
+  const W = 600;
+  const H = 220;
+  const padL = 44;
+  const padR = 16;
+  const padT = 16;
+  const padB = 32;
+
+  const allVals = data.flatMap((d) => [d.low, d.high, ...d.sales]);
+  const maxVal = Math.max(...allVals);
+  const minX = Math.min(...data.map((d) => d.gradeNum));
+  const maxX = Math.max(...data.map((d) => d.gradeNum));
+
+  const xFor = (g: number) =>
+    padL + ((g - minX) / Math.max(maxX - minX, 1)) * (W - padL - padR);
+  const yFor = (v: number) =>
+    padT + (1 - v / maxVal) * (H - padT - padB);
+
+  const linePath = data
+    .map((d, i) => `${i === 0 ? "M" : "L"} ${xFor(d.gradeNum)} ${yFor(d.estimate)}`)
+    .join(" ");
+  const areaTop = data.map((d) => `${xFor(d.gradeNum)},${yFor(d.high)}`).join(" ");
+  const areaBottom = [...data]
+    .reverse()
+    .map((d) => `${xFor(d.gradeNum)},${yFor(d.low)}`)
+    .join(" ");
+
+  const formatPrice = (n: number) =>
+    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
+
+  const ticks = [0, Math.round(maxVal / 2), maxVal];
+
+  return (
+    <div>
+      <div className="mb-2 flex items-baseline justify-between">
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Estimated Value by Grade
+          </div>
+          <div className="mt-1 font-serif text-sm italic text-muted-foreground">
+            Estimate curve · 80% confidence interval · observed sales.
+          </div>
+        </div>
+      </div>
+      <div className="rounded-xl border border-border/40 bg-card/30 p-4">
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="h-64 w-full md:h-72">
+          <defs>
+            <linearGradient id="ciFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="oklch(0.72 0.12 240)" stopOpacity="0.28" />
+              <stop offset="100%" stopColor="oklch(0.72 0.12 240)" stopOpacity="0.04" />
+            </linearGradient>
+          </defs>
+          {ticks.map((t, i) => {
+            const y = yFor(t);
+            return (
+              <g key={i}>
+                <line
+                  x1={padL}
+                  x2={W - padR}
+                  y1={y}
+                  y2={y}
+                  stroke="oklch(0.3 0.01 250)"
+                  strokeOpacity="0.35"
+                  strokeDasharray="2 4"
+                />
+                <text
+                  x={padL - 6}
+                  y={y + 3}
+                  textAnchor="end"
+                  fontSize="9"
+                  fill="oklch(0.62 0.01 250)"
+                  fontFamily="Inter, sans-serif"
+                >
+                  €{formatPrice(t)}
+                </text>
+              </g>
+            );
+          })}
+          <polygon points={`${areaTop} ${areaBottom}`} fill="url(#ciFill)" />
+          <path d={linePath} fill="none" stroke="oklch(0.78 0.11 238)" strokeWidth="1.5" />
+          {data.flatMap((d) =>
+            d.sales.map((s, j) => (
+              <circle
+                key={`${d.grade}-${j}`}
+                cx={xFor(d.gradeNum)}
+                cy={yFor(s)}
+                r={3}
+                fill="oklch(0.78 0.11 238)"
+                fillOpacity="0.55"
+                stroke="oklch(0.12 0.005 250)"
+                strokeWidth="1"
+              />
+            )),
+          )}
+          {data.map((d, i) => (
+            <g key={`x-${i}`}>
+              <circle
+                cx={xFor(d.gradeNum)}
+                cy={yFor(d.estimate)}
+                r={4}
+                fill="oklch(0.92 0.04 230)"
+                stroke="oklch(0.12 0.005 250)"
+                strokeWidth="1.5"
+              />
+              <text
+                x={xFor(d.gradeNum)}
+                y={H - 10}
+                textAnchor="middle"
+                fontSize="9"
+                fill="oklch(0.62 0.01 250)"
+                fontFamily="Inter, sans-serif"
+              >
+                {d.grade}
+              </text>
+            </g>
+          ))}
+        </svg>
+      </div>
+      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-block h-0.5 w-5 bg-[oklch(0.78_0.11_238)]" />
+          Estimate curve
+        </span>
+        <span className="inline-flex items-center gap-2">
+          <span
+            className="inline-block h-2.5 w-3 rounded-sm"
+            style={{ background: "oklch(0.72 0.12 240 / 0.25)" }}
+          />
+          80% confidence
+        </span>
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-block size-2 rounded-full bg-[oklch(0.78_0.11_238)]" />
+          Observed sales
+        </span>
+      </div>
+    </div>
+  );
+}
