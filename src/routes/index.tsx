@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AuraField } from "@/components/AuraField";
 import { LiveDemo } from "@/components/LiveDemo";
+import numixLogo from "@/assets/numix-logo.png.asset.json";
 import editorialUnderstanding from "@/assets/editorial-understanding.jpg";
 import editorialEvidence from "@/assets/editorial-evidence.jpg";
 import editorialVitrine from "@/assets/editorial-vitrine.jpg";
