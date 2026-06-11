@@ -10,7 +10,7 @@ export function RefineSheet({ trigger }: { trigger?: ReactNode }) {
         {trigger ?? (
           <button className="inline-flex items-center gap-2 text-xs text-muted-foreground transition hover:text-ice">
             <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
-            Advanced
+            Erweitert
           </button>
         )}
       </SheetTrigger>
@@ -22,19 +22,19 @@ export function RefineSheet({ trigger }: { trigger?: ReactNode }) {
 
         <div className="relative flex h-full flex-col px-2 pt-10">
           <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            Advanced
+            Erweitert
           </div>
           <h2 className="mt-6 font-serif text-4xl leading-[1.05] tracking-tight md:text-5xl">
-            Refine the
+            Suche
             <br />
-            <span className="italic text-ice">search.</span>
+            <span className="italic text-ice">verfeinern.</span>
           </h2>
 
           <div className="mt-14 space-y-10">
-            <Group label="Period" options={["Ancient", "Medieval", "Modern"]} />
-            <Group label="Metal" options={["Gold", "Silver", "Bronze"]} />
-            <Group label="Grade" options={["MS", "AU", "XF", "VF"]} />
-            <Group label="Provenance" options={["Named", "Auction", "Private"]} />
+            <Group label="Epoche" options={["Antike", "Mittelalter", "Moderne"]} />
+            <Group label="Metall" options={["Gold", "Silber", "Bronze"]} />
+            <Group label="Erhaltung" options={["MS", "AU", "XF", "VF"]} />
+            <Group label="Provenienz" options={["Namentlich", "Auktion", "Privat"]} />
           </div>
 
           <div className="mt-auto pb-10 pt-12">
@@ -42,7 +42,7 @@ export function RefineSheet({ trigger }: { trigger?: ReactNode }) {
               onClick={() => setOpen(false)}
               className="w-full rounded-full bg-primary py-3.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
             >
-              Apply
+              Anwenden
             </button>
           </div>
         </div>
