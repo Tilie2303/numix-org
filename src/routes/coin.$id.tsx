@@ -76,6 +76,28 @@ type Coin = {
 };
 
 
+const DE_MAP: Record<string, string> = {
+  // Rarity
+  Rare: "Selten",
+  Iconic: "Ikonisch",
+  Common: "Häufig",
+  Scarce: "Knapp",
+  // Demand
+  Strong: "Stark",
+  Steady: "Stetig",
+  Soft: "Schwach",
+  // Importance
+  High: "Hoch",
+  Foundational: "Grundlegend",
+  Moderate: "Moderat",
+  // Confidence
+  "High Confidence": "Hohe Datensicherheit",
+  "Moderate Confidence": "Moderate Datensicherheit",
+  "Emerging Data": "Aufkommende Daten",
+};
+const de = (v: string) => DE_MAP[v] ?? v;
+
+
 const COINS: Record<string, Coin> = {
   "davenport-747": {
     id: "davenport-747",
