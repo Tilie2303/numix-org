@@ -17,7 +17,7 @@ export function LiveDemo() {
           <div className="absolute inset-0 -m-8 aura-soft" />
           <img
             src={coinDemo}
-            alt="Friedrich August I thaler, 1711"
+            alt="Taler Friedrich Augusts I., 1711"
             width={1024}
             height={1024}
             loading="lazy"
@@ -28,23 +28,23 @@ export function LiveDemo() {
         {/* verdict */}
         <div className="text-center md:text-left">
           <div className="font-serif text-2xl text-muted-foreground md:text-2xl">
-            Friedrich August I · 1711
+            Friedrich August I. · 1711
           </div>
 
           {/* The focal point */}
           <div className="relative mt-4">
             <div className="font-serif text-6xl leading-none tracking-tight text-ice text-aura md:text-8xl">
-              €4,800
+              €4.800
             </div>
             <div className="mt-2 font-serif text-lg text-muted-foreground md:text-xl">
-              <span className="italic">to</span> €6,200
+              <span className="italic">bis</span> €6.200
             </div>
           </div>
 
           <div className="mt-10 flex flex-wrap justify-center gap-x-10 gap-y-4 md:justify-start">
-            <Mark label="Rarity" value="Rare" />
-            <Mark label="Demand" value="Strong" />
-            <Mark label="Confidence" value="High" accent />
+            <Mark label="Seltenheit" value="Selten" />
+            <Mark label="Nachfrage" value="Stark" />
+            <Mark label="Datensicherheit" value="Hoch" accent />
           </div>
         </div>
       </div>
