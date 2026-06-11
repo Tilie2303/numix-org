@@ -644,7 +644,7 @@ function DeepSheet({
 
                     <div>
                       <div className="mb-4 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                        Supporting citations
+                        Ergänzende Zitate
                       </div>
                       <ul className="divide-y divide-border/40 border-y border-border/40">
                         {supporting.map((r, i) => (
