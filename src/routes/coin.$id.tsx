@@ -1316,17 +1316,22 @@ function AuctionDetail({ record, estimate }: { record: AuctionRecord; estimate: 
         {record.house}
       </div>
       <div className="mt-2 font-serif text-4xl text-ice">{record.price}</div>
-      <div className="mt-1 text-sm font-light text-muted-foreground">
-        Estimate €{new Intl.NumberFormat("en-US").format(estimate)}
+      <div className="mt-1 flex items-baseline justify-between text-sm font-light text-muted-foreground">
+        <span>Estimate €{new Intl.NumberFormat("en-US").format(estimate)}</span>
+        <PremiumBadge price={record.priceNum} estimate={estimate} />
       </div>
       <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border/40 pt-5">
         <Detail label="Sale date" value={record.date} />
         <Detail label="Grade" value={record.grade} />
         {record.lot && <Detail label="Lot" value={`#${record.lot}`} />}
+        <Detail
+          label="Premium vs estimate"
+          value={`${record.priceNum >= estimate ? "+" : ""}${Math.round(((record.priceNum - estimate) / estimate) * 100)}%`}
+        />
       </div>
       <div className="mt-6 flex gap-3">
         <button className="flex-1 rounded-md border border-ice/40 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-ice transition hover:bg-ice/10">
-          View Lot
+          View Auction Record
         </button>
         <button className="flex-1 rounded-md border border-border/60 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-ice/40 hover:text-ice">
           View Images
@@ -1335,6 +1340,25 @@ function AuctionDetail({ record, estimate }: { record: AuctionRecord; estimate: 
     </div>
   );
 }
+
+function PremiumBadge({ price, estimate }: { price: number; estimate: number }) {
+  const pct = Math.round(((price - estimate) / estimate) * 100);
+  const positive = pct >= 0;
+  return (
+    <span
+      className={`rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.18em] ${
+        positive
+          ? "border-aura/40 text-aura"
+          : "border-border/50 text-muted-foreground"
+      }`}
+    >
+      {positive ? "+" : ""}
+      {pct}% vs est
+    </span>
+  );
+}
+
+
 
 function Detail({ label, value }: { label: string; value: string }) {
   return (
