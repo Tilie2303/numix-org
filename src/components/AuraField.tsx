@@ -41,10 +41,13 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
 
       {!minimal && (
         <div className="mt-6 flex items-center justify-center gap-7 text-xs text-muted-foreground">
-          <button className="inline-flex items-center gap-2 transition hover:text-ice">
+          <Link
+            to="/photo"
+            className="inline-flex items-center gap-2 transition hover:text-ice"
+          >
             <Camera className="size-3.5" strokeWidth={1.5} />
             By photo
-          </button>
+          </Link>
           <span className="opacity-30">·</span>
           <Link
             to="/search"
