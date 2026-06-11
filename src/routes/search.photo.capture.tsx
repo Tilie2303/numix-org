@@ -6,10 +6,10 @@ import { useEffect, useRef, useState } from "react";
 export const Route = createFileRoute("/search/photo/capture")({
   head: () => ({
     meta: [
-      { title: "NUMIX — Capture coin" },
+      { title: "NUMIX — Münze aufnehmen" },
       {
         name: "description",
-        content: "Photograph a coin live with your camera for instant numismatic identification.",
+        content: "Eine Münze live mit der Kamera erfassen — für die unmittelbare numismatische Identifikation.",
       },
     ],
   }),
