@@ -1094,14 +1094,19 @@ function MarketSection({ coin }: { coin: Coin }) {
           {coin.market.auctions.map((a, i) => {
             const tier = gradeTier(a.grade);
             const isActive = activeAuctionIndex === i;
+            const visible = isAuctionVisible(a);
             // Map original index back to chart point index
             const chartIndex = pts.findIndex((p) => p.originalIndex === i);
             return (
               <button
                 key={i}
-                onClick={() => setSelected(chartIndex)}
-                onMouseEnter={() => setHovered(chartIndex)}
+                onClick={() => visible && setSelected(chartIndex)}
+                onMouseEnter={() => visible && setHovered(chartIndex)}
                 onMouseLeave={() => setHovered(null)}
+                style={{
+                  opacity: visible ? 1 : 0.28,
+                  transition: "opacity 280ms ease",
+                }}
                 className={`grid w-full grid-cols-[1fr_auto] gap-x-4 gap-y-1 py-4 text-left transition md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1fr] md:items-baseline ${
                   isActive
                     ? "bg-ice/[0.04] px-3 -mx-3 rounded-md"
