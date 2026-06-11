@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AuraField } from "@/components/AuraField";
 import { LiveDemo } from "@/components/LiveDemo";
+import numixLogo from "@/assets/numix-logo.png.asset.json";
 import editorialUnderstanding from "@/assets/editorial-understanding.jpg";
 import editorialEvidence from "@/assets/editorial-evidence.jpg";
 import editorialVitrine from "@/assets/editorial-vitrine.jpg";
@@ -80,7 +81,11 @@ function Landing() {
 
       <footer className="relative z-10 border-t border-border/30 px-8 py-12 md:px-14">
         <div className="flex items-center justify-between">
-          <span className="font-serif text-base tracking-[0.2em] text-foreground">NUMIX</span>
+          <img
+            src={numixLogo.url}
+            alt="NUMIX"
+            className="h-7 w-auto opacity-90"
+          />
           <span className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">By invitation</span>
         </div>
       </footer>
