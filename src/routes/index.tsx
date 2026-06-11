@@ -11,10 +11,10 @@ import numixLogo from "@/assets/numix-logo.png.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NUMIX — The intelligence layer behind rare coins" },
-      { name: "description", content: "Understanding first. Evidence on demand." },
-      { property: "og:title", content: "NUMIX — The intelligence layer behind rare coins" },
-      { property: "og:description", content: "Understanding first. Evidence on demand." },
+      { title: "NUMIX — Die Intelligenz hinter seltenen Münzen" },
+      { name: "description", content: "Erkenntnis zuerst. Belege auf Anfrage." },
+      { property: "og:title", content: "NUMIX — Die Intelligenz hinter seltenen Münzen" },
+      { property: "og:description", content: "Erkenntnis zuerst. Belege auf Anfrage." },
     ],
   }),
   component: Landing,
@@ -30,9 +30,9 @@ function Landing() {
       {/* ───────── HERO ───────── */}
       <section className="relative z-10 flex flex-col items-center px-6 pt-16 pb-16 md:pt-20 md:pb-20">
         <h1 className="animate-rise max-w-2xl text-center font-serif text-[2.4rem] leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-[3.6rem]">
-          The Intelligence
+          Die Intelligenz
           <br />
-          <span className="italic text-ice text-aura">Behind Rarity.</span>
+          <span className="italic text-ice text-aura">hinter der Seltenheit.</span>
         </h1>
 
         <div className="mt-12 w-full animate-rise delay-2 flex justify-center">
@@ -50,14 +50,14 @@ function Landing() {
       {/* ───────── UNDERSTANDING ───────── */}
       <EditorialChapter
         image={editorialUnderstanding}
-        statement={<>Understanding,<br /><span className="italic text-ice">before data.</span></>}
+        statement={<>Verstehen,<br /><span className="italic text-ice">bevor die Daten sprechen.</span></>}
         align="left"
       />
 
       {/* ───────── EVIDENCE ───────── */}
       <EditorialChapter
         image={editorialEvidence}
-        statement={<>Evidence,<br /><span className="italic text-ice">when you ask.</span></>}
+        statement={<>Belege,<br /><span className="italic text-ice">sobald Sie fragen.</span></>}
         align="right"
       />
 
@@ -65,14 +65,14 @@ function Landing() {
       {/* ───────── EDITORIAL III ───────── */}
       <EditorialChapter
         image={editorialVitrine}
-        statement={<>Collected <span className="italic text-ice">quietly.</span></>}
+        statement={<>Im <span className="italic text-ice">Stillen</span> gesammelt.</>}
         align="right"
       />
 
       {/* ───────── CLOSING SEARCH ───────── */}
       <section className="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-36 text-center">
         <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
-          <span className="italic text-ice text-aura">Begin.</span>
+          <span className="italic text-ice text-aura">Beginnen.</span>
         </h2>
 
         <div className="mt-12 flex justify-center">
@@ -90,11 +90,11 @@ function Landing() {
             />
           </Link>
           <nav className="flex items-center gap-5 text-[11px] uppercase tracking-[0.28em] text-muted-foreground">
-            <Link to="/auth/login" className="transition hover:text-ice">Sign in</Link>
+            <Link to="/auth/login" className="transition hover:text-ice">Anmelden</Link>
             <span className="opacity-30">·</span>
-            <Link to="/auth/register" className="transition hover:text-ice">Request invitation</Link>
+            <Link to="/auth/register" className="transition hover:text-ice">Einladung anfragen</Link>
             <span className="opacity-30">·</span>
-            <Link to="/auth/forgot" className="transition hover:text-ice">Recover access</Link>
+            <Link to="/auth/forgot" className="transition hover:text-ice">Zugang wiederherstellen</Link>
           </nav>
         </div>
       </footer>
@@ -145,4 +145,3 @@ function EditorialChapter({
     </section>
   );
 }
-
