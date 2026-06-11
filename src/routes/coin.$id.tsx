@@ -814,6 +814,32 @@ function MarketSection({ coin }: { coin: Coin }) {
         </ul>
       </div>
 
+      {/* MARKET SUMMARY — understanding before evidence */}
+      {coin.market.summary && (
+        <div>
+          <div className="mb-5 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+            Market Summary
+          </div>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-5">
+            <SummaryCell label="Appearances" value={String(coin.market.summary.totalAppearances)} />
+            <SummaryCell label="Median Price" value={coin.market.summary.medianPrice} />
+            <SummaryCell label="Highest Result" value={coin.market.summary.highestResult} />
+            <SummaryCell label="Lowest Result" value={coin.market.summary.lowestResult} />
+            <SummaryCell label="Most Common Grade" value={coin.market.summary.mostCommonGrade} />
+          </div>
+        </div>
+      )}
+
+      {/* GRADE DISTRIBUTION */}
+      {coin.market.gradeDistribution && (
+        <GradeDistributionChart data={coin.market.gradeDistribution} />
+      )}
+
+      {/* ESTIMATED VALUE BY GRADE */}
+      {coin.market.estimatedByGrade && (
+        <EstimatedByGradeChart data={coin.market.estimatedByGrade} />
+      )}
+
       {/* INDICATORS */}
       <div className="grid gap-px overflow-hidden rounded-xl border border-border/40 bg-border/40 md:grid-cols-3">
         <Stat
