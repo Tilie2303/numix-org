@@ -303,6 +303,11 @@ const COINS: Record<string, Coin> = {
       ],
       notes:
         "Style and fabric — not nominal grade — drive premium pricing. Frontal owls (Kroll 15) are a separate, scarcer category and should not be confused with the standard profile type.",
+      comparatives: [
+        { title: "NAC 142, Lot 118 (May 2024)", detail: "Choice EF, hammer €2,650 — strong centering" },
+        { title: "Leu 16, Lot 82 (Aug 2023)", detail: "Choice EF, hammer €2,480" },
+        { title: "CNG Triton XXVII, Lot 245 (Feb 2024)", detail: "Good VF, hammer €1,580" },
+      ],
     },
   },
 };
