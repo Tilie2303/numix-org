@@ -147,7 +147,7 @@ function CapturePage() {
                   to="/search/photo"
                   className="mt-2 rounded-full border border-border/50 px-4 py-1.5 text-xs text-muted-foreground transition hover:border-aura hover:text-ice"
                 >
-                  Upload instead
+                  Stattdessen hochladen
                 </Link>
               </div>
             )}
