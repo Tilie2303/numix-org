@@ -21,7 +21,7 @@ function LoginPage() {
           <span className="italic text-ice text-aura">Anmelden.</span>
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          Zugang zu Ihrem privaten Recherche-Terminal.
+          Zugang zu Ihrem persönlichen Recherche-Terminal.
         </p>
 
         <form className="mt-12 space-y-6">
@@ -31,7 +31,7 @@ function LoginPage() {
             type="submit"
             className="w-full rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
           >
-            Eintreten
+            Anmelden
           </button>
         </form>
 

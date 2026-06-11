@@ -21,7 +21,7 @@ function RegisterPage() {
           Zugang <span className="italic text-ice text-aura">anfragen.</span>
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          NUMIX wird auf Einladung gewährt. Erzählen Sie uns von Ihrer Sammlung.
+          Der Zugang zu NUMIX erfolgt ausschließlich auf Einladung. Erzählen Sie uns kurz von Ihrer Sammlung.
         </p>
 
         <form className="mt-12 space-y-6">
