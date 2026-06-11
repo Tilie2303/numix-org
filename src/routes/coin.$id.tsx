@@ -105,7 +105,7 @@ const COINS: Record<string, Coin> = {
     subtitle: "Taler · 1711 · Davenport 747",
     era: "Kurfürstentum Sachsen · Silber · Münzstätte Dresden",
     image: coinDemo,
-    value: { low: "€4,800", high: "€6,200" },
+    value: { low: "€4.800", high: "€6.200" },
     rarity: "Rare",
     demand: "Strong",
     importance: "High",
