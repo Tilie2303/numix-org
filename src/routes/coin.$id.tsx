@@ -101,9 +101,9 @@ const de = (v: string) => DE_MAP[v] ?? v;
 const COINS: Record<string, Coin> = {
   "davenport-747": {
     id: "davenport-747",
-    title: "Friedrich August I",
-    subtitle: "Thaler · 1711 · Davenport 747",
-    era: "Electorate of Saxony · Silver · Dresden Mint",
+    title: "Friedrich August I.",
+    subtitle: "Taler · 1711 · Davenport 747",
+    era: "Kurfürstentum Sachsen · Silber · Münzstätte Dresden",
     image: coinDemo,
     value: { low: "€4,800", high: "€6,200" },
     rarity: "Rare",
