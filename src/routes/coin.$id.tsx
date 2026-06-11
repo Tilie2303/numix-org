@@ -208,6 +208,13 @@ const COINS: Record<string, Coin> = {
     demand: "Strong",
     importance: "Foundational",
     confidence: "High Confidence",
+    specs: {
+      metal: "Silver (.965)",
+      weight: "17.20 g",
+      diameter: "24 mm",
+      mint: "Athens",
+      mintYears: "c. 454–404 BC",
+    },
     reasoning: {
       rarity:
         "Produced in vast quantities to fund Athenian commerce and naval power, the classical owl tetradrachm survives in meaningful numbers — yet exceptional centering and full crests remain genuinely uncommon.",
