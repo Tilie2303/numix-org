@@ -12,31 +12,31 @@ export const Route = createFileRoute("/search/")({
   }),
   head: () => ({
     meta: [
-      { title: "Search — NUMIX" },
-      { name: "description", content: "Search rare coins by name, ruler, year, catalog reference or photograph." },
+      { title: "Suche — NUMIX" },
+      { name: "description", content: "Seltene Münzen nach Name, Herrscher, Jahr, Katalogreferenz oder Fotografie durchsuchen." },
     ],
   }),
   component: SearchPage,
 });
 
 const SUGGESTIONS = [
-  { id: "davenport-747", title: "Friedrich August I · 1711 · Davenport 747", meta: "Saxony Thaler · Silver · Rare" },
-  { id: "athens-tetradrachm", title: "Tetradrachm of Athens · c. 450 BC", meta: "Owl of Athena · Silver · Iconic" },
-  { id: "aureus-augustus", title: "Aureus of Augustus · 19–18 BC", meta: "Roman Imperial · Gold · Very Rare" },
-  { id: "ducat-venice", title: "Ducat of Venice · Doge Andrea Gritti · 1523", meta: "Venetian Republic · Gold · Scarce" },
+  { id: "davenport-747", title: "Friedrich August I. · 1711 · Davenport 747", meta: "Sächsischer Taler · Silber · Selten" },
+  { id: "athens-tetradrachm", title: "Tetradrachme von Athen · ca. 450 v. Chr.", meta: "Eule der Athene · Silber · Ikonisch" },
+  { id: "aureus-augustus", title: "Aureus des Augustus · 19–18 v. Chr.", meta: "Römische Kaiserzeit · Gold · Sehr selten" },
+  { id: "ducat-venice", title: "Dukaten von Venedig · Doge Andrea Gritti · 1523", meta: "Republik Venedig · Gold · Knapp" },
 ];
 
 const REFINE_FIELDS: { key: string; label: string; options: string[] }[] = [
-  { key: "country", label: "Country", options: ["Germany", "Italy", "France", "Greece", "Rome", "England"] },
-  { key: "ruler", label: "Ruler", options: ["Friedrich August I", "Augustus", "Andrea Gritti", "Henry VIII"] },
-  { key: "period", label: "Period", options: ["Ancient", "Medieval", "Early Modern", "Modern"] },
-  { key: "year", label: "Year", options: ["Pre-500 BC", "500 BC – 500 AD", "500 – 1500", "1500 – 1800", "1800 – 1900"] },
-  { key: "denomination", label: "Denomination", options: ["Thaler", "Ducat", "Aureus", "Tetradrachm", "Sovereign"] },
-  { key: "metal", label: "Metal", options: ["Gold", "Silver", "Bronze", "Electrum"] },
-  { key: "reference", label: "Reference", options: ["Davenport", "RIC", "Sear", "Krause"] },
-  { key: "grade", label: "Grade", options: ["MS", "AU", "XF", "VF", "F"] },
-  { key: "auctionHouse", label: "Auction House", options: ["Künker", "Heritage", "NAC", "Stack's Bowers"] },
-  { key: "mint", label: "Mint", options: ["Dresden", "Rome", "Venice", "London", "Athens"] },
+  { key: "country", label: "Land", options: ["Deutschland", "Italien", "Frankreich", "Griechenland", "Rom", "England"] },
+  { key: "ruler", label: "Herrscher", options: ["Friedrich August I.", "Augustus", "Andrea Gritti", "Heinrich VIII."] },
+  { key: "period", label: "Epoche", options: ["Antike", "Mittelalter", "Frühe Neuzeit", "Moderne"] },
+  { key: "year", label: "Zeitraum", options: ["vor 500 v. Chr.", "500 v. Chr. – 500 n. Chr.", "500 – 1500", "1500 – 1800", "1800 – 1900"] },
+  { key: "denomination", label: "Nominal", options: ["Taler", "Dukaten", "Aureus", "Tetradrachme", "Sovereign"] },
+  { key: "metal", label: "Metall", options: ["Gold", "Silber", "Bronze", "Elektron"] },
+  { key: "reference", label: "Referenz", options: ["Davenport", "RIC", "Sear", "Krause"] },
+  { key: "grade", label: "Erhaltung", options: ["MS", "AU", "XF", "VF", "F"] },
+  { key: "auctionHouse", label: "Auktionshaus", options: ["Künker", "Heritage", "NAC", "Stack's Bowers"] },
+  { key: "mint", label: "Münzstätte", options: ["Dresden", "Rom", "Venedig", "London", "Athen"] },
 ];
 
 type Filters = Record<string, string>;
@@ -101,14 +101,14 @@ function SearchPage() {
               autoFocus
               value={value}
               onChange={(e) => setValue(e.target.value)}
-              placeholder="Friedrich August I · 1711 · Davenport 747"
+              placeholder="Friedrich August I. · 1711 · Davenport 747"
               className="flex-1 min-w-0 bg-transparent py-2 md:py-3 text-sm md:text-base font-light text-foreground placeholder:text-muted-foreground focus:outline-none"
             />
             <button
               type="submit"
               className="rounded-full bg-primary px-4 md:px-5 py-2 md:py-2.5 text-xs md:text-sm font-medium text-primary-foreground transition hover:opacity-90 shrink-0"
             >
-              Search
+              Suchen
             </button>
           </div>
         </form>
@@ -120,7 +120,7 @@ function SearchPage() {
             className="inline-flex items-center gap-2 transition hover:text-ice"
           >
             <Camera className="size-3.5" strokeWidth={1.5} />
-            By photo
+            Per Foto
           </Link>
           <span className="opacity-30">·</span>
           <button
@@ -128,7 +128,7 @@ function SearchPage() {
             className="inline-flex items-center gap-2 transition hover:text-ice"
           >
             <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
-            Refined search
+            Verfeinerte Suche
           </button>
         </div>
 
@@ -152,7 +152,7 @@ function SearchPage() {
               onClick={() => setFilters({})}
               className="ml-1 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:text-ice"
             >
-              Clear
+              Zurücksetzen
             </button>
           </div>
         )}
@@ -178,7 +178,7 @@ function SearchPage() {
             ))}
             {filtered.length === 0 && (
               <div className="py-12 text-center text-sm text-muted-foreground">
-                No matches yet. Try a ruler, year or reference.
+                Keine Treffer. Versuchen Sie einen Herrscher, ein Jahr oder eine Katalogreferenz.
               </div>
             )}
           </div>
@@ -194,7 +194,7 @@ function SearchPage() {
             }}
             className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.32em] text-muted-foreground transition hover:text-ice"
           >
-            Advanced search <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
+            Erweiterte Suche <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
           </a>
         </div>
       </main>
@@ -209,12 +209,12 @@ function SearchPage() {
 
           <div className="relative flex min-h-full flex-col px-6 pb-10 pt-10">
             <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-              Refine
+              Verfeinern
             </div>
             <h2 className="mt-5 font-serif text-3xl leading-[1.05] tracking-tight md:text-4xl">
-              Narrow the
+              Die Suche
               <br />
-              <span className="italic text-ice">search.</span>
+              <span className="italic text-ice">eingrenzen.</span>
             </h2>
 
             <div className="mt-10 space-y-9">
@@ -242,13 +242,13 @@ function SearchPage() {
                   onClick={() => setFilters({})}
                   className="text-[11px] uppercase tracking-[0.28em] text-muted-foreground transition hover:text-ice"
                 >
-                  Reset
+                  Zurücksetzen
                 </button>
                 <button
                   onClick={() => setRefineOpen(false)}
                   className="ml-auto flex-1 rounded-full bg-primary py-3.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
                 >
-                  Apply
+                  Anwenden
                 </button>
               </div>
             </div>
