@@ -1373,6 +1373,22 @@ function ExpertSection({ coin }: { coin: Coin }) {
             ))}
           </ul>
         )}
+        {tab === "comparatives" && (
+          coin.expert.comparatives && coin.expert.comparatives.length > 0 ? (
+            <ul className="space-y-5">
+              {coin.expert.comparatives.map((c, i) => (
+                <li key={i} className="border-b border-border/30 pb-5 last:border-b-0">
+                  <div className="font-serif text-lg text-foreground">{c.title}</div>
+                  <div className="mt-1 text-sm font-light text-muted-foreground">{c.detail}</div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="max-w-2xl font-serif text-base italic text-muted-foreground">
+              Comparable specimens are being indexed.
+            </p>
+          )
+        )}
         {tab === "notes" && (
           <p className="max-w-2xl font-serif text-lg leading-[1.7] text-foreground/90">
             {coin.expert.notes}
