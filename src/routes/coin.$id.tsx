@@ -101,48 +101,48 @@ const de = (v: string) => DE_MAP[v] ?? v;
 const COINS: Record<string, Coin> = {
   "davenport-747": {
     id: "davenport-747",
-    title: "Friedrich August I",
-    subtitle: "Thaler · 1711 · Davenport 747",
-    era: "Electorate of Saxony · Silver · Dresden Mint",
+    title: "Friedrich August I.",
+    subtitle: "Taler · 1711 · Davenport 747",
+    era: "Kurfürstentum Sachsen · Silber · Münzstätte Dresden",
     image: coinDemo,
-    value: { low: "€4,800", high: "€6,200" },
+    value: { low: "€4.800", high: "€6.200" },
     rarity: "Rare",
     demand: "Strong",
     importance: "High",
     confidence: "High Confidence",
     specs: {
-      metal: "Silver (.888, Leipzig standard)",
-      weight: "29.10 g",
+      metal: "Silber (.888, Leipziger Münzfuß)",
+      weight: "29,10 g",
       diameter: "42 mm",
       mint: "Dresden",
       mintYears: "1711",
     },
     reasoning: {
       rarity:
-        "Struck in limited numbers at the Dresden mint during a transitional reign, surviving specimens in collectable grade rarely exceed three figures worldwide.",
+        "In begrenzter Auflage in der Münzstätte Dresden während einer Übergangsregierung geprägt; weltweit überschreiten erhaltene Exemplare in sammelwürdiger Erhaltung selten die dreistellige Anzahl.",
       value:
-        "Recent results across four major European auctions cluster tightly between €4,800 and €6,200 for comparable grade, with little dispersion — a sign of a mature, confident market.",
+        "Jüngste Ergebnisse aus vier großen europäischen Auktionen liegen für vergleichbare Erhaltungsgrade eng zwischen 4.800 € und 6.200 € — ein Zeichen für einen gereiften, gefestigten Markt.",
       demand:
-        "Saxon thalers of this period remain a cornerstone of German numismatics. Demand from Central European collectors has steadied prices through the last three sale cycles.",
+        "Sächsische Taler dieser Periode bleiben ein Eckpfeiler der deutschen Numismatik. Die Nachfrage mitteleuropäischer Sammler hat die Preise über die letzten drei Verkaufszyklen stabilisiert.",
       importance:
-        "Friedrich August I — known as August the Strong — reshaped Saxon coinage and the Dresden mint itself. His thalers carry both monetary and historical weight.",
+        "Friedrich August I. — bekannt als August der Starke — formte das sächsische Münzwesen und die Dresdner Münzstätte neu. Seine Taler tragen sowohl monetäres als auch historisches Gewicht.",
     },
     market: {
       auctions: [
-        { house: "Künker", date: "Mar 2024", grade: "AU58", price: "€5,400", priceNum: 5400, lot: "384" },
-        { house: "Heritage", date: "Jan 2024", grade: "MS61", price: "€6,100", priceNum: 6100, lot: "2117" },
-        { house: "Spink", date: "Sep 2023", grade: "AU55", price: "€4,900", priceNum: 4900, lot: "94" },
-        { house: "Künker", date: "Jun 2023", grade: "AU58", price: "€5,200", priceNum: 5200, lot: "501" },
-        { house: "Gorny & Mosch", date: "Mar 2023", grade: "AU53", price: "€4,650", priceNum: 4650, lot: "1842" },
-        { house: "Künker", date: "Oct 2022", grade: "AU55", price: "€4,800", priceNum: 4800, lot: "227" },
+        { house: "Künker", date: "Mär 2024", grade: "AU58", price: "€5.400", priceNum: 5400, lot: "384" },
+        { house: "Heritage", date: "Jan 2024", grade: "MS61", price: "€6.100", priceNum: 6100, lot: "2117" },
+        { house: "Spink", date: "Sep 2023", grade: "AU55", price: "€4.900", priceNum: 4900, lot: "94" },
+        { house: "Künker", date: "Jun 2023", grade: "AU58", price: "€5.200", priceNum: 5200, lot: "501" },
+        { house: "Gorny & Mosch", date: "Mär 2023", grade: "AU53", price: "€4.650", priceNum: 4650, lot: "1842" },
+        { house: "Künker", date: "Okt 2022", grade: "AU55", price: "€4.800", priceNum: 4800, lot: "227" },
       ],
-      trend: { direction: "up", pct: "+12.4%", window: "24 mo" },
-      activity: { lots12m: 7, sellThrough: "100%", medianPremium: "+8% over estimate" },
+      trend: { direction: "up", pct: "+12,4%", window: "24 Monate" },
+      activity: { lots12m: 7, sellThrough: "100%", medianPremium: "+8% über Schätzung" },
       summary: {
         totalAppearances: 64,
-        medianPrice: "€4,950",
-        highestResult: "€14,500",
-        lowestResult: "€1,150",
+        medianPrice: "€4.950",
+        highestResult: "€14.500",
+        lowestResult: "€1.150",
         mostCommonGrade: "AU55",
       },
       gradeDistribution: [
@@ -171,7 +171,7 @@ const COINS: Record<string, Coin> = {
       ],
     },
     references: [
-      { catalog: "Davenport", ref: "747", note: "Primary reference" },
+      { catalog: "Davenport", ref: "747", note: "Primärreferenz" },
       { catalog: "Schnee", ref: "1006" },
       { catalog: "KM", ref: "#831" },
       { catalog: "Kahnt", ref: "298" },
@@ -193,18 +193,18 @@ const COINS: Record<string, Coin> = {
     },
 
     provenance: [
-      { year: "2024", owner: "Private European Collection", detail: "Acquired Künker Auction 393, Lot 384" },
-      { year: "2011", owner: "Horn Collection", detail: "Catalogued in Künker Sale 198" },
-      { year: "1978", owner: "Virgil M. Brand Estate", detail: "Inventoried, Chicago" },
-      { year: "1923", owner: "Heinrich Buchenau", detail: "Munich, recorded in correspondence" },
+      { year: "2024", owner: "Private europäische Sammlung", detail: "Erworben Künker Auktion 393, Los 384" },
+      { year: "2011", owner: "Sammlung Horn", detail: "Katalogisiert in Künker Auktion 198" },
+      { year: "1978", owner: "Nachlass Virgil M. Brand", detail: "Inventarisiert, Chicago" },
+      { year: "1923", owner: "Heinrich Buchenau", detail: "München, dokumentiert in Korrespondenz" },
     ],
     expert: {
       dieStudies:
-        "Two principal die varieties exist; the reverse with extended palm fronds is materially scarcer and commands a 30–40% premium when correctly attributed. Population reports favor Künker's grading band as the calibration baseline.",
+        "Es existieren zwei Hauptstempelvarianten; die Rückseite mit verlängerten Palmwedeln ist deutlich seltener und erzielt bei korrekter Zuordnung einen Aufschlag von 30–40 %. Populationsberichte favorisieren das Bewertungsspektrum von Künker als Kalibrierungsgrundlage.",
       variants: [
-        { name: "Extended palm reverse", note: "Scarce — 30–40% premium" },
-        { name: "Standard reverse", note: "Most common; basis for comparable sales" },
-        { name: "ILH mintmaster mark", note: "Johann Lorenz Holland, Dresden 1698–1716 — diagnostic for the 1711 issue" },
+        { name: "Rückseite mit verlängerten Palmwedeln", note: "Selten — Aufschlag von 30–40 %" },
+        { name: "Standardrückseite", note: "Am häufigsten; Grundlage vergleichbarer Verkäufe" },
+        { name: "Münzmeisterzeichen ILH", note: "Johann Lorenz Holland, Dresden 1698–1716 — diagnostisch für die Prägung 1711" },
       ],
       literature: [
         { title: "Sächsische Taler 1500–1800", author: "Schnee, G.", year: "1982" },
@@ -212,56 +212,56 @@ const COINS: Record<string, Coin> = {
         { title: "Davenport's European Crowns 1700–1800", author: "Davenport, J.S.", year: "1961" },
       ],
       notes:
-        "Specialist literature consistently treats the 1711 issue as a transitional type bridging the 1706 reform and the post-1715 standardisation. Edge inscription quality is a reliable authentication marker.",
+        "Die Fachliteratur behandelt die Prägung von 1711 durchgängig als Übergangstyp zwischen der Reform von 1706 und der Standardisierung nach 1715. Die Qualität der Randschrift ist ein verlässliches Echtheitsmerkmal.",
       comparatives: [
-        { title: "Künker 393, Lot 384 (Mar 2024)", detail: "AU58, hammer €5,400 — closest comparable" },
-        { title: "Heritage 232217, Lot 2117 (Jan 2024)", detail: "MS61, hammer €6,100" },
-        { title: "Spink 23103, Lot 94 (Sep 2023)", detail: "AU55, hammer €4,900" },
+        { title: "Künker 393, Los 384 (Mär 2024)", detail: "AU58, Zuschlag €5.400 — nächstliegender Vergleich" },
+        { title: "Heritage 232217, Los 2117 (Jan 2024)", detail: "MS61, Zuschlag €6.100" },
+        { title: "Spink 23103, Los 94 (Sep 2023)", detail: "AU55, Zuschlag €4.900" },
       ],
     },
   },
   "athens-tetradrachm": {
     id: "athens-tetradrachm",
-    title: "Tetradrachm of Athens",
-    subtitle: "Owl of Athena · c. 450 BC",
-    era: "Classical Greece · Silver · Athens Mint",
+    title: "Tetradrachme von Athen",
+    subtitle: "Eule der Athene · ca. 450 v. Chr.",
+    era: "Klassisches Griechenland · Silber · Münzstätte Athen",
     image: coinHero,
-    value: { low: "€1,400", high: "€2,800" },
+    value: { low: "€1.400", high: "€2.800" },
     rarity: "Iconic",
     demand: "Strong",
     importance: "Foundational",
     confidence: "High Confidence",
     specs: {
-      metal: "Silver (.98, Laurion)",
-      weight: "17.20 g",
+      metal: "Silber (.98, Laurion)",
+      weight: "17,20 g",
       diameter: "24 mm",
-      mint: "Athens",
-      mintYears: "c. 454–404 BC",
+      mint: "Athen",
+      mintYears: "ca. 454–404 v. Chr.",
     },
     reasoning: {
       rarity:
-        "Produced in vast quantities to fund Athenian commerce and naval power, the classical owl tetradrachm survives in meaningful numbers — yet exceptional centering and full crests remain genuinely uncommon.",
+        "In großen Mengen geprägt, um athenischen Handel und Seemacht zu finanzieren, ist die klassische Eulen-Tetradrachme in beachtlicher Zahl erhalten — doch außergewöhnliche Zentrierung und vollständige Helmzier bleiben tatsächlich ungewöhnlich.",
       value:
-        "The market is deep and liquid. Pricing scales steeply with strike quality and centering rather than nominal grade alone.",
+        "Der Markt ist tief und liquide. Die Preisbildung skaliert stärker mit Prägequalität und Zentrierung als mit dem nominalen Erhaltungsgrad allein.",
       demand:
-        "Universally recognized, the owl is the entry point for serious ancient collections and a permanent fixture of museum acquisitions.",
+        "Weltweit anerkannt ist die Eule der Einstieg in ernsthafte antike Sammlungen und fester Bestandteil musealer Erwerbungen.",
       importance:
-        "The most iconic coin of the ancient world. A direct artifact of Athenian democracy, silver from Laurion, and the economic engine of the 5th century BC.",
+        "Die ikonischste Münze der Antike. Ein unmittelbares Zeugnis athenischer Demokratie, Silber aus Laurion und der ökonomische Motor des 5. Jahrhunderts v. Chr.",
     },
     market: {
       auctions: [
-        { house: "NAC", date: "May 2024", grade: "Choice EF", price: "€2,650", priceNum: 2650, lot: "118" },
-        { house: "CNG", date: "Feb 2024", grade: "Good VF", price: "€1,580", priceNum: 1580, lot: "245" },
-        { house: "Roma", date: "Nov 2023", grade: "EF", price: "€2,100", priceNum: 2100, lot: "377" },
-        { house: "Leu", date: "Aug 2023", grade: "Choice EF", price: "€2,480", priceNum: 2480, lot: "82" },
-        { house: "CNG", date: "May 2023", grade: "VF", price: "€1,420", priceNum: 1420, lot: "612" },
+        { house: "NAC", date: "Mai 2024", grade: "Choice EF", price: "€2.650", priceNum: 2650, lot: "118" },
+        { house: "CNG", date: "Feb 2024", grade: "Good VF", price: "€1.580", priceNum: 1580, lot: "245" },
+        { house: "Roma", date: "Nov 2023", grade: "EF", price: "€2.100", priceNum: 2100, lot: "377" },
+        { house: "Leu", date: "Aug 2023", grade: "Choice EF", price: "€2.480", priceNum: 2480, lot: "82" },
+        { house: "CNG", date: "Mai 2023", grade: "VF", price: "€1.420", priceNum: 1420, lot: "612" },
       ],
-      trend: { direction: "up", pct: "+18.2%", window: "24 mo" },
-      activity: { lots12m: 142, sellThrough: "94%", medianPremium: "+11% over estimate" },
+      trend: { direction: "up", pct: "+18,2%", window: "24 Monate" },
+      activity: { lots12m: 142, sellThrough: "94%", medianPremium: "+11% über Schätzung" },
       summary: {
         totalAppearances: 1420,
-        medianPrice: "€1,950",
-        highestResult: "€48,000",
+        medianPrice: "€1.950",
+        highestResult: "€48.000",
         lowestResult: "€420",
         mostCommonGrade: "EF",
       },
@@ -286,10 +286,10 @@ const COINS: Record<string, Coin> = {
     },
     references: [
       { catalog: "SNG Cop.", ref: "31" },
-      { catalog: "Kroll", ref: "8", note: "Standard typology" },
+      { catalog: "Kroll", ref: "8", note: "Standardtypologie" },
       { catalog: "HGC", ref: "4.1597" },
       { catalog: "Sear", ref: "2526" },
-      { catalog: "Starr", ref: "Group V.B" },
+      { catalog: "Starr", ref: "Gruppe V.B" },
       { catalog: "Krause", ref: "—" },
     ],
     population: {
@@ -307,17 +307,17 @@ const COINS: Record<string, Coin> = {
     },
 
     provenance: [
-      { year: "2024", owner: "American Private Collection", detail: "NAC Auction 142, Lot 118" },
-      { year: "1998", owner: "BCD Collection", detail: "Catalogued and published" },
-      { year: "1962", owner: "Hess-Leu Sale", detail: "Lucerne, October 1962" },
+      { year: "2024", owner: "Amerikanische Privatsammlung", detail: "NAC Auktion 142, Los 118" },
+      { year: "1998", owner: "Sammlung BCD", detail: "Katalogisiert und publiziert" },
+      { year: "1962", owner: "Auktion Hess-Leu", detail: "Luzern, Oktober 1962" },
     ],
     expert: {
       dieStudies:
-        "Pre-decadrachm period strikes display tighter pellet borders and a more naturalistic owl. Test cuts reduce value 15–25% but are accepted on circulation-era examples.",
+        "Prägungen vor der Dekadrachmen-Periode zeigen engere Punktränder und eine naturalistischere Eule. Probepunzen mindern den Wert um 15–25 %, werden bei umlaufzeitlichen Exemplaren jedoch akzeptiert.",
       variants: [
-        { name: "Standardised type (post-454 BC)", note: "Most common; canonical owl" },
-        { name: "Transitional series", note: "Looser style; modest premium" },
-        { name: "Test-cut examples", note: "Historically interesting; 15–25% discount" },
+        { name: "Standardisierter Typ (nach 454 v. Chr.)", note: "Am häufigsten; kanonische Eule" },
+        { name: "Übergangsserie", note: "Lockerer Stil; moderater Aufschlag" },
+        { name: "Exemplare mit Probepunze", note: "Historisch interessant; 15–25 % Abschlag" },
       ],
       literature: [
         { title: "The Athenian Empire", author: "Meiggs, R.", year: "1972" },
@@ -325,11 +325,11 @@ const COINS: Record<string, Coin> = {
         { title: "Athenian Coinage 480–449 BC", author: "Starr, C.G.", year: "1970" },
       ],
       notes:
-        "Style and fabric — not nominal grade — drive premium pricing. Frontal owls (Kroll 15) are a separate, scarcer category and should not be confused with the standard profile type.",
+        "Stil und Fabrik — nicht der nominale Erhaltungsgrad — bestimmen die Aufschläge. Frontale Eulen (Kroll 15) bilden eine eigene, seltenere Kategorie und sollten nicht mit dem Standardtyp im Profil verwechselt werden.",
       comparatives: [
-        { title: "NAC 142, Lot 118 (May 2024)", detail: "Choice EF, hammer €2,650 — strong centering" },
-        { title: "Leu 16, Lot 82 (Aug 2023)", detail: "Choice EF, hammer €2,480" },
-        { title: "CNG Triton XXVII, Lot 245 (Feb 2024)", detail: "Good VF, hammer €1,580" },
+        { title: "NAC 142, Los 118 (Mai 2024)", detail: "Choice EF, Zuschlag €2.650 — starke Zentrierung" },
+        { title: "Leu 16, Los 82 (Aug 2023)", detail: "Choice EF, Zuschlag €2.480" },
+        { title: "CNG Triton XXVII, Los 245 (Feb 2024)", detail: "Good VF, Zuschlag €1.580" },
       ],
     },
   },
@@ -625,7 +625,7 @@ function DeepSheet({
                   <div className="space-y-10">
                     <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-8 md:px-10 md:py-10">
                       <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-                        Primary reference
+                        Primärreferenz
                       </div>
                       <div className="mt-4 flex items-baseline gap-5">
                         <div className="font-serif text-3xl text-foreground md:text-4xl">
@@ -644,7 +644,7 @@ function DeepSheet({
 
                     <div>
                       <div className="mb-4 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                        Supporting citations
+                        Ergänzende Zitate
                       </div>
                       <ul className="divide-y divide-border/40 border-y border-border/40">
                         {supporting.map((r, i) => (
