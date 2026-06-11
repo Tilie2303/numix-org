@@ -193,18 +193,18 @@ const COINS: Record<string, Coin> = {
     },
 
     provenance: [
-      { year: "2024", owner: "Private European Collection", detail: "Acquired Künker Auction 393, Lot 384" },
-      { year: "2011", owner: "Horn Collection", detail: "Catalogued in Künker Sale 198" },
-      { year: "1978", owner: "Virgil M. Brand Estate", detail: "Inventoried, Chicago" },
-      { year: "1923", owner: "Heinrich Buchenau", detail: "Munich, recorded in correspondence" },
+      { year: "2024", owner: "Private europäische Sammlung", detail: "Erworben Künker Auktion 393, Los 384" },
+      { year: "2011", owner: "Sammlung Horn", detail: "Katalogisiert in Künker Auktion 198" },
+      { year: "1978", owner: "Nachlass Virgil M. Brand", detail: "Inventarisiert, Chicago" },
+      { year: "1923", owner: "Heinrich Buchenau", detail: "München, dokumentiert in Korrespondenz" },
     ],
     expert: {
       dieStudies:
-        "Two principal die varieties exist; the reverse with extended palm fronds is materially scarcer and commands a 30–40% premium when correctly attributed. Population reports favor Künker's grading band as the calibration baseline.",
+        "Es existieren zwei Hauptstempelvarianten; die Rückseite mit verlängerten Palmwedeln ist deutlich seltener und erzielt bei korrekter Zuordnung einen Aufschlag von 30–40 %. Populationsberichte favorisieren das Bewertungsspektrum von Künker als Kalibrierungsgrundlage.",
       variants: [
-        { name: "Extended palm reverse", note: "Scarce — 30–40% premium" },
-        { name: "Standard reverse", note: "Most common; basis for comparable sales" },
-        { name: "ILH mintmaster mark", note: "Johann Lorenz Holland, Dresden 1698–1716 — diagnostic for the 1711 issue" },
+        { name: "Rückseite mit verlängerten Palmwedeln", note: "Selten — Aufschlag von 30–40 %" },
+        { name: "Standardrückseite", note: "Am häufigsten; Grundlage vergleichbarer Verkäufe" },
+        { name: "Münzmeisterzeichen ILH", note: "Johann Lorenz Holland, Dresden 1698–1716 — diagnostisch für die Prägung 1711" },
       ],
       literature: [
         { title: "Sächsische Taler 1500–1800", author: "Schnee, G.", year: "1982" },
@@ -212,11 +212,11 @@ const COINS: Record<string, Coin> = {
         { title: "Davenport's European Crowns 1700–1800", author: "Davenport, J.S.", year: "1961" },
       ],
       notes:
-        "Specialist literature consistently treats the 1711 issue as a transitional type bridging the 1706 reform and the post-1715 standardisation. Edge inscription quality is a reliable authentication marker.",
+        "Die Fachliteratur behandelt die Prägung von 1711 durchgängig als Übergangstyp zwischen der Reform von 1706 und der Standardisierung nach 1715. Die Qualität der Randschrift ist ein verlässliches Echtheitsmerkmal.",
       comparatives: [
-        { title: "Künker 393, Lot 384 (Mar 2024)", detail: "AU58, hammer €5,400 — closest comparable" },
-        { title: "Heritage 232217, Lot 2117 (Jan 2024)", detail: "MS61, hammer €6,100" },
-        { title: "Spink 23103, Lot 94 (Sep 2023)", detail: "AU55, hammer €4,900" },
+        { title: "Künker 393, Los 384 (Mär 2024)", detail: "AU58, Zuschlag €5.400 — nächstliegender Vergleich" },
+        { title: "Heritage 232217, Los 2117 (Jan 2024)", detail: "MS61, Zuschlag €6.100" },
+        { title: "Spink 23103, Los 94 (Sep 2023)", detail: "AU55, Zuschlag €4.900" },
       ],
     },
   },
