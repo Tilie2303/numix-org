@@ -1592,55 +1592,123 @@ function SummaryCell({ label, value }: { label: string; value: string }) {
   );
 }
 
-function GradeDistributionChart({ data }: { data: GradeDist[] }) {
-  const allGrades = data.map((d) => d.grade);
-  const [active, setActive] = useState<Set<string>>(new Set(allGrades));
-  const max = Math.max(...data.map((d) => d.pct));
-  const toggle = (g: string) => {
-    setActive((s) => {
-      const next = new Set(s);
-      if (next.has(g)) next.delete(g);
-      else next.add(g);
-      return next.size === 0 ? new Set(allGrades) : next;
-    });
+function gradeIsMintState(g: string) {
+  return /ms/i.test(g);
+}
+function gradeIsAU(g: string) {
+  return /au/i.test(g);
+}
+function gradeTierLabel(g: string) {
+  if (gradeIsMintState(g)) return "Mint State";
+  if (gradeIsAU(g)) return "About Uncirculated";
+  if (/ef|xf/i.test(g)) return "Extremely Fine";
+  return "Very Fine";
+}
+
+function typicalRange(data: GradeDist[]) {
+  // contiguous span (by input order) of grades covering ≥60% cumulative share,
+  // expanded from the modal grade outward.
+  if (data.length === 0) return null;
+  const modeIdx = data.reduce((best, d, i) => (d.pct > data[best].pct ? i : best), 0);
+  let lo = modeIdx;
+  let hi = modeIdx;
+  let sum = data[modeIdx].pct;
+  while (sum < 60 && (lo > 0 || hi < data.length - 1)) {
+    const left = lo > 0 ? data[lo - 1].pct : -1;
+    const right = hi < data.length - 1 ? data[hi + 1].pct : -1;
+    if (right >= left) {
+      hi += 1;
+      sum += data[hi].pct;
+    } else {
+      lo -= 1;
+      sum += data[lo].pct;
+    }
+  }
+  return {
+    from: data[lo].grade,
+    to: data[hi].grade,
+    tier: gradeTierLabel(data[modeIdx].grade),
+    pct: sum,
   };
-  const dom = dominantTier(data);
-  const highest = data[data.length - 1];
+}
+
+function GradeDistributionChart({
+  data,
+  auctions,
+}: {
+  data: GradeDist[];
+  auctions: AuctionRecord[];
+}) {
+  const max = Math.max(...data.map((d) => d.pct));
+  const [selected, setSelected] = useState<string | null>(null);
+
+  const mostCommon = data.reduce((best, d) => (d.count > best.count ? d : best), data[0]);
+  const rarest = data.reduce((least, d) => (d.count < least.count ? d : least), data[0]);
+  const range = typicalRange(data);
+
+  const formatPrice = (n: number) =>
+    `€${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n)}`;
+
+  const detailFor = (grade: string) => {
+    const dist = data.find((d) => d.grade === grade);
+    if (!dist) return null;
+    const matches = auctions.filter((a) => a.grade === grade);
+    if (matches.length === 0) {
+      return { dist, count: 0, avg: null, high: null, latest: null };
+    }
+    const prices = matches.map((m) => m.priceNum);
+    return {
+      dist,
+      count: matches.length,
+      avg: Math.round(prices.reduce((a, b) => a + b, 0) / prices.length),
+      high: matches.reduce((h, m) => (m.priceNum > h.priceNum ? m : h), matches[0]),
+      latest: matches[0], // auctions array is newest-first
+    };
+  };
+
+  const detail = selected ? detailFor(selected) : null;
+
   return (
     <div>
-      <div className="mb-5 grid gap-4 md:grid-cols-2">
+      <div className="mb-5 grid gap-4 md:grid-cols-3">
         <InsightCard
           kicker="Insight"
-          title="Most common grade range"
-          headline={dom.range}
-          body={
-            <>
-              {dom.pct}% of all recorded auction appearances fall within the{" "}
-              {dom.label.toLowerCase()} band. These are the grades collectors
-              encounter most often on the open market.
-            </>
-          }
+          title="Most common grade"
+          headline={mostCommon.grade}
+          body={<>{mostCommon.pct}% of all documented auction results.</>}
         />
         <InsightCard
           kicker="Insight"
-          title="Highest recorded grade"
-          headline={highest.grade}
+          title="Rarest documented grade"
+          headline={rarest.grade}
           body={
             <>
-              Only {highest.count} example
-              {highest.count === 1 ? " has" : "s have"} appeared in the auction
-              record at this grade — a meaningful indicator of condition rarity.
+              Only {rarest.count} documented auction result
+              {rarest.count === 1 ? "" : "s"}.
             </>
           }
         />
+        {range && (
+          <InsightCard
+            kicker="Insight"
+            title="Typical market range"
+            headline={`${range.from}–${range.to}`}
+            body={
+              <>
+                The majority of documented examples fall within the {range.tier} range.
+              </>
+            }
+          />
+        )}
       </div>
+
       <div className="mb-2 flex items-baseline justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
             Grade Distribution
           </div>
           <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-            Evidence · share of recorded auction appearances by grade.
+            Evidence · share of recorded auction appearances by grade. Select a grade for detail.
           </div>
         </div>
       </div>
@@ -1649,23 +1717,32 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
         <div className="grid grid-cols-1 gap-3">
           {data.map((d, i) => {
             const w = Math.max((d.pct / max) * 100, 2);
-            const on = active.has(d.grade);
+            const on = selected === null || selected === d.grade;
+            const isActive = selected === d.grade;
             return (
-              <div
+              <button
                 key={i}
-                className="grid grid-cols-[60px_1fr_72px] items-center gap-4"
-                style={{ opacity: on ? 1 : 0.25, transition: "opacity 280ms ease" }}
+                type="button"
+                onClick={() => setSelected(isActive ? null : d.grade)}
+                className="grid grid-cols-[60px_1fr_72px] items-center gap-4 rounded-md px-1 py-1 text-left transition hover:bg-ice/[0.04]"
+                style={{ opacity: on ? 1 : 0.3 }}
               >
-                <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                <span
+                  className={cn(
+                    "text-[11px] uppercase tracking-[0.22em]",
+                    isActive ? "text-ice" : "text-muted-foreground",
+                  )}
+                >
                   {d.grade}
                 </span>
                 <div className="relative h-2 overflow-hidden rounded-full bg-border/40">
                   <div
                     className="absolute inset-y-0 left-0 rounded-full"
                     style={{
-                      width: on ? `${w}%` : "0%",
-                      background:
-                        "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
+                      width: `${w}%`,
+                      background: isActive
+                        ? "linear-gradient(90deg, oklch(0.82 0.13 238) 0%, oklch(0.9 0.07 230) 100%)"
+                        : "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
                       transition: "width 480ms cubic-bezier(.22,.61,.36,1)",
                     }}
                   />
@@ -1673,22 +1750,65 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
                 <span className="text-right font-serif text-sm text-foreground">
                   {d.pct}% · {d.count}
                 </span>
-              </div>
+              </button>
             );
           })}
         </div>
       </div>
-      <FilterChips
-        label="Grade"
-        options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade, count: d.count }))}
-        active={active}
-        onToggle={toggle}
-        onAll={() => setActive(new Set(allGrades))}
-        totalLabel={`${active.size} of ${allGrades.length} grades`}
-      />
+
+      {detail && (
+        <div className="mt-4 rounded-2xl border border-aura/30 bg-gradient-to-br from-ice/[0.05] via-ice/[0.02] to-transparent px-5 py-5 md:px-6 md:py-6">
+          <div className="flex items-baseline justify-between gap-4">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.32em] text-aura/80">
+                Grade detail
+              </div>
+              <div className="mt-2 font-serif text-2xl text-aura md:text-3xl">
+                {detail.dist.grade}
+              </div>
+              <div className="mt-1 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                {gradeTierLabel(detail.dist.grade)}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setSelected(null)}
+              className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground transition hover:text-ice"
+            >
+              Close
+            </button>
+          </div>
+          <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-5">
+            <SummaryCell label="Auction results" value={String(detail.dist.count)} />
+            <SummaryCell
+              label="Average price"
+              value={detail.avg !== null ? formatPrice(detail.avg) : "—"}
+            />
+            <SummaryCell
+              label="Highest result"
+              value={detail.high ? formatPrice(detail.high.priceNum) : "—"}
+            />
+            <SummaryCell
+              label="Latest result"
+              value={
+                detail.latest
+                  ? `${formatPrice(detail.latest.priceNum)} · ${detail.latest.date}`
+                  : "—"
+              }
+            />
+            <SummaryCell label="Share of sales" value={`${detail.dist.pct}%`} />
+          </div>
+          {detail.count === 0 && (
+            <p className="mt-4 text-[13px] font-light leading-[1.7] text-muted-foreground md:text-sm">
+              No matching auction results in the sampled record for this grade.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
+
 
 function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
   const allGrades = data.map((d) => d.grade);
