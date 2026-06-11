@@ -1250,7 +1250,7 @@ function MarketSection({ coin }: { coin: Coin }) {
                   {a.date}
                 </div>
                 <div className="order-4 col-span-2 text-xs text-muted-foreground md:order-none md:col-span-1 md:text-sm">
-                  <span className="md:hidden">Grade · </span>
+                  <span className="md:hidden">Erhaltung · </span>
                   {a.grade}
                 </div>
                 <div className="order-5 col-span-2 hidden text-sm text-muted-foreground md:block">
