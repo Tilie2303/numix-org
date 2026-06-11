@@ -484,10 +484,10 @@ function CoinPage() {
         <section className="mt-20 grid gap-8 md:mt-32 md:grid-cols-[260px_1fr] md:gap-16">
           <div>
             <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
-              Analysis
+              Analyse
             </div>
             <div className="mt-3 font-serif text-2xl text-foreground md:text-4xl">
-              Understand the rarity.
+              Seltenheit verstehen.
             </div>
           </div>
           <div className="max-w-2xl">
@@ -495,7 +495,7 @@ function CoinPage() {
               {coin.reasoning.importance}
             </p>
             <p className="mt-5 text-[13px] font-light leading-[1.75] text-muted-foreground md:mt-6 md:text-sm">
-              Reasoning, market data, references, population, provenance and expert research are kept out of sight until you ask for them.
+              Begründung, Marktdaten, Referenzen, Populationen, Provenienz und Expertenanalyse bleiben verborgen, bis sie angefragt werden.
             </p>
           </div>
         </section>
@@ -509,15 +509,16 @@ function CoinPage() {
             <div className="grid items-center gap-5 px-6 py-7 md:grid-cols-[1fr_auto] md:gap-6 md:px-10 md:py-9">
               <div>
                 <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
-                  Six layers of depth
+                  Sechs Ebenen der Tiefe
                 </div>
                 <div className="mt-2 font-serif text-2xl text-foreground transition group-hover:text-ice md:text-4xl">
-                  Explore Deeper
+                  Tiefer erkunden
                 </div>
                 <div className="mt-3 text-[13px] font-light leading-[1.6] text-muted-foreground md:text-sm">
-                  Analysis · Market · References · Population · Provenance · Expert
+                  Analyse · Markt · Referenzen · Populationen · Provenienz · Expertenanalyse
                 </div>
               </div>
+
               <div className="flex size-12 items-center justify-center rounded-full border border-ice/30 text-ice transition group-hover:border-ice group-hover:bg-ice/10 md:size-14">
                 <ArrowRight className="size-5" strokeWidth={1.25} />
               </div>
