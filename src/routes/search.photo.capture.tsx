@@ -220,9 +220,9 @@ function CapturePage() {
         </div>
 
         <div className="mt-8 grid grid-cols-3 gap-3 text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-          <FrameTip n="01" label="Hold steady" />
-          <FrameTip n="02" label="Even light" />
-          <FrameTip n="03" label="Fill circle" />
+          <FrameTip n="01" label="Ruhig halten" />
+          <FrameTip n="02" label="Gleichmäßiges Licht" />
+          <FrameTip n="03" label="Kreis ausfüllen" />
         </div>
 
         <canvas ref={canvasRef} className="hidden" />
