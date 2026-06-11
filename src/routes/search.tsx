@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Search, SlidersHorizontal, X, ArrowUpRight } from "lucide-react";
+import { Search, SlidersHorizontal, Camera, X, ArrowUpRight } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
@@ -115,6 +115,14 @@ function SearchPage() {
 
         {/* ─── LEVEL 2 · ACCESS TO REFINE + PHOTO ─── */}
         <div className="mt-5 flex items-center justify-center gap-6 text-xs text-muted-foreground animate-rise delay-1">
+          <Link
+            to="/search/photo"
+            className="inline-flex items-center gap-2 transition hover:text-ice"
+          >
+            <Camera className="size-3.5" strokeWidth={1.5} />
+            By photo
+          </Link>
+          <span className="opacity-30">·</span>
           <button
             onClick={() => setRefineOpen(true)}
             className="inline-flex items-center gap-2 transition hover:text-ice"
