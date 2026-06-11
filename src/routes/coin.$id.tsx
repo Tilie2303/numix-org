@@ -1437,35 +1437,35 @@ function PopulationSection({ coin }: { coin: Coin }) {
       {knownExamples !== undefined && (
         <div>
           <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            Known Examples
+            Bekannte Exemplare
           </div>
           <div className="mt-5 font-serif text-7xl leading-none text-ice text-aura md:text-8xl">
             {knownExamples}
           </div>
           <p className="mt-6 max-w-xl font-serif text-lg italic leading-[1.6] text-muted-foreground md:text-xl">
-            Across grading services, auction records and documented collections.
-            High-grade survivors remain materially scarcer than the headline figure suggests.
+            Aggregiert aus Zertifizierungsdiensten, Auktionsergebnissen und dokumentierten Sammlungen.
+            Exemplare in hohen Erhaltungsgraden bleiben deutlich seltener als die Gesamtzahl vermuten lässt.
           </p>
         </div>
       )}
 
-      {/* FINEST KNOWN — second insight */}
+      {/* HÖCHSTBEKANNTER ERHALTUNGSGRAD */}
       <div className="border-t border-border/30 pt-10">
         <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-          Finest Known
+          Höchstbekannter Erhaltungsgrad
         </div>
         <div className="mt-4 flex items-baseline gap-5">
           <div className="font-serif text-5xl text-ice md:text-6xl">{finest.grade}</div>
           <div className="text-sm font-light text-muted-foreground">
-            {finest.count} example{finest.count === 1 ? "" : "s"} at the highest recorded grade
+            {finest.count} Exemplar{finest.count === 1 ? "" : "e"} im höchsten dokumentierten Erhaltungsgrad
           </div>
         </div>
       </div>
 
-      {/* GRADING SERVICES — structured evidence */}
+      {/* ZERTIFIZIERUNGSDIENSTE */}
       <div className="border-t border-border/30 pt-10">
         <div className="mb-6 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-          Grading Services
+          Zertifizierungsdienste
         </div>
         <div className="grid gap-5 md:grid-cols-2">
           <PopCard service="NGC" graded={ngc.graded} top={ngc.topGrade} finer={ngc.finer} />
@@ -1473,24 +1473,25 @@ function PopulationSection({ coin }: { coin: Coin }) {
         </div>
       </div>
 
-      {/* TOP CENSUS */}
+      {/* TOP-ZENSUS */}
       {coin.population.topCensus && coin.population.topCensus.length > 0 && (
         <div className="border-t border-border/30 pt-10">
           <div className="mb-5 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            Top Census
+            Top-Zensus
           </div>
           <ul className="divide-y divide-border/40 border-y border-border/40">
             {coin.population.topCensus.map((c, i) => (
               <li key={i} className="flex items-baseline justify-between gap-6 py-3">
                 <span className="font-serif text-lg text-foreground">{c.grade}</span>
                 <span className="text-sm text-muted-foreground">
-                  {c.count} example{c.count === 1 ? "" : "s"}
+                  {c.count} Exemplar{c.count === 1 ? "" : "e"}
                 </span>
               </li>
             ))}
           </ul>
         </div>
       )}
+
     </div>
   );
 }
