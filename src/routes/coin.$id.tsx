@@ -1035,6 +1035,34 @@ function MarketSection({ coin }: { coin: Coin }) {
             </span>
           ))}
         </div>
+
+        {/* Interactive filters */}
+        <FilterChips
+          label="Grade"
+          options={allTiers.map<ChipOption>((t) => ({
+            key: t,
+            label: TIER_META[t].label.split(" ")[0],
+            swatch: TIER_META[t].color,
+            count: coin.market.auctions.filter((a) => gradeTier(a.grade) === t).length,
+          }))}
+          active={activeTiers as Set<string>}
+          onToggle={(k) =>
+            setActiveTiers((s) => toggle(s, k as GradeTier, allTiers))
+          }
+          onAll={() => setActiveTiers(new Set(allTiers))}
+          totalLabel={`${coin.market.auctions.filter(isAuctionVisible).length} of ${coin.market.auctions.length} visible`}
+        />
+        <FilterChips
+          label="House"
+          options={allHouses.map<ChipOption>((h) => ({
+            key: h,
+            label: h,
+            count: coin.market.auctions.filter((a) => a.house === h).length,
+          }))}
+          active={activeHouses}
+          onToggle={(k) => setActiveHouses((s) => toggle(s, k, allHouses))}
+          onAll={() => setActiveHouses(new Set(allHouses))}
+        />
       </div>
 
       {/* RECENT SALES — connected to chart */}
