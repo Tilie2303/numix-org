@@ -1347,26 +1347,27 @@ function AuctionDetail({ record, estimate }: { record: AuctionRecord; estimate: 
       </div>
       <div className="mt-2 font-serif text-4xl text-ice">{record.price}</div>
       <div className="mt-1 flex items-baseline justify-between text-sm font-light text-muted-foreground">
-        <span>Estimate €{new Intl.NumberFormat("en-US").format(estimate)}</span>
+        <span>Schätzung €{new Intl.NumberFormat("de-DE").format(estimate)}</span>
         <PremiumBadge price={record.priceNum} estimate={estimate} />
       </div>
       <div className="mt-6 grid grid-cols-2 gap-4 border-t border-border/40 pt-5">
-        <Detail label="Sale date" value={record.date} />
-        <Detail label="Grade" value={record.grade} />
-        {record.lot && <Detail label="Lot" value={`#${record.lot}`} />}
+        <Detail label="Verkaufsdatum" value={record.date} />
+        <Detail label="Erhaltung" value={record.grade} />
+        {record.lot && <Detail label="Los" value={`#${record.lot}`} />}
         <Detail
-          label="Premium vs estimate"
+          label="Differenz zur Schätzung"
           value={`${record.priceNum >= estimate ? "+" : ""}${Math.round(((record.priceNum - estimate) / estimate) * 100)}%`}
         />
       </div>
       <div className="mt-6 flex gap-3">
         <button className="flex-1 rounded-md border border-ice/40 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-ice transition hover:bg-ice/10">
-          View Auction Record
+          Auktionslos ansehen
         </button>
         <button className="flex-1 rounded-md border border-border/60 px-4 py-3 text-[11px] uppercase tracking-[0.22em] text-muted-foreground transition hover:border-ice/40 hover:text-ice">
-          View Images
+          Abbildungen ansehen
         </button>
       </div>
+
     </div>
   );
 }
