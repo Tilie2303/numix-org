@@ -1511,19 +1511,20 @@ function PopCard({
     <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-6">
       <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">{service}</div>
       <div className="mt-3 font-serif text-4xl text-foreground">{graded}</div>
-      <div className="mt-1 text-xs font-light text-muted-foreground">Total certified</div>
+      <div className="mt-1 text-xs font-light text-muted-foreground">Insgesamt zertifiziert</div>
       <div className="mt-5 flex items-baseline justify-between border-t border-border/40 pt-4">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Finest
+            Höchster Grad
           </div>
           <div className="mt-1 font-serif text-2xl text-ice">{top}</div>
         </div>
         <div className="text-right">
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            At finest
+            Anzahl im höchsten Grad
           </div>
           <div className="mt-1 font-serif text-2xl text-foreground">{finer}</div>
+
         </div>
       </div>
     </div>
