@@ -1320,17 +1320,18 @@ function FloatingAuctionCard({
         </div>
         <div className="mt-1 font-serif text-2xl text-ice">{point.a.price}</div>
         <div className="mt-1 flex items-baseline justify-between text-xs font-light text-muted-foreground">
-          <span>Estimate €{new Intl.NumberFormat("en-US").format(estimate)}</span>
+          <span>Schätzung €{new Intl.NumberFormat("de-DE").format(estimate)}</span>
           <PremiumBadge price={point.a.priceNum} estimate={estimate} />
         </div>
         <div className="mt-3 grid grid-cols-2 gap-3 border-t border-border/40 pt-3">
-          <Detail label="Sale date" value={point.a.date} />
-          <Detail label="Grade" value={point.a.grade} />
-          {point.a.lot && <Detail label="Lot" value={`#${point.a.lot}`} />}
+          <Detail label="Verkaufsdatum" value={point.a.date} />
+          <Detail label="Erhaltung" value={point.a.grade} />
+          {point.a.lot && <Detail label="Los" value={`#${point.a.lot}`} />}
         </div>
         <div className="mt-3 border-t border-border/40 pt-3 text-[10px] uppercase tracking-[0.22em] text-aura/80">
-          View auction record →
+          Auktionslos ansehen →
         </div>
+
       </div>
 
     </div>
