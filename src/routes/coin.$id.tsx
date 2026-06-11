@@ -129,15 +129,15 @@ const COINS: Record<string, Coin> = {
     },
     market: {
       auctions: [
-        { house: "Künker", date: "Mar 2024", grade: "AU58", price: "€5,400", priceNum: 5400, lot: "384" },
-        { house: "Heritage", date: "Jan 2024", grade: "MS61", price: "€6,100", priceNum: 6100, lot: "2117" },
-        { house: "Spink", date: "Sep 2023", grade: "AU55", price: "€4,900", priceNum: 4900, lot: "94" },
-        { house: "Künker", date: "Jun 2023", grade: "AU58", price: "€5,200", priceNum: 5200, lot: "501" },
-        { house: "Gorny & Mosch", date: "Mar 2023", grade: "AU53", price: "€4,650", priceNum: 4650, lot: "1842" },
-        { house: "Künker", date: "Oct 2022", grade: "AU55", price: "€4,800", priceNum: 4800, lot: "227" },
+        { house: "Künker", date: "Mär 2024", grade: "AU58", price: "€5.400", priceNum: 5400, lot: "384" },
+        { house: "Heritage", date: "Jan 2024", grade: "MS61", price: "€6.100", priceNum: 6100, lot: "2117" },
+        { house: "Spink", date: "Sep 2023", grade: "AU55", price: "€4.900", priceNum: 4900, lot: "94" },
+        { house: "Künker", date: "Jun 2023", grade: "AU58", price: "€5.200", priceNum: 5200, lot: "501" },
+        { house: "Gorny & Mosch", date: "Mär 2023", grade: "AU53", price: "€4.650", priceNum: 4650, lot: "1842" },
+        { house: "Künker", date: "Okt 2022", grade: "AU55", price: "€4.800", priceNum: 4800, lot: "227" },
       ],
-      trend: { direction: "up", pct: "+12.4%", window: "24 mo" },
-      activity: { lots12m: 7, sellThrough: "100%", medianPremium: "+8% over estimate" },
+      trend: { direction: "up", pct: "+12,4%", window: "24 Monate" },
+      activity: { lots12m: 7, sellThrough: "100%", medianPremium: "+8% über Schätzung" },
       summary: {
         totalAppearances: 64,
         medianPrice: "€4,950",
