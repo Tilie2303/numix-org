@@ -31,7 +31,7 @@ function PhotoSearch() {
         </h1>
         <p className="mt-4 max-w-xl text-sm text-muted-foreground">
           Wählen Sie, wie Sie die Münze vorlegen möchten. Das System liest Umschrift,
-          Ikonographie und Fabrik und schlägt darauf eine Zuordnung vor.
+          Bildprogramm und Stempelbild und schlägt daraus eine Zuordnung vor.
         </p>
 
         {/* ─── TWO-CHOICE PANEL ─── */}
@@ -49,8 +49,8 @@ function PhotoSearch() {
               Foto aufnehmen
             </div>
             <p className="relative mt-2 text-xs leading-relaxed text-muted-foreground">
-              Kamera öffnen und die Münze unmittelbar erfassen. Geeignet für Stücke
-              in der Hand bei kontrolliertem Licht.
+              Kamera öffnen und die Münze unmittelbar aufnehmen — ideal für Stücke,
+              die Sie gerade in der Hand halten, bei ruhigem Licht.
             </p>
             <div className="relative mt-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-ice">
               Kamera öffnen <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
@@ -71,7 +71,7 @@ function PhotoSearch() {
               Fotografie hochladen
             </div>
             <p className="relative mt-2 text-xs leading-relaxed text-muted-foreground">
-              Wählen Sie eine bestehende Aufnahme von Avers oder Revers — vom Gerät,
+              Eine vorhandene Aufnahme von Avers oder Revers — vom Gerät,
               aus einem Katalogscan oder einem Auktionsarchiv.
             </p>
             <div className="relative mt-8 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] text-foreground/70 transition group-hover:text-ice">
@@ -135,11 +135,11 @@ function PhotoSearch() {
               Lieber tippen?
             </div>
             <div className="mt-0.5 text-xs text-muted-foreground">
-              Wechseln Sie zur verfeinerten Textsuche.
+              Zur Textsuche mit allen Filtern wechseln.
             </div>
           </div>
           <div className="inline-flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-[0.28em] text-foreground/70 transition group-hover:text-ice">
-            Verfeinerte Suche <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
+            Erweiterte Suche <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
           </div>
         </Link>
       </section>

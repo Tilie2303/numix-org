@@ -21,7 +21,7 @@ function ForgotPage() {
           Zugang <span className="italic text-ice text-aura">wiederherstellen.</span>
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          Wir senden einen vertraulichen Link an Ihre hinterlegte Adresse.
+          Wir senden einen vertraulichen Link an die bei uns hinterlegte Adresse.
         </p>
 
         <form className="mt-12 space-y-6">

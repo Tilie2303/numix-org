@@ -103,7 +103,7 @@ function CapturePage() {
           Münze <span className="italic text-ice text-aura">aufnehmen.</span>
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          Halten Sie das Stück flach unter gleichmäßigem Licht. Füllen Sie den Kreis mit dem Avers — und lösen Sie aus.
+          Legen Sie das Stück flach unter gleichmäßiges Licht. Füllen Sie den Kreis mit dem Avers — und lösen Sie aus.
         </p>
 
         <div className="mt-10 overflow-hidden rounded-3xl border border-border/60 bg-card/30 backdrop-blur-xl">
@@ -134,7 +134,7 @@ function CapturePage() {
                 <div className="absolute left-1/2 top-1/2 size-[62%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-ice/40 shadow-[0_0_60px_-10px_oklch(0.78_0.11_238/0.45)]" />
                 <div className="absolute left-1/2 top-1/2 size-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ice/70" />
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-background/60 px-3 py-1 text-[10px] uppercase tracking-[0.28em] text-muted-foreground backdrop-blur">
-                  {ready ? "Zentrieren · Ruhig halten · Auslösen" : "Warte auf Kamera"}
+                  {ready ? "Zentrieren · Ruhig halten · Auslösen" : "Kamera wird vorbereitet"}
                 </div>
               </div>
             )}

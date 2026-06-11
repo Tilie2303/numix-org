@@ -120,7 +120,7 @@ function SearchPage() {
             className="inline-flex items-center gap-2 transition hover:text-ice"
           >
             <Camera className="size-3.5" strokeWidth={1.5} />
-            Per Foto
+            Mit Foto suchen
           </Link>
           <span className="opacity-30">·</span>
           <button
@@ -128,7 +128,7 @@ function SearchPage() {
             className="inline-flex items-center gap-2 transition hover:text-ice"
           >
             <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
-            Verfeinerte Suche
+            Erweiterte Suche
           </button>
         </div>
 
@@ -178,7 +178,7 @@ function SearchPage() {
             ))}
             {filtered.length === 0 && (
               <div className="py-12 text-center text-sm text-muted-foreground">
-                Keine Treffer. Versuchen Sie einen Herrscher, ein Jahr oder eine Katalogreferenz.
+                Keine Treffer. Suchen Sie nach einem Herrscher, einer Jahreszahl oder einer Katalognummer.
               </div>
             )}
           </div>
@@ -209,7 +209,7 @@ function SearchPage() {
 
           <div className="relative flex min-h-full flex-col px-6 pb-10 pt-10">
             <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-              Verfeinern
+              Eingrenzen
             </div>
             <h2 className="mt-5 font-serif text-3xl leading-[1.05] tracking-tight md:text-4xl">
               Die Suche

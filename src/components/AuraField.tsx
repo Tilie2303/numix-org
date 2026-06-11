@@ -43,7 +43,7 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
         <div className="mt-6 flex items-center justify-center gap-7 text-xs text-muted-foreground">
           <Link to="/search/photo" className="inline-flex items-center gap-2 transition hover:text-ice">
             <Camera className="size-3.5" strokeWidth={1.5} />
-            Per Foto
+            Mit Foto suchen
           </Link>
           <span className="opacity-30">·</span>
           <Link
@@ -52,7 +52,7 @@ export function AuraField({ minimal = false }: { minimal?: boolean }) {
             className="inline-flex items-center gap-2 transition hover:text-ice"
           >
             <SlidersHorizontal className="size-3.5" strokeWidth={1.5} />
-            Verfeinerte Suche
+            Erweiterte Suche
           </Link>
         </div>
       )}

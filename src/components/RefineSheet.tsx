@@ -22,12 +22,12 @@ export function RefineSheet({ trigger }: { trigger?: ReactNode }) {
 
         <div className="relative flex h-full flex-col px-2 pt-10">
           <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            Erweitert
+            Eingrenzen
           </div>
           <h2 className="mt-6 font-serif text-4xl leading-[1.05] tracking-tight md:text-5xl">
             Suche
             <br />
-            <span className="italic text-ice">verfeinern.</span>
+            <span className="italic text-ice">eingrenzen.</span>
           </h2>
 
           <div className="mt-14 space-y-10">

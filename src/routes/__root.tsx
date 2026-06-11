@@ -19,7 +19,7 @@ function NotFoundComponent() {
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Seite nicht gefunden</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Die gesuchte Seite existiert nicht — oder sie wurde verlegt.
+          Diese Seite existiert nicht — oder sie wurde verlegt.
         </p>
         <div className="mt-6">
           <Link
@@ -48,7 +48,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           Diese Seite konnte nicht geladen werden
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Auf unserer Seite ist etwas schiefgelaufen. Versuchen Sie es erneut oder kehren Sie zur Startseite zurück.
+          Etwas ist schiefgelaufen. Versuchen Sie es erneut oder kehren Sie zur Startseite zurück.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
