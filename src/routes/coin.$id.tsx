@@ -1468,7 +1468,17 @@ function SummaryCell({ label, value }: { label: string; value: string }) {
 }
 
 function GradeDistributionChart({ data }: { data: GradeDist[] }) {
+  const allGrades = data.map((d) => d.grade);
+  const [active, setActive] = useState<Set<string>>(new Set(allGrades));
   const max = Math.max(...data.map((d) => d.pct));
+  const toggle = (g: string) => {
+    setActive((s) => {
+      const next = new Set(s);
+      if (next.has(g)) next.delete(g);
+      else next.add(g);
+      return next.size === 0 ? new Set(allGrades) : next;
+    });
+  };
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between">
@@ -1485,8 +1495,13 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
         <div className="grid grid-cols-1 gap-3">
           {data.map((d, i) => {
             const w = Math.max((d.pct / max) * 100, 2);
+            const on = active.has(d.grade);
             return (
-              <div key={i} className="grid grid-cols-[60px_1fr_72px] items-center gap-4">
+              <div
+                key={i}
+                className="grid grid-cols-[60px_1fr_72px] items-center gap-4"
+                style={{ opacity: on ? 1 : 0.25, transition: "opacity 280ms ease" }}
+              >
                 <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                   {d.grade}
                 </span>
@@ -1494,9 +1509,10 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
                   <div
                     className="absolute inset-y-0 left-0 rounded-full"
                     style={{
-                      width: `${w}%`,
+                      width: on ? `${w}%` : "0%",
                       background:
                         "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
+                      transition: "width 480ms cubic-bezier(.22,.61,.36,1)",
                     }}
                   />
                 </div>
@@ -1508,6 +1524,14 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
           })}
         </div>
       </div>
+      <FilterChips
+        label="Grade"
+        options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade, count: d.count }))}
+        active={active}
+        onToggle={toggle}
+        onAll={() => setActive(new Set(allGrades))}
+        totalLabel={`${active.size} of ${allGrades.length} grades`}
+      />
     </div>
   );
 }
