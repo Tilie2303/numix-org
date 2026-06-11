@@ -1535,12 +1535,13 @@ function PopCard({
 function ExpertSection({ coin }: { coin: Coin }) {
   const [tab, setTab] = useState<"dies" | "variants" | "literature" | "comparatives" | "notes">("dies");
   const tabs = [
-    { id: "dies" as const, label: "Die studies" },
-    { id: "variants" as const, label: "Variants" },
-    { id: "literature" as const, label: "Literature" },
-    { id: "comparatives" as const, label: "Comparative examples" },
-    { id: "notes" as const, label: "Specialist notes" },
+    { id: "dies" as const, label: "Stempelstudien" },
+    { id: "variants" as const, label: "Varianten" },
+    { id: "literature" as const, label: "Literatur" },
+    { id: "comparatives" as const, label: "Vergleichsstücke" },
+    { id: "notes" as const, label: "Fachhinweise" },
   ];
+
   return (
     <div>
       <div className="flex flex-wrap gap-x-6 gap-y-2 border-b border-border/40 pb-3">
