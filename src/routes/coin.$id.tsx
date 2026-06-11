@@ -1317,11 +1317,12 @@ function PopCard({
 
 
 function ExpertSection({ coin }: { coin: Coin }) {
-  const [tab, setTab] = useState<"dies" | "variants" | "literature" | "notes">("dies");
+  const [tab, setTab] = useState<"dies" | "variants" | "literature" | "comparatives" | "notes">("dies");
   const tabs = [
     { id: "dies" as const, label: "Die studies" },
     { id: "variants" as const, label: "Variants" },
     { id: "literature" as const, label: "Literature" },
+    { id: "comparatives" as const, label: "Comparative examples" },
     { id: "notes" as const, label: "Specialist notes" },
   ];
   return (
