@@ -307,17 +307,17 @@ const COINS: Record<string, Coin> = {
     },
 
     provenance: [
-      { year: "2024", owner: "American Private Collection", detail: "NAC Auction 142, Lot 118" },
-      { year: "1998", owner: "BCD Collection", detail: "Catalogued and published" },
-      { year: "1962", owner: "Hess-Leu Sale", detail: "Lucerne, October 1962" },
+      { year: "2024", owner: "Amerikanische Privatsammlung", detail: "NAC Auktion 142, Los 118" },
+      { year: "1998", owner: "Sammlung BCD", detail: "Katalogisiert und publiziert" },
+      { year: "1962", owner: "Auktion Hess-Leu", detail: "Luzern, Oktober 1962" },
     ],
     expert: {
       dieStudies:
-        "Pre-decadrachm period strikes display tighter pellet borders and a more naturalistic owl. Test cuts reduce value 15–25% but are accepted on circulation-era examples.",
+        "Prägungen vor der Dekadrachmen-Periode zeigen engere Punktränder und eine naturalistischere Eule. Probepunzen mindern den Wert um 15–25 %, werden bei umlaufzeitlichen Exemplaren jedoch akzeptiert.",
       variants: [
-        { name: "Standardised type (post-454 BC)", note: "Most common; canonical owl" },
-        { name: "Transitional series", note: "Looser style; modest premium" },
-        { name: "Test-cut examples", note: "Historically interesting; 15–25% discount" },
+        { name: "Standardisierter Typ (nach 454 v. Chr.)", note: "Am häufigsten; kanonische Eule" },
+        { name: "Übergangsserie", note: "Lockerer Stil; moderater Aufschlag" },
+        { name: "Exemplare mit Probepunze", note: "Historisch interessant; 15–25 % Abschlag" },
       ],
       literature: [
         { title: "The Athenian Empire", author: "Meiggs, R.", year: "1972" },
@@ -325,11 +325,11 @@ const COINS: Record<string, Coin> = {
         { title: "Athenian Coinage 480–449 BC", author: "Starr, C.G.", year: "1970" },
       ],
       notes:
-        "Style and fabric — not nominal grade — drive premium pricing. Frontal owls (Kroll 15) are a separate, scarcer category and should not be confused with the standard profile type.",
+        "Stil und Fabrik — nicht der nominale Erhaltungsgrad — bestimmen die Aufschläge. Frontale Eulen (Kroll 15) bilden eine eigene, seltenere Kategorie und sollten nicht mit dem Standardtyp im Profil verwechselt werden.",
       comparatives: [
-        { title: "NAC 142, Lot 118 (May 2024)", detail: "Choice EF, hammer €2,650 — strong centering" },
-        { title: "Leu 16, Lot 82 (Aug 2023)", detail: "Choice EF, hammer €2,480" },
-        { title: "CNG Triton XXVII, Lot 245 (Feb 2024)", detail: "Good VF, hammer €1,580" },
+        { title: "NAC 142, Los 118 (Mai 2024)", detail: "Choice EF, Zuschlag €2.650 — starke Zentrierung" },
+        { title: "Leu 16, Los 82 (Aug 2023)", detail: "Choice EF, Zuschlag €2.480" },
+        { title: "CNG Triton XXVII, Los 245 (Feb 2024)", detail: "Good VF, Zuschlag €1.580" },
       ],
     },
   },
