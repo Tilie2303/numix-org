@@ -29,7 +29,21 @@ function PhotoSearch() {
           Upload an obverse or reverse image. The system will read the legend, the iconography and the fabric.
         </p>
 
-        <div className="mt-12">
+        <Link
+          to="/search/photo/capture"
+          className="mt-10 inline-flex items-center justify-center gap-3 rounded-full border border-ice/40 bg-ice/[0.06] px-6 py-3 text-sm text-ice shadow-[0_0_0_1px_oklch(0.78_0.11_238/0.18),0_0_24px_-8px_oklch(0.78_0.11_238/0.55)] transition hover:bg-ice/[0.12]"
+        >
+          <Camera className="size-4" strokeWidth={1.5} />
+          Open camera
+        </Link>
+
+        <div className="mt-6 flex items-center gap-4 text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+          <span className="h-px flex-1 bg-border/40" />
+          or upload a file
+          <span className="h-px flex-1 bg-border/40" />
+        </div>
+
+        <div className="mt-6">
           <input
             ref={inputRef}
             type="file"
