@@ -1948,30 +1948,31 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
         </svg>
       </div>
       <FilterChips
-        label="Grade"
+        label="Erhaltung"
         options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade }))}
         active={active}
         onToggle={toggle}
         onAll={() => setActive(new Set(allGrades))}
-        totalLabel={`${active.size} of ${allGrades.length} grades`}
+        totalLabel={`${active.size} von ${allGrades.length} Erhaltungsgraden`}
       />
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         <span className="inline-flex items-center gap-2">
           <span className="inline-block h-0.5 w-5 bg-[oklch(0.78_0.11_238)]" />
-          Estimate curve
+          Schätzwertkurve
         </span>
         <span className="inline-flex items-center gap-2">
           <span
             className="inline-block h-2.5 w-3 rounded-sm"
             style={{ background: "oklch(0.72 0.12 240 / 0.25)" }}
           />
-          80% confidence
+          80%-Konfidenzintervall
         </span>
         <span className="inline-flex items-center gap-2">
           <span className="inline-block size-2 rounded-full bg-[oklch(0.78_0.11_238)]" />
-          Observed sales
+          Dokumentierte Ergebnisse
         </span>
       </div>
+
     </div>
   );
 }
