@@ -405,7 +405,7 @@ function CoinPage() {
           className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-muted-foreground transition hover:text-ice md:text-xs md:tracking-[0.22em]"
         >
           <ArrowLeft className="size-3" strokeWidth={1.5} />
-          Search
+          Suche
         </Link>
 
         {/* HERO — coin as the product */}
