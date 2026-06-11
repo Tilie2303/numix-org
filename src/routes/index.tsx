@@ -80,10 +80,22 @@ function Landing() {
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-border/30 px-8 py-12 md:px-14">
-        <div className="flex items-center justify-between">
-          <span className="font-serif text-base tracking-[0.2em] text-foreground">NUMIX</span>
-          <span className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">By invitation</span>
+      <footer className="relative z-10 border-t border-border/30 px-8 py-10 md:px-14 md:py-12">
+        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+          <Link to="/" aria-label="NUMIX" className="group">
+            <img
+              src={numixLogo.url}
+              alt="NUMIX"
+              className="h-10 w-auto md:h-12 transition-transform duration-300 group-hover:-translate-y-0.5"
+            />
+          </Link>
+          <nav className="flex items-center gap-5 text-[11px] uppercase tracking-[0.28em] text-muted-foreground">
+            <Link to="/auth/login" className="transition hover:text-ice">Sign in</Link>
+            <span className="opacity-30">·</span>
+            <Link to="/auth/register" className="transition hover:text-ice">Request invitation</Link>
+            <span className="opacity-30">·</span>
+            <Link to="/auth/forgot" className="transition hover:text-ice">Recover access</Link>
+          </nav>
         </div>
       </footer>
     </div>
