@@ -41,7 +41,7 @@ export function FilterChips({
               : "border-aura/60 bg-ice/[0.04] text-ice shadow-[0_0_0_1px_oklch(0.78_0.11_238/0.15)]",
           )}
         >
-          {allOn ? "Alle" : "Zurücksetzen"}
+          {allOn ? "All" : "Reset"}
         </button>
       )}
       {options.map((o) => {

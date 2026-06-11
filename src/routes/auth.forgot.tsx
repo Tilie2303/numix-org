@@ -4,8 +4,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const Route = createFileRoute("/auth/forgot")({
   head: () => ({
     meta: [
-      { title: "NUMIX — Zugang wiederherstellen" },
-      { name: "description", content: "Zugang zu Ihrem NUMIX-Terminal wiederherstellen." },
+      { title: "NUMIX — Reset access" },
+      { name: "description", content: "Recover access to your NUMIX terminal." },
     ],
   }),
   component: ForgotPage,
@@ -18,18 +18,18 @@ function ForgotPage() {
       <SiteHeader />
       <section className="relative z-10 mx-auto flex max-w-md flex-col px-6 pt-12 pb-24">
         <h1 className="font-serif text-4xl tracking-tight text-foreground md:text-5xl">
-          Zugang <span className="italic text-ice text-aura">wiederherstellen.</span>
+          Recover <span className="italic text-ice text-aura">access.</span>
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          Wir senden einen vertraulichen Link an die bei uns hinterlegte Adresse.
+          We will send a private link to your registered address.
         </p>
 
         <form className="mt-12 space-y-6">
           <label className="block">
-            <span className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">E-Mail</span>
+            <span className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">Email</span>
             <input
               type="email"
-              placeholder="sie@bibliothek.de"
+              placeholder="you@library.com"
               className="mt-3 w-full rounded-full border border-border/50 bg-card/50 px-5 py-3 text-sm font-light text-foreground placeholder:text-muted-foreground/60 backdrop-blur-xl focus:border-aura focus:outline-none"
             />
           </label>
@@ -37,13 +37,13 @@ function ForgotPage() {
             type="submit"
             className="w-full rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
           >
-            Link senden
+            Send link
           </button>
         </form>
 
         <div className="mt-8 text-center text-xs text-muted-foreground">
           <Link to="/auth/login" className="transition hover:text-ice">
-            Zurück zur Anmeldung
+            Back to sign in
           </Link>
         </div>
       </section>

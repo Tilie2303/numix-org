@@ -4,8 +4,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const Route = createFileRoute("/auth/login")({
   head: () => ({
     meta: [
-      { title: "NUMIX — Anmelden" },
-      { name: "description", content: "Melden Sie sich an Ihrem privaten NUMIX-Terminal an." },
+      { title: "NUMIX — Sign in" },
+      { name: "description", content: "Sign in to your private NUMIX terminal." },
     ],
   }),
   component: LoginPage,
@@ -18,29 +18,29 @@ function LoginPage() {
       <SiteHeader />
       <section className="relative z-10 mx-auto flex max-w-md flex-col px-6 pt-12 pb-24">
         <h1 className="font-serif text-4xl tracking-tight text-foreground md:text-5xl">
-          <span className="italic text-ice text-aura">Anmelden.</span>
+          Sign <span className="italic text-ice text-aura">in.</span>
         </h1>
         <p className="mt-4 text-sm text-muted-foreground">
-          Zugang zu Ihrem persönlichen Recherche-Terminal.
+          Access your private research terminal.
         </p>
 
         <form className="mt-12 space-y-6">
-          <Field label="E-Mail" type="email" placeholder="sie@bibliothek.de" />
-          <Field label="Passwort" type="password" placeholder="••••••••" />
+          <Field label="Email" type="email" placeholder="you@library.com" />
+          <Field label="Password" type="password" placeholder="••••••••" />
           <button
             type="submit"
             className="w-full rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
           >
-            Anmelden
+            Enter
           </button>
         </form>
 
         <div className="mt-8 flex items-center justify-between text-xs text-muted-foreground">
           <Link to="/auth/register" className="transition hover:text-ice">
-            Einladung anfragen
+            Request invitation
           </Link>
           <Link to="/auth/forgot" className="transition hover:text-ice">
-            Passwort vergessen
+            Forgot password
           </Link>
         </div>
       </section>
