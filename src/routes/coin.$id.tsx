@@ -435,21 +435,22 @@ function CoinPage() {
             {coin.specs && (
               <div className="mt-7 border-t border-border/40 pt-6 md:mt-8 md:pt-7">
                 <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
-                  Coin Information
+                  Münzinformationen
                 </div>
                 <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 md:grid-cols-3 md:gap-x-6 md:gap-y-5">
-                  {coin.specs.metal && <Spec label="Metal" value={coin.specs.metal} />}
-                  {coin.specs.weight && <Spec label="Weight" value={coin.specs.weight} />}
-                  {coin.specs.diameter && <Spec label="Diameter" value={coin.specs.diameter} />}
-                  {coin.specs.mint && <Spec label="Mint" value={coin.specs.mint} />}
-                  {coin.specs.mintYears && <Spec label="Mint Years" value={coin.specs.mintYears} />}
+                  {coin.specs.metal && <Spec label="Metall" value={coin.specs.metal} />}
+                  {coin.specs.weight && <Spec label="Gewicht" value={coin.specs.weight} />}
+                  {coin.specs.diameter && <Spec label="Durchmesser" value={coin.specs.diameter} />}
+                  {coin.specs.mint && <Spec label="Münzstätte" value={coin.specs.mint} />}
+                  {coin.specs.mintYears && <Spec label="Prägejahre" value={coin.specs.mintYears} />}
                   {coin.references[0] && (
                     <Spec
-                      label="Catalog Ref."
+                      label="Katalogreferenz"
                       value={`${coin.references[0].catalog} ${coin.references[0].ref}`}
                     />
                   )}
                 </dl>
+
               </div>
             )}
 
