@@ -49,7 +49,7 @@ function CapturePage() {
       }
     } catch {
       setError(
-        "Camera access denied. Allow camera permission in your browser, or upload an image instead.",
+        "Kein Zugriff auf die Kamera. Erteilen Sie der Anwendung im Browser die Kameraberechtigung — oder laden Sie stattdessen ein Bild hoch.",
       );
     }
   };
