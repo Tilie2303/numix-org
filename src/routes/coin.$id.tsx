@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowLeft, TrendingUp, TrendingDown, Minus, ArrowRight } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { SiteHeader } from "@/components/SiteHeader";
+import { FilterChips, type ChipOption } from "@/components/FilterChips";
 import coinHero from "@/assets/coin-hero.jpg";
 import coinDemo from "@/assets/coin-demo.jpg";
 
