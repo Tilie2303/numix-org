@@ -8,7 +8,7 @@ export function SiteHeader() {
         <img
           src={numixLogo.url}
           alt="NUMIX"
-          className="h-20 w-auto md:h-24 transition-transform duration-300 group-hover:-translate-y-0.5"
+          className="h-14 w-auto md:h-[68px] transition-transform duration-300 group-hover:-translate-y-0.5"
         />
       </Link>
       <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
