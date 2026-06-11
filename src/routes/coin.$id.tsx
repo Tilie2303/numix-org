@@ -1603,18 +1603,47 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
       return next.size === 0 ? new Set(allGrades) : next;
     });
   };
+  const dom = dominantTier(data);
+  const highest = data[data.length - 1];
   return (
     <div>
+      <div className="mb-5 grid gap-4 md:grid-cols-2">
+        <InsightCard
+          kicker="Insight"
+          title="Most common grade range"
+          headline={dom.range}
+          body={
+            <>
+              {dom.pct}% of all recorded auction appearances fall within the{" "}
+              {dom.label.toLowerCase()} band. These are the grades collectors
+              encounter most often on the open market.
+            </>
+          }
+        />
+        <InsightCard
+          kicker="Insight"
+          title="Highest recorded grade"
+          headline={highest.grade}
+          body={
+            <>
+              Only {highest.count} example
+              {highest.count === 1 ? " has" : "s have"} appeared in the auction
+              record at this grade — a meaningful indicator of condition rarity.
+            </>
+          }
+        />
+      </div>
       <div className="mb-2 flex items-baseline justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
             Grade Distribution
           </div>
           <div className="mt-1 font-serif text-sm italic text-muted-foreground">
-            Share of recorded auction appearances by grade.
+            Evidence · share of recorded auction appearances by grade.
           </div>
         </div>
       </div>
+
       <div className="rounded-xl border border-border/40 bg-card/30 p-5 md:p-6">
         <div className="grid grid-cols-1 gap-3">
           {data.map((d, i) => {
