@@ -190,6 +190,11 @@ const COINS: Record<string, Coin> = {
       ],
       notes:
         "Specialist literature consistently treats the 1711 issue as a transitional type bridging the 1706 reform and the post-1715 standardisation. Edge inscription quality is a reliable authentication marker.",
+      comparatives: [
+        { title: "Künker 393, Lot 384 (Mar 2024)", detail: "AU58, hammer €5,400 — closest comparable" },
+        { title: "Heritage 232217, Lot 2117 (Jan 2024)", detail: "MS61, hammer €6,100" },
+        { title: "Spink 23103, Lot 94 (Sep 2023)", detail: "AU55, hammer €4,900" },
+      ],
     },
   },
   "athens-tetradrachm": {
