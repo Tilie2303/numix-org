@@ -945,7 +945,8 @@ function MarketSection({ coin }: { coin: Coin }) {
 
       {/* ERHALTUNGSVERTEILUNG */}
       {coin.market.gradeDistribution && (
-        <GradeDistributionChart data={coin.market.gradeDistribution} />
+        <GradeDistributionChart data={coin.market.gradeDistribution} auctions={coin.market.auctions} />
+
       )}
 
       {/* SCHÄTZWERT NACH ERHALTUNGSGRAD */}
