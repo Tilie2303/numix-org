@@ -899,112 +899,110 @@ function MarketSection({ coin }: { coin: Coin }) {
   // y-axis ticks
   const ticks = [min, min + range / 2, max];
 
+  const windowDE = coin.market.trend.window.replace(/\s*mo\b/i, " Monate").replace(/\s*yr\b/i, " Jahre");
+  const premiumDE = coin.market.activity.medianPremium
+    .replace(/over estimate/i, "über Schätzung")
+    .replace(/below estimate/i, "unter Schätzung");
+  const premiumPctMatch = premiumDE.match(/[+-]?\d+%/);
+  const premiumPct = premiumPctMatch ? premiumPctMatch[0] : premiumDE;
+
   return (
     <div className="space-y-14">
-      {/* MARKET INTELLIGENCE — interpretation first */}
+      {/* MARKTANALYSE — Befund zuerst */}
       <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-7 md:px-8 md:py-8">
         <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-          Market Intelligence
+          Marktanalyse
         </div>
         <p className="mt-4 font-serif text-lg italic leading-[1.55] text-foreground/90 md:text-2xl">
           {coin.market.trend.direction === "up"
-            ? `Prices have risen ${coin.market.trend.pct} over the last ${coin.market.trend.window}.`
+            ? `Realisationen ${coin.market.trend.pct} über ${windowDE}.`
             : coin.market.trend.direction === "down"
-            ? `Prices have softened ${coin.market.trend.pct} over the last ${coin.market.trend.window}.`
-            : `Prices have held steady across the last ${coin.market.trend.window}.`}
+            ? `Realisationen ${coin.market.trend.pct} über ${windowDE}.`
+            : `Preisniveau über ${windowDE} stabil.`}
         </p>
         <ul className="mt-4 space-y-2 text-[13px] font-light leading-[1.7] text-muted-foreground md:text-sm">
-          <li>· High-grade examples (MS and finer) consistently command a meaningful premium.</li>
-          <li>
-            · Recent activity is healthy — {coin.market.activity.lots12m} auction
-            appearances in the last 12 months at a {coin.market.activity.sellThrough} sell-through.
-          </li>
-          <li>
-            · Realised prices land {coin.market.activity.medianPremium.toLowerCase()},
-            indicating sustained competition among advanced collectors.
-          </li>
+          <li>· {coin.market.activity.lots12m} dokumentierte Auktionsergebnisse in den letzten 12 Monaten.</li>
+          <li>· Verkaufsquote {coin.market.activity.sellThrough}.</li>
+          <li>· Durchschnittlich {premiumPct} {premiumPctMatch && premiumPctMatch[0].startsWith("-") ? "unter" : "über"} Schätzung realisiert.</li>
         </ul>
       </div>
 
-      {/* MARKET SUMMARY — understanding before evidence */}
+      {/* MARKTKENNZAHLEN */}
       {coin.market.summary && (
         <div>
           <div className="mb-5 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
-            Market Summary
+            Marktkennzahlen
           </div>
           <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-5">
-            <SummaryCell label="Appearances" value={String(coin.market.summary.totalAppearances)} />
-            <SummaryCell label="Median Price" value={coin.market.summary.medianPrice} />
-            <SummaryCell label="Highest Result" value={coin.market.summary.highestResult} />
-            <SummaryCell label="Lowest Result" value={coin.market.summary.lowestResult} />
-            <SummaryCell label="Most Common Grade" value={coin.market.summary.mostCommonGrade} />
+            <SummaryCell label="Auktionsergebnisse" value={String(coin.market.summary.totalAppearances)} />
+            <SummaryCell label="Medianpreis" value={coin.market.summary.medianPrice} />
+            <SummaryCell label="Höchstes Ergebnis" value={coin.market.summary.highestResult} />
+            <SummaryCell label="Niedrigstes Ergebnis" value={coin.market.summary.lowestResult} />
+            <SummaryCell label="Häufigster Erhaltungsgrad" value={coin.market.summary.mostCommonGrade} />
           </div>
         </div>
       )}
 
-      {/* GRADE DISTRIBUTION */}
+      {/* ERHALTUNGSVERTEILUNG */}
       {coin.market.gradeDistribution && (
         <GradeDistributionChart data={coin.market.gradeDistribution} />
       )}
 
-      {/* ESTIMATED VALUE BY GRADE */}
+      {/* SCHÄTZWERT NACH ERHALTUNGSGRAD */}
       {coin.market.estimatedByGrade && (
         <EstimatedByGradeChart data={coin.market.estimatedByGrade} />
       )}
 
-      {/* INDICATORS */}
+      {/* INDIKATOREN */}
       <div className="grid gap-px overflow-hidden rounded-xl border border-border/40 bg-border/40 md:grid-cols-3">
         <Stat
-          label="Market Momentum"
+          label="Marktentwicklung"
           value={
             <span className="inline-flex items-center gap-2">
               <TrendIcon className="size-5" strokeWidth={1.5} />
               {coin.market.trend.pct}
             </span>
           }
-          sub={`Trend over ${coin.market.trend.window}`}
+          sub={`Trend über ${windowDE}`}
         />
         <Stat
-          label="Market Activity"
+          label="Marktaktivität"
           value={String(coin.market.activity.lots12m)}
-          sub={`Auction appearances in last 12 mo · ${coin.market.activity.sellThrough} sold`}
+          sub={`Auktionsergebnisse in den letzten 12 Monaten · ${coin.market.activity.sellThrough} Verkaufsquote`}
         />
         <Stat
-          label="Auction Performance"
-          value={coin.market.activity.medianPremium}
-          sub="Median result vs. auction estimate"
+          label="Zuschlagsverhalten"
+          value={premiumPct}
+          sub={`Median Realisation vs. Schätzung`}
         />
       </div>
 
-      {/* PRICE HISTORY — numismatic auction chart */}
+      {/* AUKTIONSVERHALTEN */}
       <div>
         <InsightCard
-          kicker="Auction Behaviour"
+          kicker="Auktionsverhalten"
           title={
             coin.market.trend.direction === "up"
-              ? "Market is strengthening"
+              ? "Markt zieht an"
               : coin.market.trend.direction === "down"
-                ? "Market is softening"
-                : "Market is holding steady"
+                ? "Markt gibt nach"
+                : "Markt bleibt stabil"
           }
           headline={
             <>
               {coin.market.trend.pct}{" "}
               <span className="text-foreground/70">
-                across {coin.market.trend.window}
+                über {windowDE}
               </span>
             </>
           }
           body={
             <>
-              {coin.market.activity.lots12m} sales recorded in the last 12 months
-              at {coin.market.activity.sellThrough} sell-through, landing{" "}
-              {coin.market.activity.medianPremium.toLowerCase()}. Tap any point on
-              the chart to inspect the underlying sale — auction house, grade,
-              realised price and premium versus estimate.
+              {coin.market.activity.lots12m} Auktionsergebnisse in den letzten 12 Monaten · {coin.market.activity.sellThrough} Verkaufsquote · durchschnittlich {premiumPct} {premiumPctMatch && premiumPctMatch[0].startsWith("-") ? "unter" : "über"} Schätzung.
             </>
           }
         />
+
         <div className="mb-2 flex items-baseline justify-between">
           <div>
             <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
