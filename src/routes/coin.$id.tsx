@@ -733,6 +733,22 @@ function MarketSection({ coin }: { coin: Coin }) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
 
+  // Interactive filters
+  const allTiers: GradeTier[] = ["top", "mid", "base"];
+  const [activeTiers, setActiveTiers] = useState<Set<GradeTier>>(new Set(allTiers));
+  const allHouses = Array.from(new Set(coin.market.auctions.map((a) => a.house)));
+  const [activeHouses, setActiveHouses] = useState<Set<string>>(new Set(allHouses));
+
+  const toggle = <T,>(set: Set<T>, key: T, fallback: T[]) => {
+    const next = new Set(set);
+    if (next.has(key)) next.delete(key);
+    else next.add(key);
+    return next.size === 0 ? new Set(fallback) : next;
+  };
+
+  const isAuctionVisible = (a: AuctionRecord) =>
+    activeTiers.has(gradeTier(a.grade)) && activeHouses.has(a.house);
+
   // Chronological order (oldest → newest) for the chart
   const chrono = [...coin.market.auctions]
     .map((a, originalIndex) => ({ a, originalIndex }))
