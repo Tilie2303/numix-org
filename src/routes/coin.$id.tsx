@@ -15,6 +15,9 @@ type AuctionRecord = {
   lot?: string;
 };
 
+type GradeDist = { grade: string; pct: number; count: number };
+type EstByGrade = { grade: string; gradeNum: number; estimate: number; low: number; high: number; sales: number[] };
+
 type Coin = {
   id: string;
   title: string;
@@ -26,6 +29,13 @@ type Coin = {
   demand: string;
   importance: string;
   confidence: "High Confidence" | "Moderate Confidence" | "Emerging Data";
+  specs?: {
+    metal?: string;
+    weight?: string;
+    diameter?: string;
+    mint?: string;
+    mintYears?: string;
+  };
   reasoning: {
     rarity: string;
     value: string;
@@ -36,12 +46,23 @@ type Coin = {
     auctions: AuctionRecord[];
     trend: { direction: "up" | "down" | "flat"; pct: string; window: string };
     activity: { lots12m: number; sellThrough: string; medianPremium: string };
+    summary?: {
+      totalAppearances: number;
+      medianPrice: string;
+      highestResult: string;
+      lowestResult: string;
+      mostCommonGrade: string;
+    };
+    gradeDistribution?: GradeDist[];
+    estimatedByGrade?: EstByGrade[];
   };
   references: Array<{ catalog: string; ref: string; note?: string }>;
   population: {
     ngc: { graded: number; finer: number; topGrade: string };
     pcgs: { graded: number; finer: number; topGrade: string };
     knownExamples?: number;
+    finestKnown?: string;
+    topCensus?: Array<{ grade: string; count: number }>;
   };
   provenance: Array<{ year: string; owner: string; detail: string }>;
   expert: {
@@ -49,8 +70,10 @@ type Coin = {
     variants: Array<{ name: string; note: string }>;
     literature: Array<{ title: string; author: string; year: string }>;
     notes: string;
+    comparatives?: Array<{ title: string; detail: string }>;
   };
 };
+
 
 const COINS: Record<string, Coin> = {
   "davenport-747": {
