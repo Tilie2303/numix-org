@@ -15,6 +15,9 @@ type AuctionRecord = {
   lot?: string;
 };
 
+type GradeDist = { grade: string; pct: number; count: number };
+type EstByGrade = { grade: string; gradeNum: number; estimate: number; low: number; high: number; sales: number[] };
+
 type Coin = {
   id: string;
   title: string;
@@ -26,6 +29,13 @@ type Coin = {
   demand: string;
   importance: string;
   confidence: "High Confidence" | "Moderate Confidence" | "Emerging Data";
+  specs?: {
+    metal?: string;
+    weight?: string;
+    diameter?: string;
+    mint?: string;
+    mintYears?: string;
+  };
   reasoning: {
     rarity: string;
     value: string;
@@ -36,12 +46,23 @@ type Coin = {
     auctions: AuctionRecord[];
     trend: { direction: "up" | "down" | "flat"; pct: string; window: string };
     activity: { lots12m: number; sellThrough: string; medianPremium: string };
+    summary?: {
+      totalAppearances: number;
+      medianPrice: string;
+      highestResult: string;
+      lowestResult: string;
+      mostCommonGrade: string;
+    };
+    gradeDistribution?: GradeDist[];
+    estimatedByGrade?: EstByGrade[];
   };
   references: Array<{ catalog: string; ref: string; note?: string }>;
   population: {
     ngc: { graded: number; finer: number; topGrade: string };
     pcgs: { graded: number; finer: number; topGrade: string };
     knownExamples?: number;
+    finestKnown?: string;
+    topCensus?: Array<{ grade: string; count: number }>;
   };
   provenance: Array<{ year: string; owner: string; detail: string }>;
   expert: {
@@ -49,8 +70,10 @@ type Coin = {
     variants: Array<{ name: string; note: string }>;
     literature: Array<{ title: string; author: string; year: string }>;
     notes: string;
+    comparatives?: Array<{ title: string; detail: string }>;
   };
 };
+
 
 const COINS: Record<string, Coin> = {
   "davenport-747": {
@@ -64,6 +87,13 @@ const COINS: Record<string, Coin> = {
     demand: "Strong",
     importance: "High",
     confidence: "High Confidence",
+    specs: {
+      metal: "Silver (.875)",
+      weight: "29.10 g",
+      diameter: "42 mm",
+      mint: "Dresden",
+      mintYears: "1711",
+    },
     reasoning: {
       rarity:
         "Struck in limited numbers at the Dresden mint during a transitional reign, surviving specimens in collectable grade rarely exceed three figures worldwide.",
@@ -85,19 +115,60 @@ const COINS: Record<string, Coin> = {
       ],
       trend: { direction: "up", pct: "+12.4%", window: "24 mo" },
       activity: { lots12m: 7, sellThrough: "100%", medianPremium: "+8% over estimate" },
+      summary: {
+        totalAppearances: 137,
+        medianPrice: "€620",
+        highestResult: "€14,500",
+        lowestResult: "€180",
+        mostCommonGrade: "AU55",
+      },
+      gradeDistribution: [
+        { grade: "VF30", pct: 4, count: 5 },
+        { grade: "VF35", pct: 7, count: 10 },
+        { grade: "EF40", pct: 11, count: 15 },
+        { grade: "EF45", pct: 14, count: 19 },
+        { grade: "AU53", pct: 17, count: 23 },
+        { grade: "AU55", pct: 21, count: 29 },
+        { grade: "AU58", pct: 13, count: 18 },
+        { grade: "MS60", pct: 7, count: 10 },
+        { grade: "MS62", pct: 4, count: 5 },
+        { grade: "MS63", pct: 2, count: 3 },
+      ],
+      estimatedByGrade: [
+        { grade: "VF30", gradeNum: 30, estimate: 240, low: 180, high: 320, sales: [180, 220, 260] },
+        { grade: "VF35", gradeNum: 35, estimate: 340, low: 260, high: 440, sales: [280, 310, 360, 400] },
+        { grade: "EF40", gradeNum: 40, estimate: 480, low: 360, high: 620, sales: [380, 440, 500, 560, 600] },
+        { grade: "EF45", gradeNum: 45, estimate: 720, low: 540, high: 950, sales: [560, 640, 700, 820, 900] },
+        { grade: "AU53", gradeNum: 53, estimate: 1100, low: 820, high: 1450, sales: [880, 1000, 1150, 1300] },
+        { grade: "AU55", gradeNum: 55, estimate: 1600, low: 1200, high: 2100, sales: [1280, 1450, 1700, 1900, 2050] },
+        { grade: "AU58", gradeNum: 58, estimate: 2400, low: 1800, high: 3200, sales: [1900, 2200, 2600, 3000] },
+        { grade: "MS60", gradeNum: 60, estimate: 3600, low: 2700, high: 4800, sales: [2800, 3400, 4000, 4600] },
+        { grade: "MS62", gradeNum: 62, estimate: 5200, low: 3900, high: 6800, sales: [4100, 4900, 5800, 6500] },
+        { grade: "MS63", gradeNum: 63, estimate: 7400, low: 5600, high: 9800, sales: [5800, 6800, 8200, 9400] },
+      ],
     },
     references: [
       { catalog: "Davenport", ref: "747", note: "Primary reference" },
       { catalog: "Schnee", ref: "1006" },
       { catalog: "KM", ref: "#831" },
       { catalog: "Kahnt", ref: "298" },
+      { catalog: "AKS", ref: "—" },
       { catalog: "Merseb.", ref: "1543" },
     ],
     population: {
       ngc: { graded: 84, finer: 7, topGrade: "MS63" },
       pcgs: { graded: 58, finer: 4, topGrade: "MS62" },
       knownExamples: 142,
+      finestKnown: "MS63 (NGC)",
+      topCensus: [
+        { grade: "MS63", count: 2 },
+        { grade: "MS62", count: 5 },
+        { grade: "MS61", count: 9 },
+        { grade: "AU58", count: 18 },
+        { grade: "AU55", count: 29 },
+      ],
     },
+
     provenance: [
       { year: "2024", owner: "Private European Collection", detail: "Acquired Künker Auction 393, Lot 384" },
       { year: "2011", owner: "Horn Collection", detail: "Catalogued in Künker Sale 198" },
@@ -119,6 +190,11 @@ const COINS: Record<string, Coin> = {
       ],
       notes:
         "Specialist literature consistently treats the 1711 issue as a transitional type bridging the 1706 reform and the post-1715 standardisation. Edge inscription quality is a reliable authentication marker.",
+      comparatives: [
+        { title: "Künker 393, Lot 384 (Mar 2024)", detail: "AU58, hammer €5,400 — closest comparable" },
+        { title: "Heritage 232217, Lot 2117 (Jan 2024)", detail: "MS61, hammer €6,100" },
+        { title: "Spink 23103, Lot 94 (Sep 2023)", detail: "AU55, hammer €4,900" },
+      ],
     },
   },
   "athens-tetradrachm": {
@@ -132,6 +208,13 @@ const COINS: Record<string, Coin> = {
     demand: "Strong",
     importance: "Foundational",
     confidence: "High Confidence",
+    specs: {
+      metal: "Silver (.965)",
+      weight: "17.20 g",
+      diameter: "24 mm",
+      mint: "Athens",
+      mintYears: "c. 454–404 BC",
+    },
     reasoning: {
       rarity:
         "Produced in vast quantities to fund Athenian commerce and naval power, the classical owl tetradrachm survives in meaningful numbers — yet exceptional centering and full crests remain genuinely uncommon.",
@@ -152,6 +235,31 @@ const COINS: Record<string, Coin> = {
       ],
       trend: { direction: "up", pct: "+18.2%", window: "24 mo" },
       activity: { lots12m: 142, sellThrough: "94%", medianPremium: "+11% over estimate" },
+      summary: {
+        totalAppearances: 1420,
+        medianPrice: "€1,950",
+        highestResult: "€48,000",
+        lowestResult: "€420",
+        mostCommonGrade: "EF",
+      },
+      gradeDistribution: [
+        { grade: "VF", pct: 22, count: 312 },
+        { grade: "Good VF", pct: 18, count: 256 },
+        { grade: "EF", pct: 28, count: 398 },
+        { grade: "Choice EF", pct: 18, count: 256 },
+        { grade: "AU", pct: 8, count: 114 },
+        { grade: "MS", pct: 4, count: 57 },
+        { grade: "MS★", pct: 2, count: 27 },
+      ],
+      estimatedByGrade: [
+        { grade: "VF", gradeNum: 35, estimate: 950, low: 700, high: 1300, sales: [780, 900, 1050, 1200] },
+        { grade: "gVF", gradeNum: 40, estimate: 1350, low: 1000, high: 1800, sales: [1100, 1280, 1500, 1700] },
+        { grade: "EF", gradeNum: 45, estimate: 2000, low: 1500, high: 2700, sales: [1600, 1850, 2200, 2600] },
+        { grade: "cEF", gradeNum: 50, estimate: 2800, low: 2100, high: 3800, sales: [2200, 2600, 3100, 3600] },
+        { grade: "AU", gradeNum: 55, estimate: 4500, low: 3300, high: 6100, sales: [3500, 4200, 5200, 6000] },
+        { grade: "MS", gradeNum: 60, estimate: 8200, low: 6100, high: 11000, sales: [6500, 7800, 9500, 10800] },
+        { grade: "MS★", gradeNum: 65, estimate: 16000, low: 12000, high: 22000, sales: [12500, 15500, 19000, 24000] },
+      ],
     },
     references: [
       { catalog: "SNG Cop.", ref: "31" },
@@ -159,12 +267,22 @@ const COINS: Record<string, Coin> = {
       { catalog: "HGC", ref: "4.1597" },
       { catalog: "Sear", ref: "2526" },
       { catalog: "Starr", ref: "Group V.B" },
+      { catalog: "Krause", ref: "—" },
     ],
     population: {
       ngc: { graded: 1240, finer: 68, topGrade: "MS★" },
       pcgs: { graded: 640, finer: 24, topGrade: "MS" },
       knownExamples: 1880,
+      finestKnown: "MS★ (NGC)",
+      topCensus: [
+        { grade: "MS★", count: 27 },
+        { grade: "MS", count: 57 },
+        { grade: "Ch AU", count: 96 },
+        { grade: "AU", count: 114 },
+        { grade: "Ch EF", count: 256 },
+      ],
     },
+
     provenance: [
       { year: "2024", owner: "American Private Collection", detail: "NAC Auction 142, Lot 118" },
       { year: "1998", owner: "BCD Collection", detail: "Catalogued and published" },
@@ -185,6 +303,11 @@ const COINS: Record<string, Coin> = {
       ],
       notes:
         "Style and fabric — not nominal grade — drive premium pricing. Frontal owls (Kroll 15) are a separate, scarcer category and should not be confused with the standard profile type.",
+      comparatives: [
+        { title: "NAC 142, Lot 118 (May 2024)", detail: "Choice EF, hammer €2,650 — strong centering" },
+        { title: "Leu 16, Lot 82 (Aug 2023)", detail: "Choice EF, hammer €2,480" },
+        { title: "CNG Triton XXVII, Lot 245 (Feb 2024)", detail: "Good VF, hammer €1,580" },
+      ],
     },
   },
 };
@@ -284,6 +407,29 @@ function CoinPage() {
             <div className="mt-3 font-serif text-base italic text-muted-foreground md:text-lg">
               {coin.subtitle}
             </div>
+
+            {coin.specs && (
+              <div className="mt-7 border-t border-border/40 pt-6 md:mt-8 md:pt-7">
+                <div className="text-[9px] uppercase tracking-[0.36em] text-muted-foreground md:text-[10px] md:tracking-[0.32em]">
+                  Coin Information
+                </div>
+                <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 md:grid-cols-3 md:gap-x-6 md:gap-y-5">
+                  {coin.specs.metal && <Spec label="Metal" value={coin.specs.metal} />}
+                  {coin.specs.weight && <Spec label="Weight" value={coin.specs.weight} />}
+                  {coin.specs.diameter && <Spec label="Diameter" value={coin.specs.diameter} />}
+                  {coin.specs.mint && <Spec label="Mint" value={coin.specs.mint} />}
+                  {coin.specs.mintYears && <Spec label="Mint Years" value={coin.specs.mintYears} />}
+                  {coin.references[0] && (
+                    <Spec
+                      label="Catalog Ref."
+                      value={`${coin.references[0].catalog} ${coin.references[0].ref}`}
+                    />
+                  )}
+                </dl>
+              </div>
+            )}
+
+
 
             {/* Insights — the 5-second understanding */}
             <div className="mt-9 border-t border-border/40 pt-7 md:mt-10 md:pt-8">
@@ -544,6 +690,17 @@ function Verdict({
   );
 }
 
+function Spec({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground md:text-[10px] md:tracking-[0.22em]">
+        {label}
+      </dt>
+      <dd className="mt-1.5 font-serif text-base text-foreground md:text-lg">{value}</dd>
+    </div>
+  );
+}
+
 function Paragraph({ title, body }: { title: string; body: string }) {
   return (
     <div className="max-w-2xl">
@@ -656,6 +813,32 @@ function MarketSection({ coin }: { coin: Coin }) {
           </li>
         </ul>
       </div>
+
+      {/* MARKET SUMMARY — understanding before evidence */}
+      {coin.market.summary && (
+        <div>
+          <div className="mb-5 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+            Market Summary
+          </div>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-6 md:grid-cols-5">
+            <SummaryCell label="Appearances" value={String(coin.market.summary.totalAppearances)} />
+            <SummaryCell label="Median Price" value={coin.market.summary.medianPrice} />
+            <SummaryCell label="Highest Result" value={coin.market.summary.highestResult} />
+            <SummaryCell label="Lowest Result" value={coin.market.summary.lowestResult} />
+            <SummaryCell label="Most Common Grade" value={coin.market.summary.mostCommonGrade} />
+          </div>
+        </div>
+      )}
+
+      {/* GRADE DISTRIBUTION */}
+      {coin.market.gradeDistribution && (
+        <GradeDistributionChart data={coin.market.gradeDistribution} />
+      )}
+
+      {/* ESTIMATED VALUE BY GRADE */}
+      {coin.market.estimatedByGrade && (
+        <EstimatedByGradeChart data={coin.market.estimatedByGrade} />
+      )}
 
       {/* INDICATORS */}
       <div className="grid gap-px overflow-hidden rounded-xl border border-border/40 bg-border/40 md:grid-cols-3">
@@ -1065,48 +1248,81 @@ function PopulationSection({ coin }: { coin: Coin }) {
         </div>
       </div>
 
-      {/* GRADING SERVICES — supporting evidence, minimal */}
+      {/* GRADING SERVICES — structured evidence */}
       <div className="border-t border-border/30 pt-10">
         <div className="mb-6 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
           Grading Services
         </div>
-        <div className="space-y-6">
-          <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-            <div className="flex items-baseline gap-4">
-              <span className="w-12 text-sm font-medium text-foreground">NGC</span>
-              <span className="text-sm text-muted-foreground">{ngc.graded} Certified</span>
-            </div>
-            <div className="flex items-baseline gap-2 md:gap-3">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                Finest Known
-              </span>
-              <span className="font-serif text-xl text-ice">{ngc.topGrade}</span>
-            </div>
+        <div className="grid gap-5 md:grid-cols-2">
+          <PopCard service="NGC" graded={ngc.graded} top={ngc.topGrade} finer={ngc.finer} />
+          <PopCard service="PCGS" graded={pcgs.graded} top={pcgs.topGrade} finer={pcgs.finer} />
+        </div>
+      </div>
+
+      {/* TOP CENSUS */}
+      {coin.population.topCensus && coin.population.topCensus.length > 0 && (
+        <div className="border-t border-border/30 pt-10">
+          <div className="mb-5 text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+            Top Census
           </div>
-          <div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-            <div className="flex items-baseline gap-4">
-              <span className="w-12 text-sm font-medium text-foreground">PCGS</span>
-              <span className="text-sm text-muted-foreground">{pcgs.graded} Certified</span>
-            </div>
-            <div className="flex items-baseline gap-2 md:gap-3">
-              <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                Finest Known
-              </span>
-              <span className="font-serif text-xl text-ice">{pcgs.topGrade}</span>
-            </div>
+          <ul className="divide-y divide-border/40 border-y border-border/40">
+            {coin.population.topCensus.map((c, i) => (
+              <li key={i} className="flex items-baseline justify-between gap-6 py-3">
+                <span className="font-serif text-lg text-foreground">{c.grade}</span>
+                <span className="text-sm text-muted-foreground">
+                  {c.count} example{c.count === 1 ? "" : "s"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PopCard({
+  service,
+  graded,
+  top,
+  finer,
+}: {
+  service: string;
+  graded: number;
+  top: string;
+  finer: number;
+}) {
+  return (
+    <div className="rounded-2xl border border-border/40 bg-card/30 px-6 py-6">
+      <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">{service}</div>
+      <div className="mt-3 font-serif text-4xl text-foreground">{graded}</div>
+      <div className="mt-1 text-xs font-light text-muted-foreground">Total certified</div>
+      <div className="mt-5 flex items-baseline justify-between border-t border-border/40 pt-4">
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Finest
           </div>
+          <div className="mt-1 font-serif text-2xl text-ice">{top}</div>
+        </div>
+        <div className="text-right">
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            At finest
+          </div>
+          <div className="mt-1 font-serif text-2xl text-foreground">{finer}</div>
         </div>
       </div>
     </div>
   );
 }
 
+
 function ExpertSection({ coin }: { coin: Coin }) {
-  const [tab, setTab] = useState<"dies" | "variants" | "literature" | "notes">("dies");
+  const [tab, setTab] = useState<"dies" | "variants" | "literature" | "comparatives" | "notes">("dies");
   const tabs = [
     { id: "dies" as const, label: "Die studies" },
     { id: "variants" as const, label: "Variants" },
     { id: "literature" as const, label: "Literature" },
+    { id: "comparatives" as const, label: "Comparative examples" },
     { id: "notes" as const, label: "Specialist notes" },
   ];
   return (
@@ -1157,11 +1373,220 @@ function ExpertSection({ coin }: { coin: Coin }) {
             ))}
           </ul>
         )}
+        {tab === "comparatives" && (
+          coin.expert.comparatives && coin.expert.comparatives.length > 0 ? (
+            <ul className="space-y-5">
+              {coin.expert.comparatives.map((c, i) => (
+                <li key={i} className="border-b border-border/30 pb-5 last:border-b-0">
+                  <div className="font-serif text-lg text-foreground">{c.title}</div>
+                  <div className="mt-1 text-sm font-light text-muted-foreground">{c.detail}</div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="max-w-2xl font-serif text-base italic text-muted-foreground">
+              Comparable specimens are being indexed.
+            </p>
+          )
+        )}
         {tab === "notes" && (
           <p className="max-w-2xl font-serif text-lg leading-[1.7] text-foreground/90">
             {coin.expert.notes}
           </p>
         )}
+      </div>
+    </div>
+  );
+}
+
+function SummaryCell({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">{label}</div>
+      <div className="mt-2 font-serif text-2xl text-foreground md:text-3xl">{value}</div>
+    </div>
+  );
+}
+
+function GradeDistributionChart({ data }: { data: GradeDist[] }) {
+  const max = Math.max(...data.map((d) => d.pct));
+  return (
+    <div>
+      <div className="mb-2 flex items-baseline justify-between">
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Grade Distribution
+          </div>
+          <div className="mt-1 font-serif text-sm italic text-muted-foreground">
+            Share of recorded auction appearances by grade.
+          </div>
+        </div>
+      </div>
+      <div className="rounded-xl border border-border/40 bg-card/30 p-5 md:p-6">
+        <div className="grid grid-cols-1 gap-3">
+          {data.map((d, i) => {
+            const w = Math.max((d.pct / max) * 100, 2);
+            return (
+              <div key={i} className="grid grid-cols-[60px_1fr_72px] items-center gap-4">
+                <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                  {d.grade}
+                </span>
+                <div className="relative h-2 overflow-hidden rounded-full bg-border/40">
+                  <div
+                    className="absolute inset-y-0 left-0 rounded-full"
+                    style={{
+                      width: `${w}%`,
+                      background:
+                        "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
+                    }}
+                  />
+                </div>
+                <span className="text-right font-serif text-sm text-foreground">
+                  {d.pct}% · {d.count}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
+  const W = 600;
+  const H = 220;
+  const padL = 44;
+  const padR = 16;
+  const padT = 16;
+  const padB = 32;
+
+  const allVals = data.flatMap((d) => [d.low, d.high, ...d.sales]);
+  const maxVal = Math.max(...allVals);
+  const minX = Math.min(...data.map((d) => d.gradeNum));
+  const maxX = Math.max(...data.map((d) => d.gradeNum));
+
+  const xFor = (g: number) =>
+    padL + ((g - minX) / Math.max(maxX - minX, 1)) * (W - padL - padR);
+  const yFor = (v: number) =>
+    padT + (1 - v / maxVal) * (H - padT - padB);
+
+  const linePath = data
+    .map((d, i) => `${i === 0 ? "M" : "L"} ${xFor(d.gradeNum)} ${yFor(d.estimate)}`)
+    .join(" ");
+  const areaTop = data.map((d) => `${xFor(d.gradeNum)},${yFor(d.high)}`).join(" ");
+  const areaBottom = [...data]
+    .reverse()
+    .map((d) => `${xFor(d.gradeNum)},${yFor(d.low)}`)
+    .join(" ");
+
+  const formatPrice = (n: number) =>
+    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
+
+  const ticks = [0, Math.round(maxVal / 2), maxVal];
+
+  return (
+    <div>
+      <div className="mb-2 flex items-baseline justify-between">
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Estimated Value by Grade
+          </div>
+          <div className="mt-1 font-serif text-sm italic text-muted-foreground">
+            Estimate curve · 80% confidence interval · observed sales.
+          </div>
+        </div>
+      </div>
+      <div className="rounded-xl border border-border/40 bg-card/30 p-4">
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="h-64 w-full md:h-72">
+          <defs>
+            <linearGradient id="ciFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="oklch(0.72 0.12 240)" stopOpacity="0.28" />
+              <stop offset="100%" stopColor="oklch(0.72 0.12 240)" stopOpacity="0.04" />
+            </linearGradient>
+          </defs>
+          {ticks.map((t, i) => {
+            const y = yFor(t);
+            return (
+              <g key={i}>
+                <line
+                  x1={padL}
+                  x2={W - padR}
+                  y1={y}
+                  y2={y}
+                  stroke="oklch(0.3 0.01 250)"
+                  strokeOpacity="0.35"
+                  strokeDasharray="2 4"
+                />
+                <text
+                  x={padL - 6}
+                  y={y + 3}
+                  textAnchor="end"
+                  fontSize="9"
+                  fill="oklch(0.62 0.01 250)"
+                  fontFamily="Inter, sans-serif"
+                >
+                  €{formatPrice(t)}
+                </text>
+              </g>
+            );
+          })}
+          <polygon points={`${areaTop} ${areaBottom}`} fill="url(#ciFill)" />
+          <path d={linePath} fill="none" stroke="oklch(0.78 0.11 238)" strokeWidth="1.5" />
+          {data.flatMap((d) =>
+            d.sales.map((s, j) => (
+              <circle
+                key={`${d.grade}-${j}`}
+                cx={xFor(d.gradeNum)}
+                cy={yFor(s)}
+                r={3}
+                fill="oklch(0.78 0.11 238)"
+                fillOpacity="0.55"
+                stroke="oklch(0.12 0.005 250)"
+                strokeWidth="1"
+              />
+            )),
+          )}
+          {data.map((d, i) => (
+            <g key={`x-${i}`}>
+              <circle
+                cx={xFor(d.gradeNum)}
+                cy={yFor(d.estimate)}
+                r={4}
+                fill="oklch(0.92 0.04 230)"
+                stroke="oklch(0.12 0.005 250)"
+                strokeWidth="1.5"
+              />
+              <text
+                x={xFor(d.gradeNum)}
+                y={H - 10}
+                textAnchor="middle"
+                fontSize="9"
+                fill="oklch(0.62 0.01 250)"
+                fontFamily="Inter, sans-serif"
+              >
+                {d.grade}
+              </text>
+            </g>
+          ))}
+        </svg>
+      </div>
+      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-block h-0.5 w-5 bg-[oklch(0.78_0.11_238)]" />
+          Estimate curve
+        </span>
+        <span className="inline-flex items-center gap-2">
+          <span
+            className="inline-block h-2.5 w-3 rounded-sm"
+            style={{ background: "oklch(0.72 0.12 240 / 0.25)" }}
+          />
+          80% confidence
+        </span>
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-block size-2 rounded-full bg-[oklch(0.78_0.11_238)]" />
+          Observed sales
+        </span>
       </div>
     </div>
   );
