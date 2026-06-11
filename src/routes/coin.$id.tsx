@@ -140,9 +140,9 @@ const COINS: Record<string, Coin> = {
       activity: { lots12m: 7, sellThrough: "100%", medianPremium: "+8% über Schätzung" },
       summary: {
         totalAppearances: 64,
-        medianPrice: "€4,950",
-        highestResult: "€14,500",
-        lowestResult: "€1,150",
+        medianPrice: "€4.950",
+        highestResult: "€14.500",
+        lowestResult: "€1.150",
         mostCommonGrade: "AU55",
       },
       gradeDistribution: [
