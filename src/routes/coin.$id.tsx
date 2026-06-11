@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowLeft, TrendingUp, TrendingDown, Minus, ArrowRight } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { SiteHeader } from "@/components/SiteHeader";
+import { FilterChips, type ChipOption } from "@/components/FilterChips";
 import coinHero from "@/assets/coin-hero.jpg";
 import coinDemo from "@/assets/coin-demo.jpg";
 
@@ -732,6 +733,22 @@ function MarketSection({ coin }: { coin: Coin }) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
 
+  // Interactive filters
+  const allTiers: GradeTier[] = ["top", "mid", "base"];
+  const [activeTiers, setActiveTiers] = useState<Set<GradeTier>>(new Set(allTiers));
+  const allHouses = Array.from(new Set(coin.market.auctions.map((a) => a.house)));
+  const [activeHouses, setActiveHouses] = useState<Set<string>>(new Set(allHouses));
+
+  const toggle = <T,>(set: Set<T>, key: T, fallback: T[]) => {
+    const next = new Set(set);
+    if (next.has(key)) next.delete(key);
+    else next.add(key);
+    return next.size === 0 ? new Set(fallback) : next;
+  };
+
+  const isAuctionVisible = (a: AuctionRecord) =>
+    activeTiers.has(gradeTier(a.grade)) && activeHouses.has(a.house);
+
   // Chronological order (oldest → newest) for the chart
   const chrono = [...coin.market.auctions]
     .map((a, originalIndex) => ({ a, originalIndex }))
@@ -952,9 +969,16 @@ function MarketSection({ coin }: { coin: Coin }) {
               const tier = gradeTier(p.a.grade);
               const meta = TIER_META[tier];
               const isActive = activePointIndex === i;
+              const visible = isAuctionVisible(p.a);
               return (
-                <g key={i}>
-                  {isActive && (
+                <g
+                  key={i}
+                  style={{
+                    opacity: visible ? 1 : 0.12,
+                    transition: "opacity 320ms ease",
+                  }}
+                >
+                  {isActive && visible && (
                     <circle
                       cx={p.x}
                       cy={p.y}
@@ -972,15 +996,17 @@ function MarketSection({ coin }: { coin: Coin }) {
                     strokeWidth="1.5"
                   />
                   {/* invisible hit target */}
-                  <circle
-                    cx={p.x}
-                    cy={p.y}
-                    r={16}
-                    fill="transparent"
-                    style={{ cursor: "pointer" }}
-                    onMouseEnter={() => setHovered(i)}
-                    onClick={() => onPointActivate(i)}
-                  />
+                  {visible && (
+                    <circle
+                      cx={p.x}
+                      cy={p.y}
+                      r={16}
+                      fill="transparent"
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={() => setHovered(i)}
+                      onClick={() => onPointActivate(i)}
+                    />
+                  )}
                 </g>
               );
             })}
@@ -1009,6 +1035,34 @@ function MarketSection({ coin }: { coin: Coin }) {
             </span>
           ))}
         </div>
+
+        {/* Interactive filters */}
+        <FilterChips
+          label="Grade"
+          options={allTiers.map<ChipOption>((t) => ({
+            key: t,
+            label: TIER_META[t].label.split(" ")[0],
+            swatch: TIER_META[t].color,
+            count: coin.market.auctions.filter((a) => gradeTier(a.grade) === t).length,
+          }))}
+          active={activeTiers as Set<string>}
+          onToggle={(k) =>
+            setActiveTiers((s) => toggle(s, k as GradeTier, allTiers))
+          }
+          onAll={() => setActiveTiers(new Set(allTiers))}
+          totalLabel={`${coin.market.auctions.filter(isAuctionVisible).length} of ${coin.market.auctions.length} visible`}
+        />
+        <FilterChips
+          label="House"
+          options={allHouses.map<ChipOption>((h) => ({
+            key: h,
+            label: h,
+            count: coin.market.auctions.filter((a) => a.house === h).length,
+          }))}
+          active={activeHouses}
+          onToggle={(k) => setActiveHouses((s) => toggle(s, k, allHouses))}
+          onAll={() => setActiveHouses(new Set(allHouses))}
+        />
       </div>
 
       {/* RECENT SALES — connected to chart */}
@@ -1040,14 +1094,19 @@ function MarketSection({ coin }: { coin: Coin }) {
           {coin.market.auctions.map((a, i) => {
             const tier = gradeTier(a.grade);
             const isActive = activeAuctionIndex === i;
+            const visible = isAuctionVisible(a);
             // Map original index back to chart point index
             const chartIndex = pts.findIndex((p) => p.originalIndex === i);
             return (
               <button
                 key={i}
-                onClick={() => setSelected(chartIndex)}
-                onMouseEnter={() => setHovered(chartIndex)}
+                onClick={() => visible && setSelected(chartIndex)}
+                onMouseEnter={() => visible && setHovered(chartIndex)}
                 onMouseLeave={() => setHovered(null)}
+                style={{
+                  opacity: visible ? 1 : 0.28,
+                  transition: "opacity 280ms ease",
+                }}
                 className={`grid w-full grid-cols-[1fr_auto] gap-x-4 gap-y-1 py-4 text-left transition md:grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1fr] md:items-baseline ${
                   isActive
                     ? "bg-ice/[0.04] px-3 -mx-3 rounded-md"
@@ -1409,7 +1468,17 @@ function SummaryCell({ label, value }: { label: string; value: string }) {
 }
 
 function GradeDistributionChart({ data }: { data: GradeDist[] }) {
+  const allGrades = data.map((d) => d.grade);
+  const [active, setActive] = useState<Set<string>>(new Set(allGrades));
   const max = Math.max(...data.map((d) => d.pct));
+  const toggle = (g: string) => {
+    setActive((s) => {
+      const next = new Set(s);
+      if (next.has(g)) next.delete(g);
+      else next.add(g);
+      return next.size === 0 ? new Set(allGrades) : next;
+    });
+  };
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between">
@@ -1426,8 +1495,13 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
         <div className="grid grid-cols-1 gap-3">
           {data.map((d, i) => {
             const w = Math.max((d.pct / max) * 100, 2);
+            const on = active.has(d.grade);
             return (
-              <div key={i} className="grid grid-cols-[60px_1fr_72px] items-center gap-4">
+              <div
+                key={i}
+                className="grid grid-cols-[60px_1fr_72px] items-center gap-4"
+                style={{ opacity: on ? 1 : 0.25, transition: "opacity 280ms ease" }}
+              >
                 <span className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                   {d.grade}
                 </span>
@@ -1435,9 +1509,10 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
                   <div
                     className="absolute inset-y-0 left-0 rounded-full"
                     style={{
-                      width: `${w}%`,
+                      width: on ? `${w}%` : "0%",
                       background:
                         "linear-gradient(90deg, oklch(0.72 0.12 240) 0%, oklch(0.82 0.06 230) 100%)",
+                      transition: "width 480ms cubic-bezier(.22,.61,.36,1)",
                     }}
                   />
                 </div>
@@ -1449,11 +1524,30 @@ function GradeDistributionChart({ data }: { data: GradeDist[] }) {
           })}
         </div>
       </div>
+      <FilterChips
+        label="Grade"
+        options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade, count: d.count }))}
+        active={active}
+        onToggle={toggle}
+        onAll={() => setActive(new Set(allGrades))}
+        totalLabel={`${active.size} of ${allGrades.length} grades`}
+      />
     </div>
   );
 }
 
 function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
+  const allGrades = data.map((d) => d.grade);
+  const [active, setActive] = useState<Set<string>>(new Set(allGrades));
+  const toggle = (g: string) =>
+    setActive((s) => {
+      const next = new Set(s);
+      if (next.has(g)) next.delete(g);
+      else next.add(g);
+      return next.size === 0 ? new Set(allGrades) : next;
+    });
+  const isOn = (g: string) => active.has(g);
+
   const W = 600;
   const H = 220;
   const padL = 44;
@@ -1534,43 +1628,58 @@ function EstimatedByGradeChart({ data }: { data: EstByGrade[] }) {
           <polygon points={`${areaTop} ${areaBottom}`} fill="url(#ciFill)" />
           <path d={linePath} fill="none" stroke="oklch(0.78 0.11 238)" strokeWidth="1.5" />
           {data.flatMap((d) =>
-            d.sales.map((s, j) => (
-              <circle
-                key={`${d.grade}-${j}`}
-                cx={xFor(d.gradeNum)}
-                cy={yFor(s)}
-                r={3}
-                fill="oklch(0.78 0.11 238)"
-                fillOpacity="0.55"
-                stroke="oklch(0.12 0.005 250)"
-                strokeWidth="1"
-              />
-            )),
+            d.sales.map((s, j) => {
+              const on = isOn(d.grade);
+              return (
+                <circle
+                  key={`${d.grade}-${j}`}
+                  cx={xFor(d.gradeNum)}
+                  cy={yFor(s)}
+                  r={3}
+                  fill="oklch(0.78 0.11 238)"
+                  fillOpacity={on ? 0.55 : 0.08}
+                  stroke="oklch(0.12 0.005 250)"
+                  strokeWidth="1"
+                  style={{ transition: "fill-opacity 300ms ease" }}
+                />
+              );
+            }),
           )}
-          {data.map((d, i) => (
-            <g key={`x-${i}`}>
-              <circle
-                cx={xFor(d.gradeNum)}
-                cy={yFor(d.estimate)}
-                r={4}
-                fill="oklch(0.92 0.04 230)"
-                stroke="oklch(0.12 0.005 250)"
-                strokeWidth="1.5"
-              />
-              <text
-                x={xFor(d.gradeNum)}
-                y={H - 10}
-                textAnchor="middle"
-                fontSize="9"
-                fill="oklch(0.62 0.01 250)"
-                fontFamily="Inter, sans-serif"
-              >
-                {d.grade}
-              </text>
-            </g>
-          ))}
+          {data.map((d, i) => {
+            const on = isOn(d.grade);
+            return (
+              <g key={`x-${i}`} style={{ opacity: on ? 1 : 0.28, transition: "opacity 300ms ease" }}>
+                <circle
+                  cx={xFor(d.gradeNum)}
+                  cy={yFor(d.estimate)}
+                  r={4}
+                  fill="oklch(0.92 0.04 230)"
+                  stroke="oklch(0.12 0.005 250)"
+                  strokeWidth="1.5"
+                />
+                <text
+                  x={xFor(d.gradeNum)}
+                  y={H - 10}
+                  textAnchor="middle"
+                  fontSize="9"
+                  fill="oklch(0.62 0.01 250)"
+                  fontFamily="Inter, sans-serif"
+                >
+                  {d.grade}
+                </text>
+              </g>
+            );
+          })}
         </svg>
       </div>
+      <FilterChips
+        label="Grade"
+        options={data.map<ChipOption>((d) => ({ key: d.grade, label: d.grade }))}
+        active={active}
+        onToggle={toggle}
+        onAll={() => setActive(new Set(allGrades))}
+        totalLabel={`${active.size} of ${allGrades.length} grades`}
+      />
       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         <span className="inline-flex items-center gap-2">
           <span className="inline-block h-0.5 w-5 bg-[oklch(0.78_0.11_238)]" />
