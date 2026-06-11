@@ -122,12 +122,26 @@ function PhotoSearch() {
           <Tip n="03" label="Both sides" />
         </div>
 
-        <div className="mt-14 text-center text-xs text-muted-foreground">
-          Prefer to type?{" "}
-          <Link to="/search" className="transition hover:text-ice">
-            Refined search
-          </Link>
-        </div>
+        {/* ─── PREFER TO TYPE ─── */}
+        <Link
+          to="/search"
+          className="group mt-14 mx-auto flex max-w-lg items-center gap-4 rounded-2xl border border-border/50 bg-card/30 p-5 backdrop-blur-xl transition hover:border-aura"
+        >
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-full border border-border/60 bg-card/40 text-foreground/80 transition group-hover:text-ice">
+            <Keyboard className="size-4" strokeWidth={1.4} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="font-serif text-lg text-foreground transition group-hover:text-ice">
+              Prefer to type?
+            </div>
+            <div className="mt-0.5 text-xs text-muted-foreground">
+              Switch to the refined text search instead.
+            </div>
+          </div>
+          <div className="inline-flex shrink-0 items-center gap-1.5 text-[11px] uppercase tracking-[0.28em] text-foreground/70 transition group-hover:text-ice">
+            Refined search <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
+          </div>
+        </Link>
       </section>
     </div>
   );
