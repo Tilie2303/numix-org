@@ -47,13 +47,13 @@
   --radius: 0.75rem;
 
   /* Softer charcoal foundation — refined, breathable, not OLED black */
-  --background: oklch(0.17 0.005 250);
+  --background: oklch(0.24 0.005 250);
   --foreground: oklch(0.96 0.003 250);
 
   /* Elevated surfaces — cards sit above background through tone, not borders */
-  --card: oklch(0.205 0.006 250);
+  --card: oklch(0.275 0.006 250);
   --card-foreground: oklch(0.96 0.003 250);
-  --popover: oklch(0.225 0.007 250);
+  --popover: oklch(0.295 0.007 250);
   --popover-foreground: oklch(0.96 0.003 250);
 
   /* Radiant intelligence blue — ice / moonlight, never neon */
@@ -63,9 +63,9 @@
   --ice: oklch(0.88 0.05 230);
   --moonlight: oklch(0.82 0.06 235);
 
-  --secondary: oklch(0.235 0.007 250);
+  --secondary: oklch(0.305 0.007 250);
   --secondary-foreground: oklch(0.92 0.003 250);
-  --muted: oklch(0.225 0.006 250);
+  --muted: oklch(0.295 0.006 250);
   --muted-foreground: oklch(0.66 0.01 250);
   --accent: oklch(0.78 0.09 235);
   --accent-foreground: oklch(0.17 0.005 250);
@@ -73,13 +73,13 @@
   --destructive: oklch(0.62 0.18 25);
   --destructive-foreground: oklch(0.96 0.003 250);
 
-  --border: oklch(0.30 0.008 250 / 45%);
-  --input: oklch(0.28 0.008 250);
+  --border: oklch(0.36 0.008 250 / 45%);
+  --input: oklch(0.34 0.008 250);
   --ring: oklch(0.72 0.12 240 / 60%);
 }
 
 .dark {
-  --background: oklch(0.17 0.005 250);
+  --background: oklch(0.24 0.005 250);
   --foreground: oklch(0.96 0.003 250);
 }
 
