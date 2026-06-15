@@ -415,44 +415,19 @@ function CoinPage() {
                 <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground md:text-[11px] md:tracking-[0.28em]">
                   Coin Information
                 </div>
-                <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-                  {coin.specs.metal && (
-                    <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                      <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Metal</div>
-                      <div className="mt-2 font-serif text-base text-foreground md:text-lg">{coin.specs.metal}</div>
-                    </div>
-                  )}
-                  {coin.specs.weight && (
-                    <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                      <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Weight</div>
-                      <div className="mt-2 font-serif text-base text-foreground md:text-lg">{coin.specs.weight}</div>
-                    </div>
-                  )}
-                  {coin.specs.diameter && (
-                    <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                      <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Diameter</div>
-                      <div className="mt-2 font-serif text-base text-foreground md:text-lg">{coin.specs.diameter}</div>
-                    </div>
-                  )}
-                  {coin.specs.mint && (
-                    <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                      <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Mint</div>
-                      <div className="mt-2 font-serif text-base text-foreground md:text-lg">{coin.specs.mint}</div>
-                    </div>
-                  )}
-                  {coin.specs.mintYears && (
-                    <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                      <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Mint Years</div>
-                      <div className="mt-2 font-serif text-base text-foreground md:text-lg">{coin.specs.mintYears}</div>
-                    </div>
-                  )}
+                <dl className="mt-5 grid grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-3 md:gap-x-8 md:gap-y-6">
+                  {coin.specs.metal && <Spec label="Metal" value={coin.specs.metal} />}
+                  {coin.specs.weight && <Spec label="Weight" value={coin.specs.weight} />}
+                  {coin.specs.diameter && <Spec label="Diameter" value={coin.specs.diameter} />}
+                  {coin.specs.mint && <Spec label="Mint" value={coin.specs.mint} />}
+                  {coin.specs.mintYears && <Spec label="Mint Years" value={coin.specs.mintYears} />}
                   {coin.references[0] && (
-                    <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                      <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Catalog Ref.</div>
-                      <div className="mt-2 font-serif text-base text-foreground md:text-lg">{coin.references[0].catalog} {coin.references[0].ref}</div>
-                    </div>
+                    <Spec
+                      label="Catalog Ref."
+                      value={`${coin.references[0].catalog} ${coin.references[0].ref}`}
+                    />
                   )}
-                </div>
+                </dl>
               </div>
             )}
 
@@ -461,41 +436,25 @@ function CoinPage() {
               <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground md:text-[11px] md:tracking-[0.28em]">
                 Insights
               </div>
-              <div className="mt-5 grid grid-cols-2 gap-3 md:gap-4">
-                <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                  <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Estimated Value</div>
-                  <div className="mt-2 font-serif text-xl leading-tight text-foreground md:text-3xl">
-                    {coin.value.low}<span className="ml-1 text-sm text-muted-foreground md:text-lg">– {coin.value.high}</span>
-                  </div>
-                </div>
-                <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                  <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Rarity</div>
-                  <div className="mt-2 font-serif text-xl leading-tight text-foreground md:text-3xl">{coin.rarity}</div>
-                </div>
-                <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                  <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Collector Demand</div>
-                  <div className="mt-2 font-serif text-xl leading-tight text-foreground md:text-3xl">{coin.demand}</div>
-                </div>
-                <div className="rounded-xl border border-border/30 bg-card/40 px-4 py-4 md:px-5 md:py-5">
-                  <div className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground md:text-[11px] md:tracking-[0.2em]">Historical Importance</div>
-                  <div className="mt-2 font-serif text-xl leading-tight text-foreground md:text-3xl">{coin.importance}</div>
-                </div>
+              <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-6 md:gap-x-8 md:gap-y-7">
+                <Verdict label="Estimated Value" value={coin.value.low} sub={`– ${coin.value.high}`} />
+                <Verdict label="Rarity" value={coin.rarity} />
+                <Verdict label="Collector Demand" value={coin.demand} />
+                <Verdict label="Historical Importance" value={coin.importance} />
               </div>
-              <div className="mt-4 rounded-xl border border-ice/25 bg-ice/[0.05] px-5 py-5 md:mt-5 md:px-6 md:py-6">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-[0.28em] text-ice/70 md:text-[11px] md:tracking-[0.24em]">
-                      Data Confidence
-                    </div>
-                    <div className="mt-2 font-serif text-2xl leading-tight text-ice md:text-3xl">
-                      {coin.confidence.split(" ")[0]}
-                    </div>
+              <div className="mt-6 flex items-center justify-between gap-4 rounded-xl border border-ice/20 bg-ice/[0.04] px-5 py-5 md:mt-7 md:px-6 md:py-6">
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground md:text-[11px] md:tracking-[0.24em]">
+                    Data Confidence
                   </div>
-                  <div className="flex size-10 items-center justify-center rounded-full border border-ice/30 bg-ice/10 text-ice md:size-11">
-                    <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                  <div className="mt-2 font-serif text-2xl leading-tight text-ice md:text-3xl">
+                    {coin.confidence.split(" ")[0]}
                   </div>
+                </div>
+                <div className="flex size-10 items-center justify-center rounded-full border border-ice/25 text-ice md:size-11">
+                  <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
                 </div>
               </div>
             </div>
