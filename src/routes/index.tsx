@@ -7,6 +7,9 @@ import editorialUnderstanding from "@/assets/editorial-understanding.jpg";
 import editorialEvidence from "@/assets/editorial-evidence.jpg";
 import editorialVitrine from "@/assets/editorial-vitrine.jpg";
 import numixLogo from "@/assets/numix-logo.png.asset.json";
+import coinHero from "@/assets/coin-hero.jpg";
+import coinDemo from "@/assets/coin-demo.jpg";
+import { ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
