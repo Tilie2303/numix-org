@@ -3,6 +3,8 @@ import { Search, SlidersHorizontal, Camera, X, ArrowUpRight } from "lucide-react
 import { useEffect, useMemo, useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
+import coinHero from "@/assets/coin-hero.jpg";
+import coinDemo from "@/assets/coin-demo.jpg";
 
 type SearchParams = { q?: string };
 
