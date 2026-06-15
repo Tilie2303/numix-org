@@ -68,7 +68,7 @@ function Landing() {
       {/* ───────── EDITORIAL III ───────── */}
       <EditorialChapter
         image={editorialVitrine}
-        statement={<>Collect with <span className="italic text-ice">confidence.</span></>}
+        statement={<>Invest with <span className="italic text-ice">clarity,</span><br />collect with confidence.</>}
         align="right"
       />
 
