@@ -14,7 +14,7 @@ export default defineConfig({
     // Prerender all routes to static HTML so the build output works on static hosts (e.g. Netlify).
     prerender: {
       enabled: true,
-      crawlLinks: true,
+      crawlLinks: false,
       routes: ["/"],
     },
     pages: [{ path: "/" }],
