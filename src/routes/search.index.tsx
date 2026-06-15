@@ -210,7 +210,7 @@ function SearchPage() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4">
             {filtered.map((s) => (
               <Link
                 key={s.id}
@@ -283,8 +283,8 @@ function SearchPage() {
       {/* ─── REFINE DRAWER ─── */}
       <Sheet open={refineOpen} onOpenChange={setRefineOpen}>
         <SheetContent
-          side="right"
-          className="w-full overflow-y-auto border-l border-border/40 bg-background/95 p-0 backdrop-blur-2xl sm:max-w-md"
+          side="bottom"
+          className="mx-auto h-[90vh] w-full overflow-y-auto rounded-t-2xl border border-border/40 bg-background/95 p-0 backdrop-blur-2xl sm:max-w-2xl sm:rounded-t-3xl"
         >
           <div className="pointer-events-none absolute -top-40 right-0 h-[420px] w-[420px] aura-soft" />
 
