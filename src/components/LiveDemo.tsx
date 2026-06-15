@@ -44,7 +44,7 @@ export function LiveDemo() {
           <div className="mt-10 flex flex-wrap justify-center gap-x-10 gap-y-4 md:justify-start">
             <Mark label="Rarity" value="Rare" />
             <Mark label="Demand" value="Strong" />
-            <Mark label="Confidence" value="High" accent />
+            <Mark label="Data Confidence" value="High" accent />
           </div>
         </div>
       </div>
