@@ -54,20 +54,20 @@ function Landing() {
       <EditorialChapter
         image={editorialUnderstanding}
         statement={<>Fine <span className="italic text-ice">Data.</span></>}
-      />
+        align="left"
 
       {/* ───────── EVIDENCE ───────── */}
       <EditorialChapter
         image={editorialEvidence}
         statement={<>True <span className="italic text-ice">Value.</span></>}
-      />
+        align="right"
 
 
       {/* ───────── EDITORIAL III ───────── */}
       <EditorialChapter
         image={editorialVitrine}
         statement={<>Collect with <span className="italic text-ice">confidence.</span></>}
-      />
+        align="right"
 
       {/* ───────── CLOSING SEARCH ───────── */}
       <section className="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-36 text-center">
