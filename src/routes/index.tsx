@@ -53,14 +53,14 @@ function Landing() {
       {/* ───────── UNDERSTANDING ───────── */}
       <EditorialChapter
         image={editorialUnderstanding}
-        statement={<>Understanding,<br /><span className="italic text-ice">before data.</span></>}
+        statement={<>Fine <span className="italic text-ice">Data.</span></>}
         align="left"
       />
 
       {/* ───────── EVIDENCE ───────── */}
       <EditorialChapter
         image={editorialEvidence}
-        statement={<>Evidence,<br /><span className="italic text-ice">when you ask.</span></>}
+        statement={<>True <span className="italic text-ice">Value.</span></>}
         align="right"
       />
 
@@ -68,7 +68,7 @@ function Landing() {
       {/* ───────── EDITORIAL III ───────── */}
       <EditorialChapter
         image={editorialVitrine}
-        statement={<>Collected <span className="italic text-ice">quietly.</span></>}
+        statement={<>Collect with <span className="italic text-ice">confidence.</span></>}
         align="right"
       />
 
