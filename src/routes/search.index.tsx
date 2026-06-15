@@ -375,3 +375,17 @@ function FilterGroup({
     </div>
   );
 }
+
+function Pill({ children, accent }: { children: React.ReactNode; accent?: boolean }) {
+  return (
+    <span
+      className={`rounded-full border px-2 py-0.5 text-[10px] tracking-wide ${
+        accent
+          ? "border-aura bg-card/60 text-ice"
+          : "border-border/50 text-muted-foreground"
+      }`}
+    >
+      {children}
+    </span>
+  );
+}
