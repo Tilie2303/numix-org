@@ -60,7 +60,7 @@ function Landing() {
       {/* ───────── EVIDENCE ───────── */}
       <EditorialChapter
         image={editorialEvidence}
-        statement={<>Fine <span className="italic text-ice">data,</span><br />once reserved for experts.</>}
+        statement={<>Fine <span className="italic text-ice">data,</span><br />made accessible.</>}
         align="right"
       />
 
@@ -68,7 +68,7 @@ function Landing() {
       {/* ───────── EDITORIAL III ───────── */}
       <EditorialChapter
         image={editorialVitrine}
-        statement={<>Invest with <span className="italic text-ice">clarity,</span><br />collect with confidence.</>}
+        statement={<>Collect <span className="italic text-ice">confidently.</span><br />Build value.</>}
         align="right"
       />
 
