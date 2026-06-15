@@ -72,6 +72,97 @@ function Landing() {
         align="right"
       />
 
+      {/* ───────── NUMIX JOURNAL ───────── */}
+      <section className="relative z-10 mx-auto max-w-5xl px-6 pt-24 pb-20 md:pt-32 md:pb-28">
+        <div className="mb-12 flex items-end justify-between md:mb-16">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+              Research &amp; Analysis
+            </div>
+            <h2 className="mt-3 font-serif text-[2rem] leading-[1.05] tracking-tight text-foreground md:text-[2.6rem]">
+              NUMIX <span className="italic text-ice">Journal</span>
+            </h2>
+          </div>
+          <span className="hidden text-[11px] uppercase tracking-[0.28em] text-muted-foreground md:block">
+            Latest insights
+          </span>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          {/* Card 1 */}
+          <article className="group relative overflow-hidden rounded-2xl border border-border/40 bg-card/30 backdrop-blur-xl transition hover:border-aura">
+            <div className="relative h-52 overflow-hidden md:h-60">
+              <img
+                src={coinHero}
+                alt="Athens Tetradrachm"
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-background/60 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card/80 to-transparent" />
+              <span className="absolute top-4 left-4 rounded-full border border-aura/30 bg-background/50 px-3 py-1 text-[9px] uppercase tracking-[0.24em] text-ice backdrop-blur-md">
+                Market Analysis
+              </span>
+            </div>
+            <div className="p-5 md:p-6">
+              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                <span>Attica</span>
+                <span className="opacity-30">·</span>
+                <span>c. 450 BC</span>
+                <span className="opacity-30">·</span>
+                <span>MS62</span>
+              </div>
+              <h3 className="mt-3 font-serif text-lg leading-snug tracking-tight text-foreground md:text-xl">
+                The Owl Surge: Why Athenian Tetradrachms Outperformed Gold in 2024
+              </h3>
+              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                Auction data shows a 34% price appreciation for high-grade Owls of Athena. We dissect the grades — from EF40 to MS63 — and what they mean for entry points.
+              </p>
+              <div className="mt-5 flex items-center gap-1.5 text-[11px] uppercase tracking-[0.22em] text-ice transition group-hover:opacity-80">
+                <span>Read analysis</span>
+                <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
+              </div>
+            </div>
+          </article>
+
+          {/* Card 2 */}
+          <article className="group relative overflow-hidden rounded-2xl border border-border/40 bg-card/30 backdrop-blur-xl transition hover:border-aura">
+            <div className="relative h-52 overflow-hidden md:h-60">
+              <img
+                src={coinDemo}
+                alt="Friedrich August I Thaler"
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-background/60 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card/80 to-transparent" />
+              <span className="absolute top-4 left-4 rounded-full border border-aura/30 bg-background/50 px-3 py-1 text-[9px] uppercase tracking-[0.24em] text-ice backdrop-blur-md">
+                Auction Intelligence
+              </span>
+            </div>
+            <div className="p-5 md:p-6">
+              <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                <span>Saxony</span>
+                <span className="opacity-30">·</span>
+                <span>1711</span>
+                <span className="opacity-30">·</span>
+                <span>AU55</span>
+              </div>
+              <h3 className="mt-3 font-serif text-lg leading-snug tracking-tight text-foreground md:text-xl">
+                Davenport 747: A Thaler's Journey from VF30 to Record AU58
+              </h3>
+              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                Tracing every verified auction appearance since 2011. How strike quality, cabinet toning and provenance created a €48,000 delta between grades.
+              </p>
+              <div className="mt-5 flex items-center gap-1.5 text-[11px] uppercase tracking-[0.22em] text-ice transition group-hover:opacity-80">
+                <span>Read analysis</span>
+                <ArrowUpRight className="size-3.5" strokeWidth={1.5} />
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
       {/* ───────── CLOSING SEARCH ───────── */}
       <section className="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-36 text-center">
         <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
