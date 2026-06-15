@@ -472,15 +472,15 @@ function CoinPage() {
               Analysis
             </div>
             <div className="mt-3 font-serif text-2xl text-foreground md:text-4xl">
-              Understand the rarity.
+              Understand the significance.
             </div>
           </div>
-          <div className="max-w-2xl">
+          <div className="max-w-2xl space-y-5 md:space-y-6">
             <p className="font-serif text-lg leading-[1.55] text-foreground/90 md:text-2xl">
-              {coin.reasoning.importance}
+              Friedrich August I — known as August the Strong — transformed Saxony into one of Europe's most influential courts. Today, his coins remain among the most collected pieces of German numismatic history.
             </p>
-            <p className="mt-5 text-[13px] font-light leading-[1.75] text-muted-foreground md:mt-6 md:text-sm">
-              Reasoning, market data, references, population, provenance and expert research are kept out of sight until you ask for them.
+            <p className="text-[13px] font-light leading-[1.75] text-muted-foreground md:text-sm">
+              A coin's value is shaped by more than its price. Rarity, condition, provenance, market demand and historical importance all play a role. Explore the evidence only when you need it — the deeper research is always there.
             </p>
           </div>
         </section>
