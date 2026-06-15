@@ -22,10 +22,50 @@ export const Route = createFileRoute("/search/")({
 });
 
 const SUGGESTIONS = [
-  { id: "davenport-747", title: "Friedrich August I · 1711 · Davenport 747", meta: "Saxony Thaler · Silver · Rare" },
-  { id: "athens-tetradrachm", title: "Tetradrachm of Athens · c. 450 BC", meta: "Owl of Athena · Silver · Iconic" },
-  { id: "aureus-augustus", title: "Aureus of Augustus · 19–18 BC", meta: "Roman Imperial · Gold · Very Rare" },
-  { id: "ducat-venice", title: "Ducat of Venice · Doge Andrea Gritti · 1523", meta: "Venetian Republic · Gold · Scarce" },
+  {
+    id: "davenport-747",
+    image: coinDemo,
+    title: "Friedrich August I · Thaler 1711",
+    subtitle: "Saxony · Dresden Mint · Davenport 747",
+    metal: "Silver",
+    year: "1711",
+    grade: "AU55",
+    estimate: "€ 4 200 – 5 800",
+    rarity: "Rare",
+  },
+  {
+    id: "athens-tetradrachm",
+    image: coinHero,
+    title: "Tetradrachm of Athens",
+    subtitle: "Attica · Owl of Athena · c. 450 BC",
+    metal: "Silver",
+    year: "c. 450 BC",
+    grade: "MS62",
+    estimate: "€ 3 800 – 4 600",
+    rarity: "Iconic",
+  },
+  {
+    id: "aureus-augustus",
+    image: coinDemo,
+    title: "Aureus of Augustus",
+    subtitle: "Roman Imperial · Lugdunum · 19–18 BC",
+    metal: "Gold",
+    year: "19–18 BC",
+    grade: "EF45",
+    estimate: "€ 18 000 – 24 000",
+    rarity: "Very Rare",
+  },
+  {
+    id: "ducat-venice",
+    image: coinHero,
+    title: "Ducat · Doge Andrea Gritti",
+    subtitle: "Venetian Republic · 1523–1538",
+    metal: "Gold",
+    year: "1523",
+    grade: "AU58",
+    estimate: "€ 2 400 – 3 100",
+    rarity: "Scarce",
+  },
 ];
 
 const REFINE_FIELDS: { key: string; label: string; options: string[] }[] = [
