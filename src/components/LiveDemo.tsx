@@ -21,7 +21,7 @@ export function LiveDemo() {
             width={1024}
             height={1024}
             loading="lazy"
-            className="relative aspect-square w-full rounded-full object-cover shadow-[0_40px_120px_-30px_oklch(0.72_0.12_240/0.5)]"
+            className="relative aspect-square w-full rounded-full object-cover shadow-[0_40px_120px_-30px_oklch(0.82_0.18_240/0.55)]"
           />
         </div>
 
