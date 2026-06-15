@@ -444,12 +444,21 @@ function CoinPage() {
                 <Verdict label="Collector Demand" value={coin.demand} />
                 <Verdict label="Historical Importance" value={coin.importance} />
               </div>
-              <div className="mt-6 border-t border-border/40 pt-6 md:mt-7 md:pt-7">
-                <div className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground md:text-[10px] md:tracking-[0.22em]">
-                  Confidence
-                </div>
-                <div className="mt-2 font-serif text-xl leading-tight text-ice text-aura md:text-3xl">
-                  {coin.confidence}
+              <div className="mt-6 rounded-xl border border-ice/20 bg-ice/[0.04] px-5 py-5 md:mt-7 md:px-6 md:py-6">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <div className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground md:text-[10px] md:tracking-[0.22em]">
+                      Data Confidence
+                    </div>
+                    <div className="mt-2 font-serif text-2xl leading-tight text-ice md:text-3xl">
+                      {coin.confidence.split(" ")[0]}
+                    </div>
+                  </div>
+                  <div className="flex size-10 items-center justify-center rounded-full border border-ice/25 text-ice md:size-11">
+                    <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
