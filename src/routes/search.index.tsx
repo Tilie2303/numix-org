@@ -200,31 +200,70 @@ function SearchPage() {
         )}
 
         {/* ─── RESULTS ─── */}
-        <div className="mt-16 animate-rise delay-2">
-          <div className="divide-y divide-border/40">
+        <div className="mt-12 animate-rise delay-2">
+          <div className="mb-5 flex items-baseline justify-between">
+            <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+              {activeTags.length > 0 ? "Refined results" : "Results"}
+            </div>
+            <div className="text-[11px] tabular-nums text-muted-foreground">
+              {filtered.length} {filtered.length === 1 ? "match" : "matches"}
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
             {filtered.map((s) => (
               <Link
                 key={s.id}
                 to="/coin/$id"
                 params={{ id: s.id }}
-                className="group flex items-center justify-between gap-6 py-6 transition"
+                className="group relative overflow-hidden rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl transition hover:border-aura"
               >
-                <div className="min-w-0">
-                  <div className="font-serif text-lg text-foreground transition group-hover:text-ice md:text-xl">
-                    {s.title}
+                <div className="flex gap-4 p-3">
+                  <div className="relative size-24 shrink-0 overflow-hidden rounded-xl bg-background/60 ring-1 ring-border/50">
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      loading="lazy"
+                      className="size-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                    />
                   </div>
-                  <div className="mt-1 text-xs text-muted-foreground">{s.meta}</div>
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <div className="font-serif text-base leading-tight text-foreground transition group-hover:text-ice">
+                      {s.title}
+                    </div>
+                    <div className="mt-1 line-clamp-1 text-[11px] text-muted-foreground">
+                      {s.subtitle}
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      <Pill>{s.metal}</Pill>
+                      <Pill>{s.year}</Pill>
+                      <Pill accent>{s.grade}</Pill>
+                    </div>
+                    <div className="mt-auto flex items-end justify-between pt-3">
+                      <div>
+                        <div className="text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
+                          Estimate
+                        </div>
+                        <div className="text-xs tabular-nums text-foreground/90">
+                          {s.estimate}
+                        </div>
+                      </div>
+                      <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                        {s.rarity}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <span className="text-ice opacity-0 transition group-hover:opacity-100">→</span>
               </Link>
             ))}
-            {filtered.length === 0 && (
-              <div className="py-12 text-center text-sm text-muted-foreground">
-                No matches yet. Try a ruler, year or reference.
-              </div>
-            )}
           </div>
+          {filtered.length === 0 && (
+            <div className="py-12 text-center text-sm text-muted-foreground">
+              No matches yet. Try a ruler, year or reference.
+            </div>
+          )}
         </div>
+
 
         {/* ─── LEVEL 3 · EXPERT MODE ─── */}
         <div className="mt-20 flex justify-center">
