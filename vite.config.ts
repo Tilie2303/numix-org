@@ -5,10 +5,14 @@ export default defineConfig({
   // plain Vite client + SSR bundles suitable for static hosting (e.g. Netlify).
   nitro: false,
   tanstackStart: {
-    // SPA mode: emit a static client-rendered shell at dist/client/index.html.
+    // SPA mode: emit a static client-rendered shell at dist/client/index.html
+    // so the app can be deployed to any static host.
     spa: {
       enabled: true,
       maskPath: "/",
+      prerender: {
+        outputPath: "/index",
+      },
     },
   },
 });
