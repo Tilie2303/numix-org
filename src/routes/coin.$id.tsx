@@ -688,8 +688,8 @@ function Verdict({
 }) {
   return (
     <div>
-      <div className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground md:text-[10px] md:tracking-[0.22em]">{label}</div>
-      <div className="mt-2 font-serif text-xl leading-tight text-foreground md:text-3xl">
+      <div className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground md:text-[11px] md:tracking-[0.22em]">{label}</div>
+      <div className="mt-2 font-serif text-xl leading-tight text-ice md:text-3xl">
         {value}
         {sub && <span className="ml-1 text-sm text-muted-foreground md:text-lg">{sub}</span>}
       </div>
@@ -700,7 +700,7 @@ function Verdict({
 function Spec({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[9px] uppercase tracking-[0.28em] text-muted-foreground md:text-[10px] md:tracking-[0.22em]">
+      <dt className="text-[10px] uppercase tracking-[0.28em] text-muted-foreground md:text-[11px] md:tracking-[0.22em]">
         {label}
       </dt>
       <dd className="mt-1.5 font-serif text-base text-foreground md:text-lg">{value}</dd>
