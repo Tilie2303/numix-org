@@ -72,6 +72,17 @@ function Landing() {
         align="right"
       />
 
+      {/* ───────── CLOSING SEARCH ───────── */}
+      <section className="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-36 text-center">
+        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
+          <span className="italic text-ice text-aura">Begin.</span>
+        </h2>
+
+        <div className="mt-12 flex justify-center">
+          <AuraField />
+        </div>
+      </section>
+
       {/* ───────── NUMIX JOURNAL ───────── */}
       <section className="relative z-10 mx-auto max-w-5xl px-6 pt-24 pb-20 md:pt-32 md:pb-28">
         <div className="mb-12 flex items-end justify-between md:mb-16">
@@ -160,17 +171,6 @@ function Landing() {
               </div>
             </div>
           </article>
-        </div>
-      </section>
-
-      {/* ───────── CLOSING SEARCH ───────── */}
-      <section className="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-36 text-center">
-        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
-          <span className="italic text-ice text-aura">Begin.</span>
-        </h2>
-
-        <div className="mt-12 flex justify-center">
-          <AuraField />
         </div>
       </section>
 
