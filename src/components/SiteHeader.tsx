@@ -1,12 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import numixLogo from "@/assets/numix-logo.png.asset.json";
 
 export function SiteHeader() {
   return (
     <header className="relative z-20 flex items-center justify-between gap-4 px-5 py-5 md:px-14 md:py-8">
       <Link to="/" aria-label="NUMIX" className="group shrink-0">
         <img
-          src={numixLogo.url}
+          src="/logo.png"
           alt="NUMIX"
           className="h-11 w-auto md:h-[68px] transition-transform duration-300 group-hover:-translate-y-0.5"
         />

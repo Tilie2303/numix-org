@@ -6,7 +6,6 @@ import { LiveDemo } from "@/components/LiveDemo";
 import editorialUnderstanding from "@/assets/editorial-understanding.jpg";
 import editorialEvidence from "@/assets/editorial-evidence.jpg";
 import editorialVitrine from "@/assets/editorial-vitrine.jpg";
-import numixLogo from "@/assets/numix-logo.png.asset.json";
 import coinHero from "@/assets/coin-hero.jpg";
 import coinDemo from "@/assets/coin-demo.jpg";
 import { ArrowUpRight } from "lucide-react";
@@ -178,7 +177,7 @@ function Landing() {
         <div className="flex flex-col items-center justify-between gap-5 md:flex-row md:gap-6">
           <Link to="/" aria-label="NUMIX" className="group">
             <img
-              src={numixLogo.url}
+              src="/logo.png"
               alt="NUMIX"
               className="h-10 w-auto md:h-12 transition-transform duration-300 group-hover:-translate-y-0.5"
             />
