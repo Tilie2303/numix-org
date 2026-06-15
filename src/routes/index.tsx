@@ -174,8 +174,8 @@ function Landing() {
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-border/30 px-8 py-10 md:px-14 md:py-12">
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+      <footer className="relative z-10 border-t border-border/30 px-6 py-8 md:px-14 md:py-12">
+        <div className="flex flex-col items-center justify-between gap-5 md:flex-row md:gap-6">
           <Link to="/" aria-label="NUMIX" className="group">
             <img
               src={numixLogo.url}
