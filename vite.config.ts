@@ -2,17 +2,11 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
   tanstackStart: {
-    // Prerender the landing page to static HTML so the build output works on
-    // static hosts like Netlify. Output: dist/client/index.html.
-    prerender: {
+    // SPA mode: emit a static client-side-rendered shell at dist/client/index.html.
+    // This makes the build deployable to static hosts like Netlify.
+    spa: {
       enabled: true,
-      crawlLinks: false,
-      autoStaticPathsDiscovery: false,
-      failOnError: false,
+      maskPath: "/",
     },
-    pages: [{ path: "/" }],
-  },
-  nitro: {
-    preset: "static",
   },
 });
