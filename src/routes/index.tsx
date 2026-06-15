@@ -53,14 +53,14 @@ function Landing() {
       {/* ───────── UNDERSTANDING ───────── */}
       <EditorialChapter
         image={editorialUnderstanding}
-        statement={<>Fine <span className="italic text-ice">Data.</span></>}
+        statement={<>True <span className="italic text-ice">value,</span><br />beyond the price.</>}
         align="left"
       />
 
       {/* ───────── EVIDENCE ───────── */}
       <EditorialChapter
         image={editorialEvidence}
-        statement={<>True <span className="italic text-ice">Value.</span></>}
+        statement={<>Fine <span className="italic text-ice">data,</span><br />once reserved for experts.</>}
         align="right"
       />
 
