@@ -53,23 +53,20 @@ function Landing() {
       {/* ───────── UNDERSTANDING ───────── */}
       <EditorialChapter
         image={editorialUnderstanding}
-        statement={<>Understanding,<br /><span className="italic text-ice">before data.</span></>}
-        align="left"
+        statement={<>Fine <span className="italic text-ice">Data.</span></>}
       />
 
       {/* ───────── EVIDENCE ───────── */}
       <EditorialChapter
         image={editorialEvidence}
-        statement={<>Evidence,<br /><span className="italic text-ice">when you ask.</span></>}
-        align="right"
+        statement={<>True <span className="italic text-ice">Value.</span></>}
       />
 
 
       {/* ───────── EDITORIAL III ───────── */}
       <EditorialChapter
         image={editorialVitrine}
-        statement={<>Collected <span className="italic text-ice">quietly.</span></>}
-        align="right"
+        statement={<>Collect with <span className="italic text-ice">confidence.</span></>}
       />
 
       {/* ───────── CLOSING SEARCH ───────── */}
