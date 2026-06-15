@@ -60,7 +60,7 @@ function Landing() {
       {/* ───────── EVIDENCE ───────── */}
       <EditorialChapter
         image={editorialEvidence}
-        statement={<>Fine <span className="italic text-ice">data,</span><br />made accessible.</>}
+        statement={<>Fine <span className="italic text-ice">data,</span><br />expert insights unlocked.</>}
         align="right"
       />
 
