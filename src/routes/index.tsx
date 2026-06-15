@@ -31,8 +31,8 @@ function Landing() {
       <SiteHeader />
 
       {/* ───────── HERO ───────── */}
-      <section className="relative z-10 flex flex-col items-center px-6 pt-16 pb-16 md:pt-20 md:pb-20">
-        <h1 className="animate-rise max-w-2xl text-center font-serif text-[2.4rem] leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-[3.6rem]">
+      <section className="relative z-10 flex flex-col items-center px-5 pt-14 pb-12 md:px-6 md:pt-20 md:pb-20">
+        <h1 className="animate-rise max-w-xl text-center font-serif text-[1.8rem] leading-[1.08] tracking-tight text-foreground sm:text-[2.2rem] md:max-w-2xl md:text-5xl lg:text-[3.6rem]">
           The Intelligence
           <br />
           <span className="italic text-ice text-aura">Behind Rarity.</span>
@@ -73,8 +73,8 @@ function Landing() {
       />
 
       {/* ───────── CLOSING SEARCH ───────── */}
-      <section className="relative z-10 mx-auto max-w-4xl px-6 pt-28 pb-36 text-center">
-        <h2 className="font-serif text-[2rem] leading-[1.05] tracking-tight md:text-5xl">
+      <section className="relative z-10 mx-auto max-w-4xl px-5 pt-20 pb-28 text-center md:px-6 md:pt-28 md:pb-36">
+        <h2 className="font-serif text-[1.6rem] leading-[1.08] tracking-tight sm:text-[2rem] md:text-5xl">
           <span className="italic text-ice text-aura">Begin.</span>
         </h2>
 
@@ -85,16 +85,16 @@ function Landing() {
 
       {/* ───────── NUMIX JOURNAL ───────── */}
       <section className="relative z-10 mx-auto max-w-5xl px-6 pt-24 pb-20 md:pt-32 md:pb-28">
-        <div className="mb-12 flex items-end justify-between md:mb-16">
+        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between md:mb-16">
           <div>
             <div className="text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
               Research &amp; Analysis
             </div>
-            <h2 className="mt-3 font-serif text-[2rem] leading-[1.05] tracking-tight text-foreground md:text-[2.6rem]">
+            <h2 className="mt-3 font-serif text-[1.5rem] leading-[1.08] tracking-tight text-foreground sm:text-[2rem] md:text-[2.6rem]">
               NUMIX <span className="italic text-ice">Journal</span>
             </h2>
           </div>
-          <span className="hidden text-[11px] uppercase tracking-[0.28em] text-muted-foreground md:block">
+          <span className="hidden text-[11px] uppercase tracking-[0.28em] text-muted-foreground sm:block">
             Latest insights
           </span>
         </div>
@@ -174,8 +174,8 @@ function Landing() {
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-border/30 px-8 py-10 md:px-14 md:py-12">
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+      <footer className="relative z-10 border-t border-border/30 px-6 py-8 md:px-14 md:py-12">
+        <div className="flex flex-col items-center justify-between gap-5 md:flex-row md:gap-6">
           <Link to="/" aria-label="NUMIX" className="group">
             <img
               src={numixLogo.url}
@@ -228,7 +228,7 @@ function EditorialChapter({
         >
           <div className="max-w-xl">
             <h3
-              className="font-serif text-[2.1rem] leading-[1.02] tracking-tight text-foreground md:text-[2.4rem]"
+              className="font-serif text-[1.6rem] leading-[1.08] tracking-tight text-foreground sm:text-[2rem] md:text-[2.4rem]"
               style={{ textShadow: "0 2px 24px rgba(0,0,0,0.55)" }}
             >
               {statement}

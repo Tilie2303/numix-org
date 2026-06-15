@@ -56,12 +56,12 @@
   --popover: oklch(0.295 0.007 250);
   --popover-foreground: oklch(0.96 0.003 250);
 
-  /* Radiant intelligence blue — ice / moonlight, never neon */
-  --primary: oklch(0.78 0.09 235);
+  /* Radiant intelligence blue — ice / moonlight, luminous and high-contrast */
+  --primary: oklch(0.80 0.14 235);
   --primary-foreground: oklch(0.17 0.005 250);
-  --aura: oklch(0.72 0.12 240);
-  --ice: oklch(0.88 0.05 230);
-  --moonlight: oklch(0.82 0.06 235);
+  --aura: oklch(0.82 0.18 240);
+  --ice: oklch(0.92 0.10 230);
+  --moonlight: oklch(0.88 0.12 235);
 
   --secondary: oklch(0.305 0.007 250);
   --secondary-foreground: oklch(0.92 0.003 250);
@@ -112,31 +112,31 @@
   .aura-field {
     background:
       radial-gradient(ellipse 60% 80% at 50% 50%,
-        oklch(0.72 0.12 240 / 0.18) 0%,
-        oklch(0.72 0.12 240 / 0.06) 35%,
+        oklch(0.82 0.18 240 / 0.22) 0%,
+        oklch(0.82 0.18 240 / 0.08) 35%,
         transparent 70%);
   }
   .aura-hero {
     background:
       radial-gradient(ellipse 50% 60% at 50% 40%,
-        oklch(0.72 0.12 240 / 0.22) 0%,
-        oklch(0.72 0.12 240 / 0.08) 30%,
+        oklch(0.82 0.18 240 / 0.28) 0%,
+        oklch(0.82 0.18 240 / 0.10) 30%,
         transparent 65%);
   }
   .aura-soft {
     background:
       radial-gradient(ellipse 70% 50% at 50% 50%,
-        oklch(0.72 0.12 240 / 0.10) 0%,
+        oklch(0.82 0.18 240 / 0.14) 0%,
         transparent 70%);
   }
   .text-aura {
-    text-shadow: 0 0 40px oklch(0.72 0.12 240 / 0.4);
+    text-shadow: 0 0 30px oklch(0.82 0.18 240 / 0.55), 0 0 60px oklch(0.82 0.18 240 / 0.35);
   }
   .border-aura {
-    border-color: oklch(0.72 0.12 240 / 0.25);
+    border-color: oklch(0.82 0.18 240 / 0.35);
     box-shadow:
-      0 0 0 1px oklch(0.72 0.12 240 / 0.08),
-      0 0 60px -10px oklch(0.72 0.12 240 / 0.25);
+      0 0 0 1px oklch(0.82 0.18 240 / 0.12),
+      0 0 60px -10px oklch(0.82 0.18 240 / 0.35);
   }
   .grain {
     background-image:

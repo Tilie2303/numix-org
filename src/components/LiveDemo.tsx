@@ -21,7 +21,7 @@ export function LiveDemo() {
             width={1024}
             height={1024}
             loading="lazy"
-            className="relative aspect-square w-full rounded-full object-cover shadow-[0_40px_120px_-30px_oklch(0.72_0.12_240/0.5)]"
+            className="relative aspect-square w-full rounded-full object-cover shadow-[0_40px_120px_-30px_oklch(0.82_0.18_240/0.55)]"
           />
         </div>
 
@@ -44,7 +44,7 @@ export function LiveDemo() {
           <div className="mt-10 flex flex-wrap justify-center gap-x-10 gap-y-4 md:justify-start">
             <Mark label="Rarity" value="Rare" />
             <Mark label="Demand" value="Strong" />
-            <Mark label="Confidence" value="High" accent />
+            <Mark label="Data Confidence" value="High" accent />
           </div>
         </div>
       </div>
